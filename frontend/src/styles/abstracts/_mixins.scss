@@ -1,0 +1,19 @@
+@import 'variables';
+
+@mixin modal-title {
+  font-size: $font-md;
+  color: black;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
