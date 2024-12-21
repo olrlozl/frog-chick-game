@@ -1,0 +1,13 @@
+@import '../../../../styles/abstracts/mixins';
+
+.navbar {
+  @include flex-center;
+  height: 64px;
+  gap: 20%;
+  padding: 20px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  border-top: #D6D6D6 1px solid;
+}
