@@ -1,0 +1,13 @@
+@use '../../../abstracts/variables' as *;
+
+.modal-button {
+  font-family: 'ButtonFont';
+  cursor: pointer;
+  font-size: 25px;
+  border: 1px solid $color-blue4;
+  border-radius: 10px;
+  color: $color-blue4;
+  background-color: $color-blue2;
+  width: 115px;
+  height: 47px;
+}

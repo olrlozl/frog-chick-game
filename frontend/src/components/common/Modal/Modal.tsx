@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import OverLay from './OverLay';
+import ModalButton from '../Button/ModalButton';
 import '../../../styles/components/common/Modal/modal.scss';
 
 interface ModalProps {
@@ -27,13 +28,11 @@ const Modal: React.FC<ModalProps> = ({
         <div className="modal-message">{message}</div>
         <div className="modal-buttons">
           {buttons.map((button, index) => (
-            <button
+            <ModalButton
               key={index}
-              className="modal-button"
+              label={button.label}
               onClick={button.onClick}
-            >
-              {button.label}
-            </button>
+            ></ModalButton>
           ))}
         </div>
       </div>
