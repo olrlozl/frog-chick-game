@@ -1,5 +1,4 @@
-@use 'styles/abstracts/variables' as *;
-@use 'styles/abstracts/fonts' as *;
+@import 'styles/abstracts/variables';
 
 .modal-container {
   background: white;
