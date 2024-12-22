@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'components/common/Modal/Modal';
+import OverLay from 'components/common/Modal/OverLay';
 import eggwin from 'assets/images/egg-win.png';
 
 const PlayPage = () => {
@@ -16,15 +17,18 @@ const PlayPage = () => {
   };
   return (
     <div>
-      <Modal
-        isOpen={isModalOpen}
-        imageSrc={eggwin}
-        message="아리 승!"
-        buttons={[
-          { label: '재대결', onClick: rematch },
-          { label: '나가기', onClick: closeModal },
-        ]}
-      />
+      <h1>play page</h1>
+      <OverLay>
+        <Modal
+          isOpen={isModalOpen}
+          imageSrc={eggwin}
+          message="아리 승!"
+          btns={[
+            { label: '재대결', onClick: rematch },
+            { label: '나가기', onClick: closeModal },
+          ]}
+        />
+      </OverLay>
     </div>
   );
 };

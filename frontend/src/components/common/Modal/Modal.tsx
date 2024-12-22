@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import OverLay from './OverLay';
 import ModalButton from 'components/common/Button/ModalButton';
 import 'styles/components/common/Modal/modal.scss';
 
@@ -8,35 +7,26 @@ interface ModalProps {
   isOpen: boolean;
   imageSrc?: string;
   message: string;
-  buttons: { label: string; onClick: () => void }[];
+  btns: { label: string; onClick: () => void }[];
 }
 
-const Modal: React.FC<ModalProps> = ({
-  isOpen,
-  imageSrc,
-  message,
-  buttons,
-}) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, imageSrc, message, btns }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <OverLay>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        {imageSrc && (
-          <img className="modal-image" src={imageSrc} alt="Modal Visual" />
-        )}
-        <div className="modal-message">{message}</div>
-        <div className="modal-buttons">
-          {buttons.map((button, index) => (
-            <ModalButton
-              key={index}
-              label={button.label}
-              onClick={button.onClick}
-            ></ModalButton>
-          ))}
-        </div>
+    <div className="modal" onClick={(e) => e.stopPropagation()}>
+      {imageSrc && <img className="image" src={imageSrc} alt="Modal Visual" />}
+      <div className="message">{message}</div>
+      <div className="buttons">
+        {btns.map((btn, index) => (
+          <ModalButton
+            key={index}
+            label={btn.label}
+            onClick={btn.onClick}
+          ></ModalButton>
+        ))}
       </div>
-    </OverLay>,
+    </div>,
     document.getElementById('modal-root') as HTMLElement
   );
 };
