@@ -1,4 +1,4 @@
-import '../../../styles/components/common/NavBar/menu.css';
+import 'styles/components/common/NavBar/menu.css';
 import game from '../../../assets/images/game.png';
 
 // const NAVBAR_MENUS = [
