@@ -1,4 +1,5 @@
 @import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
 
 .modal {
   background: white;
@@ -9,10 +10,8 @@
   position: relative;
   width: 320px;
   height: 200px;
-  display: flex;
+  @include flex-center;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   .image {
     position: absolute;

@@ -1,4 +1,5 @@
-@import './abstracts/fonts';
+@import 'styles/abstracts/fonts';
+@import 'styles/abstracts/mixins';
 
 * {
   font-family: 'NormalFont';
@@ -6,9 +7,7 @@
 }
 
 #modal-root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   position: fixed;
   top: 0;
   left: 0;
