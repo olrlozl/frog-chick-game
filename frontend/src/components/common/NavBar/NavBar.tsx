@@ -1,4 +1,4 @@
-import '../../../styles/components/common/NavBar/navbar.css';
+import 'styles/components/common/NavBar/navbar.css';
 import { Menu } from './Menu'
 
 export const NavBar = () => {
