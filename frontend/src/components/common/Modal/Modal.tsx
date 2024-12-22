@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import OverLay from './OverLay';
-import ModalButton from '../Button/ModalButton';
-import '../../../styles/components/common/Modal/modal.scss';
+import ModalButton from 'components/common/Button/ModalButton';
+import 'styles/components/common/Modal/modal.scss';
 
 interface ModalProps {
   isOpen: boolean;

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../styles/components/common/Button/modal-button.scss';
+import 'styles/components/common/Button/modal-button.scss';
 
 interface ModalButtonProps {
   label: string;

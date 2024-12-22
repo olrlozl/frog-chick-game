@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Modal from '../components/common/Modal/Modal';
-import eggwin from '../../src/assets/images/egg-win.png';
+import Modal from 'components/common/Modal/Modal';
+import eggwin from 'assets/images/egg-win.png';
 
 const PlayPage = () => {
   //// [Modal 사용예시]
