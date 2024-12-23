@@ -1,0 +1,38 @@
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
+
+.mini-button {
+  @include flex-center;
+  width: 73px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+
+  &.search {
+    background-color: $color-green2;
+    font-size: $font-md;
+  }
+
+  &.add {
+    background-color: $color-green2;
+    font-size: $font-xs;
+  }
+
+  &.game {
+    background-color: $color-orange2;
+    font-size: $font-xs;
+  }
+
+  &.accept {
+    background-color: $color-blue3;
+    font-size: $font-md;
+  }
+  
+  &.reject {
+    background-color: $color-blue2;
+    font-size: $font-md;
+    color: $color-blue4;
+    border: 1px solid $color-blue3;
+  }
+}
