@@ -24,6 +24,7 @@ const PlayPage = () => {
           imageSrc={eggwin}
           message="아리 승!"
           messageFontSize="font-xl"
+          // hasNicknameInput={true}
           btns={[
             { label: '재대결', onClick: rematch, type: 'primary' },
             { label: '나가기', onClick: closeModal, type: 'secondary' },
