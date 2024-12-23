@@ -7,7 +7,7 @@ interface ModalProps {
   isOpen: boolean;
   imageSrc?: string;
   message: string;
-  btns: { label: string; onClick: () => void }[];
+  btns: { label: string; onClick: () => void; type: 'primary' | 'secondary' }[];
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, imageSrc, message, btns }) => {
@@ -23,6 +23,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, imageSrc, message, btns }) => {
             key={index}
             label={btn.label}
             onClick={btn.onClick}
+            type={btn.type}
           ></ModalButton>
         ))}
       </div>
