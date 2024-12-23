@@ -1,6 +1,17 @@
-@import './abstracts/fonts';
+@import 'styles/abstracts/fonts';
+@import 'styles/abstracts/mixins';
 
 * {
   font-family: 'NormalFont';
   box-sizing: border-box;
+}
+
+#modal-root {
+  @include flex-center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
 }
