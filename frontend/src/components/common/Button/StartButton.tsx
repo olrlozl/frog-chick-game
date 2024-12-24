@@ -10,11 +10,10 @@ interface StartButtonProps {
 
 const StartButton = ({ option, onClick, isSelected }: StartButtonProps) => {
   const options = {
-    stranger: { image: frog, texts: ['낯선이와', '게임하기'] },
-    friend: { image: chick, texts: ['친구와', '게임하기'] },
+    stranger: { image: frog, text: '낯선이와\n게임하기' },
+    friend: { image: chick, text: '친구와\n게임하기' },
   };
-
-  const { image, texts } = options[option];
+  const { image, text } = options[option];
 
   return (
     <div
@@ -22,9 +21,7 @@ const StartButton = ({ option, onClick, isSelected }: StartButtonProps) => {
       onClick={onClick}
     >
       <img className={option} src={image} alt="" />
-      {texts.map((text) => (
-        <div>{text}</div>
-      ))}
+      {text}
     </div>
   );
 };

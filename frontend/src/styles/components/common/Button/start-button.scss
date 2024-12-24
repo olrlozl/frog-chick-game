@@ -12,6 +12,7 @@
   border-radius: 10px;
   font-size: $font-lg;
   cursor: pointer;
+  white-space: pre-wrap;
   &.stranger {
     color: $color-green4;
     background-color: $color-green2;
