@@ -1,9 +1,11 @@
 @import 'styles/abstracts/variables';
 @import 'styles/abstracts/mixins';
+@import 'styles/abstracts/fonts';
 
 .long-button {
   @include flex-center;
   font-size: $font-md;
+  font-family: 'ButtonFont';
   width: 330px;
   height: 37px;
   border-radius: 10px;

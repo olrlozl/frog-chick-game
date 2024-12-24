@@ -3,6 +3,7 @@
 
 .start-button {
   @include flex-center;
+  font-family: 'ButtonFont';
   flex-direction: column;
   gap: 5px;
   position: relative;
