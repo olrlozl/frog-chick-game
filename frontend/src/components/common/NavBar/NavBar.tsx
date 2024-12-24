@@ -1,5 +1,5 @@
 import 'styles/components/common/NavBar/navbar.css';
-import { Menu } from './Menu'
+import { Menu } from 'components/common/NavBar/Menu';
 
 export const NavBar = () => {
   return (

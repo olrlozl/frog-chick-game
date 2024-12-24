@@ -1,4 +1,3 @@
-import React from 'react';
 import 'styles/components/common/Button/modal-button.scss';
 
 interface ModalButtonProps {
@@ -7,7 +6,7 @@ interface ModalButtonProps {
   type: 'primary' | 'secondary';
 }
 
-const ModalButton: React.FC<ModalButtonProps> = ({ label, onClick, type }) => {
+const ModalButton = ({ label, onClick, type }: ModalButtonProps) => {
   return (
     <button className={`modal-button ${type}`} onClick={onClick}>
       {label}
