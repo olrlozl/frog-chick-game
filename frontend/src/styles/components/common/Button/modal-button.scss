@@ -20,4 +20,10 @@
     background-color: $color-blue2;
     color: $color-blue4;
   }
+
+  &.cancel {
+    color: white;
+    background-color: $color-green2;
+    border: none;
+  }
 }
