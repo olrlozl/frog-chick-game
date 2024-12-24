@@ -1,0 +1,13 @@
+@import 'styles/abstracts/mixins';
+
+.main-page {
+  @include flex-center;
+  flex-direction: column;
+  padding-top: 50px;
+  gap: 15px;
+  .start-button-box {
+    @include flex-center;
+    gap: 15px;
+
+  }
+}

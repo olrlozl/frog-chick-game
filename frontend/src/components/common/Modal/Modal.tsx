@@ -1,7 +1,7 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalButton from 'components/common/Button/ModalButton';
 import 'styles/components/common/Modal/modal.scss';
+import NicknameInput from 'components/user/NicknameInput';
 
 interface ModalProps {
   isOpen: boolean;
@@ -27,14 +27,8 @@ const Modal = ({
       {imageSrc && <img className="image" src={imageSrc} alt="Modal Visual" />}
       <div className={`message ${messageFontSize}`}>{message}</div>
       {hasNicknameInput && (
-        <div className="nickname-input">
-          <input
-            type="text"
-            placeholder="한글, 영어 2~6자"
-            pattern="^[가-힣a-zA-Z]{2,6}$"
-            minLength={2}
-            maxLength={6}
-          />
+        <div className="nickname-input-box">
+          <NicknameInput text='한글, 영어 2~6자'/>
           <div className="error-message">이미 사용중인 닉네임입니다.</div>
         </div>
       )}
