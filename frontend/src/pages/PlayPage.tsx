@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from 'components/common/Modal/Modal';
 import OverLay from 'components/common/Modal/OverLay';
 import eggwin from 'assets/images/egg-win.png';

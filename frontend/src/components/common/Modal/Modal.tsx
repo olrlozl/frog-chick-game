@@ -12,14 +12,14 @@ interface ModalProps {
   btns: { label: string; onClick: () => void; type: 'primary' | 'secondary' }[];
 }
 
-const Modal: React.FC<ModalProps> = ({
+const Modal = ({
   isOpen,
   imageSrc,
   message,
   messageFontSize,
   hasNicknameInput = false,
   btns,
-}) => {
+}: ModalProps) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
