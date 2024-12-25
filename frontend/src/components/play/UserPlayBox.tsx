@@ -11,14 +11,14 @@ interface UserPlayBoxProps {
     wins: number;
     losses: number;
   };
-  isMyTurn: boolean;
+  turn: 'me' | 'opponent';
 }
 
 const UserPlayBox = ({
   playerType,
   option,
   userInfo,
-  isMyTurn,
+  turn,
 }: UserPlayBoxProps) => {
   const { nickname, wins, losses } = userInfo;
 
@@ -31,23 +31,25 @@ const UserPlayBox = ({
   };
 
   useEffect(() => {
-    if (remainingTime > 0 && isMyTurn) {
+    if (remainingTime > 0) {
       const timer = setInterval(() => {
         setRemainingTime((prevTime) => prevTime - 1);
       }, 1000);
 
       return () => clearInterval(timer);
     }
-  }, [remainingTime, isMyTurn]);
+  }, [remainingTime]);
 
   return (
     <div className={`user-play-box ${playerType} ${option}`}>
       {playerType == 'me' && (
         <div className="timer-container">
-          <div
-            className="timer-bar"
-            style={{ width: `${progressBarWidth}%` }}
-          ></div>
+          {turn == 'me' && (
+            <div
+              className="timer-bar"
+              style={{ width: `${progressBarWidth}%` }}
+            ></div>
+          )}
         </div>
       )}
 
@@ -59,7 +61,10 @@ const UserPlayBox = ({
           option={option}
           playerType={playerType}
         />
-        {isMyTurn && <div className="timer-text">{remainingTime}</div>}
+        {((playerType == 'me' && turn == 'me') ||
+          (playerType == 'opponent' && turn == 'opponent')) && (
+          <div className="timer-text">{remainingTime}</div>
+        )}
       </div>
 
       {playerType === 'me' && (
@@ -68,7 +73,7 @@ const UserPlayBox = ({
 
       {playerType == 'opponent' && (
         <div className="timer-container">
-          {isMyTurn && (
+          {turn == 'opponent' && (
             <div
               className="timer-bar"
               style={{ width: `${progressBarWidth}%` }}

@@ -26,7 +26,7 @@ const PlayPage = () => {
       me: { nickname: string; wins: number; losses: number };
       opponent: { nickname: string; wins: number; losses: number };
     };
-    isMyTurn: boolean;
+    turn: 'me' | 'opponent';
   }
 
   const gameInfo: GameInfo = {
@@ -35,7 +35,7 @@ const PlayPage = () => {
       me: { nickname: '아리', wins: 5, losses: 1 },
       opponent: { nickname: '구리여섯글자', wins: 3, losses: 2 },
     },
-    isMyTurn: true,
+    turn: 'opponent',
   };
 
   return (
@@ -44,13 +44,13 @@ const PlayPage = () => {
         playerType="opponent"
         option={gameInfo.option.opponent}
         userInfo={gameInfo.players.opponent}
-        isMyTurn={!gameInfo.isMyTurn}
+        turn={gameInfo.turn}
       />
       <UserPlayBox
         playerType="me"
         option={gameInfo.option.me}
         userInfo={gameInfo.players.me}
-        isMyTurn={gameInfo.isMyTurn}
+        turn={gameInfo.turn}
       />
       <Modal
         isOpen={isModalOpen}
