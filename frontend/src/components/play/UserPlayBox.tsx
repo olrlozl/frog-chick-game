@@ -1,6 +1,7 @@
 import LongButton from 'components/common/Button/LongButton';
 import { useState, useEffect } from 'react';
 import 'styles/components/play/user-play-box.scss';
+import PlayerInfo from './PlayerInfo';
 
 interface UserPlayBoxProps {
   playerType: 'me' | 'opponent';
@@ -51,15 +52,13 @@ const UserPlayBox = ({
       )}
 
       <div className="player-info-container">
-        <div className="user-info">
-          <p className="nickname">{nickname}</p>
-          <p className={`record ${option}`}>
-            {wins}승 {losses}패
-          </p>
-          <div className={`player-type ${option}`}>
-            {playerType == 'me' ? '나' : '상대'}
-          </div>
-        </div>
+        <PlayerInfo
+          nickname={nickname}
+          wins={wins}
+          losses={losses}
+          option={option}
+          playerType={playerType}
+        />
         {isMyTurn && <div className="timer-text">{remainingTime}</div>}
       </div>
 
