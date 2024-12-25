@@ -1,4 +1,4 @@
-import 'styles/components/common/NavBar/navbar.css';
+import 'styles/components/common/NavBar/navbar.scss';
 import { Menu } from 'components/common/NavBar/Menu';
 
 export const NavBar = () => {
