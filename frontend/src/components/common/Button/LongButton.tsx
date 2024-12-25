@@ -1,3 +1,5 @@
+import 'styles/components/common/Button/long-button.scss';
+
 interface LongButtonProps {
   option: 'frog' | 'chick';
   onClick: () => void;

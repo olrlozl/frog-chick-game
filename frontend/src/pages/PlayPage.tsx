@@ -1,35 +1,68 @@
 import { useState } from 'react';
 import Modal from 'components/common/Modal/Modal';
-import OverLay from 'components/common/Modal/OverLay';
 import eggwin from 'assets/images/egg-win.png';
+import UserPlayBox from 'components/play/UserPlayBox';
 
 const PlayPage = () => {
   //// [Modal 사용예시]
-  const [isModalOpen, setModalOpen] = useState(true);
-  // const openModal = () => {
-  //   setModalOpen(true);
-  // };
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
   const closeModal = () => {
     setModalOpen(false);
   };
   const rematch = () => {
     closeModal();
   };
+  ////
+
+  interface GameInfo {
+    option: {
+      me: 'chick' | 'frog';
+      opponent: 'chick' | 'frog';
+    };
+    players: {
+      me: { nickname: string; wins: number; losses: number };
+      opponent: { nickname: string; wins: number; losses: number };
+    };
+    isMyTurn: boolean;
+  }
+
+  const gameInfo: GameInfo = {
+    option: { me: 'chick', opponent: 'frog' },
+    players: {
+      me: { nickname: '아리', wins: 5, losses: 1 },
+      opponent: { nickname: '구리여섯글자', wins: 3, losses: 2 },
+    },
+    isMyTurn: true,
+  };
+
   return (
-    <div>
-      <h1>play page</h1>
+    <>
+      <UserPlayBox
+        playerType="opponent"
+        option={gameInfo.option.opponent}
+        userInfo={gameInfo.players.opponent}
+        isMyTurn={!gameInfo.isMyTurn}
+      />
+      <UserPlayBox
+        playerType="me"
+        option={gameInfo.option.me}
+        userInfo={gameInfo.players.me}
+        isMyTurn={gameInfo.isMyTurn}
+      />
       <Modal
         isOpen={isModalOpen}
         imageSrc={eggwin}
         message="아리 승!"
         messageFontSize="font-xl"
-        // hasNicknameInput={true}
         btns={[
           { label: '재대결', onClick: rematch, type: 'primary' },
           { label: '나가기', onClick: closeModal, type: 'secondary' },
         ]}
       />
-    </div>
+    </>
   );
 };
 

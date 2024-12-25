@@ -1,0 +1,92 @@
+@import 'styles/abstracts/variables';
+
+.user-play-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  &.frog {
+    background-color: $color-green2;
+  }
+
+  &.chick {
+    background-color: #ffd073;
+  }
+
+  &.opponent {
+    top: 0;
+  }
+
+  &.me {
+    bottom: 0;
+  }
+
+  .timer-container {
+    width: 100%;
+    height: 8px;
+    background-color: #f2f2f2;
+    overflow: hidden;
+
+    .timer-bar {
+      height: 100%;
+      transition: width 1s linear;
+      background-color: $color-red4;
+    }
+  }
+
+  .player-info-container {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      .nickname {
+        font-size: $font-lg;
+        font-weight: bold;
+        color: #333;
+        margin-right: 15px;
+      }
+
+      .record {
+        font-size: $font-xs;
+        margin-right: 15px;
+
+        &.frog {
+          color: $color-green3;
+        }
+        &.chick {
+          color: $color-orange3;
+        }
+      }
+
+      .player-type {
+        font-size: 16px;
+        padding: 5px;
+        margin-right: 10px;
+        border-radius: 5px;
+
+        &.frog {
+          background-color: $color-green3;
+          color: $color-green1;
+        }
+
+        &.chick {
+          background-color: $color-orange3;
+          color: $color-orange1;
+        }
+      }
+    }
+
+    .timer-text {
+      font-size: $font-xl;
+      color: $color-red4;
+    }
+  }
+}
