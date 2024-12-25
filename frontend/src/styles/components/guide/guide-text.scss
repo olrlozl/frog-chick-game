@@ -1,0 +1,20 @@
+@import 'styles/abstracts/fonts';
+@import 'styles/abstracts/variables';
+
+.guide-text {
+  text-align: left;
+  font-size: $font-sm;
+  li {
+    margin-bottom: 10px;
+    font-family: 'GuideFont';
+    position: relative;
+    padding-left: 20px;
+    line-height: $font-lg;
+    &::before {
+      content: '•';
+      position: absolute;
+      top: -$font-sm/10;
+      left: 0;
+    }
+  }
+}

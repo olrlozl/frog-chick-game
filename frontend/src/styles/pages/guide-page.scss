@@ -1,0 +1,8 @@
+@import 'styles/abstracts/mixins';
+
+.guide-page {
+  @include flex-center;
+  flex-direction: column;
+  padding: 0px 18px;
+  gap: 10px;
+}

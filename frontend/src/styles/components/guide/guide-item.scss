@@ -1,0 +1,14 @@
+@import 'styles/abstracts/mixins';
+
+.guide-item {
+  @include flex-center;
+  flex-direction: column;
+  &:not(:last-child)::after {
+    content: '';
+    display: block; 
+    width: 90%; 
+    height: 2px;
+    background-color: black;
+    margin: 10px 0px;
+  }
+}
