@@ -1,0 +1,15 @@
+.character {
+  display: block;
+
+  &.large {
+    height: 20%;
+  }
+
+  &.middle {
+    height: 15%;
+  }
+
+  &.small {
+    height: 10%;
+  }
+}
