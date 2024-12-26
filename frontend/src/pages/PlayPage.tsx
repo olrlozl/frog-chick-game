@@ -4,6 +4,7 @@ import eggwin from 'assets/images/egg-win.png';
 import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
 import CharacterList from 'components/play/CharacterList';
+import Board from 'components/play/Board';
 
 const PlayPage = () => {
   //// [Modal 사용예시]
@@ -51,6 +52,7 @@ const PlayPage = () => {
 
       <div className="game-box">
         <CharacterList option={gameInfo.option.opponent} />
+        <Board />
         <CharacterList option={gameInfo.option.me} />
       </div>
 
