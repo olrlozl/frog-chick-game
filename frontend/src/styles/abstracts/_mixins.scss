@@ -5,6 +5,11 @@
   color: black;
 }
 
+@mixin balloon-title {
+  font-size: $font-md;
+  color: black;
+}
+
 @mixin flex-center {
   display: flex;
   justify-content: center;
@@ -16,4 +21,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@mixin user-item {
+  @include flex-center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px 0px;
 }

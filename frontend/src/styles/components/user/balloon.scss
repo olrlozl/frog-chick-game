@@ -1,0 +1,40 @@
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
+
+.balloon {
+  @include flex-center;
+  flex-direction: column;
+  width: 340px;
+  border-radius: 10px;
+  position: relative;
+  gap: 10px;
+  &.friend {
+    padding: 18px 10px;
+    border: solid 2px $color-orange3;
+    &::after {
+      border-bottom: 10px solid $color-orange3;
+      right: 80px;
+    }
+  }
+  &.stranger {
+    padding: 30px 20px;
+    border: solid 2px $color-green3;
+    &::after {
+      border-bottom: 10px solid $color-green3;
+      left: 80px;
+    }
+  }
+  &::after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: -10px;
+  }
+  img {
+    margin: 18px 0px;
+    width: 250px;
+    height: 200px;
+  }
+}
