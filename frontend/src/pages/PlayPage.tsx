@@ -5,6 +5,7 @@ import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
 import CharacterList from 'components/play/CharacterList';
 import Board from 'components/play/Board';
+import Count from 'components/play/Count';
 
 const PlayPage = () => {
   //// [Modal 사용예시]
@@ -19,6 +20,12 @@ const PlayPage = () => {
     closeModal();
   };
   ////
+
+  const [showStartCount, setShowStartCount] = useState(true);
+
+  const handleStartCountEnd = () => {
+    setShowStartCount(false);
+  };
 
   interface GameInfo {
     option: {
@@ -43,6 +50,8 @@ const PlayPage = () => {
 
   return (
     <div className="play-page">
+      {showStartCount && <Count onEnd={handleStartCountEnd} />}
+
       <UserPlayBox
         playerType="opponent"
         option={gameInfo.option.opponent}
