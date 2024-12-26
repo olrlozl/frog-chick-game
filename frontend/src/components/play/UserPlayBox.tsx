@@ -2,6 +2,7 @@ import LongButton from 'components/common/Button/LongButton';
 import { useState, useEffect } from 'react';
 import 'styles/components/play/user-play-box.scss';
 import PlayerInfo from './PlayerInfo';
+import Timer from './Timer';
 
 interface UserPlayBoxProps {
   playerType: 'me' | 'opponent';
@@ -43,14 +44,11 @@ const UserPlayBox = ({
   return (
     <div className={`user-play-box ${playerType} ${option}`}>
       {playerType == 'me' && (
-        <div className="timer-container">
-          {turn == 'me' && (
-            <div
-              className="timer-bar"
-              style={{ width: `${progressBarWidth}%` }}
-            ></div>
-          )}
-        </div>
+        <Timer
+          playerType={playerType}
+          turn={turn}
+          progressBarWidth={progressBarWidth}
+        />
       )}
 
       <div className="player-info-container">
@@ -72,14 +70,11 @@ const UserPlayBox = ({
       )}
 
       {playerType == 'opponent' && (
-        <div className="timer-container">
-          {turn == 'opponent' && (
-            <div
-              className="timer-bar"
-              style={{ width: `${progressBarWidth}%` }}
-            ></div>
-          )}
-        </div>
+        <Timer
+          playerType={playerType}
+          turn={turn}
+          progressBarWidth={progressBarWidth}
+        />
       )}
     </div>
   );
