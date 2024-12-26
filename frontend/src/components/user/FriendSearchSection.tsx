@@ -5,6 +5,8 @@ import BalloonTitle from 'components/user/BalloonTitle';
 import UserInfo from 'components/user/UserInfo';
 
 const FriendSearchSection = () => {
+  const userInfo = {nickname: '은지여섯글자', wins: 10, losses: 3};
+
   return (
     <div className="friend-search-section">
       <BalloonTitle title="친구 검색" />
@@ -13,7 +15,7 @@ const FriendSearchSection = () => {
         <MiniButton option="search" />
       </div>
       <div className='result-box'>
-        <UserInfo option='search' nickname='은지여섯글자' win={10} lose={3}/>
+        <UserInfo option='search' userInfo={userInfo}/>
         <MiniButton option='add'/>
       </div>
     </div>

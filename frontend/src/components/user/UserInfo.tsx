@@ -1,20 +1,19 @@
 import 'styles/components/user/user-info.scss';
+import WinLoseBox from './WinLoseBox';
+import { UserInfoInterface } from 'types/user';
 
 interface UserInfoProps {
   option: 'search' | 'list';
-  nickname: string;
-  win: number;
-  lose: number;
+  userInfo: UserInfoInterface;
 }
 
-const UserInfo = ({option, nickname, win, lose}: UserInfoProps) => {
+const UserInfo = ({option, userInfo}: UserInfoProps) => {
+  const {nickname, wins, losses} = userInfo;
+  let color = option === 'search' ? 'main-green' : 'main-yellow';
   return (
     <div className='user-info'>
       <span className={`nickname ${option}`}>{nickname}</span>
-      <div className={`win-lose-box ${option}`}>
-        <span>{win}승</span>
-        <span>{lose}패</span>
-      </div>
+      <WinLoseBox wins={wins} losses={losses} color={color} size='font-md'/>
     </div>
   )
 }
