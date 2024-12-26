@@ -1,0 +1,25 @@
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
+
+.win-lose-box {
+  @include flex-center;
+  gap: 5px;
+  &.main-green {
+    color: #5D9D43;
+  }
+  &.main-yellow {
+    color: #D1A245;
+  }
+  &.ranking-yellow {
+    color: $color-orange3;
+  }
+  &.white {
+    color: white;
+  }
+  &.font-md {
+    font-size: $font-md;
+  }
+  &.font-xs {
+    font-size: $font-xs;
+  }
+}
