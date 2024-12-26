@@ -1,0 +1,17 @@
+.character {
+  border: 1px solid black;
+  display: block;
+  height: auto;
+
+  &.large {
+    width: 100px;
+  }
+
+  &.middle {
+    width: 75px;
+  }
+
+  &.small {
+    width: 50px;
+  }
+}

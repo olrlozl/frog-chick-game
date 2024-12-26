@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import Modal from 'components/common/Modal/Modal';
+import 'styles/pages/play-page.scss';
 import eggwin from 'assets/images/egg-win.png';
+import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
+import CharacterList from 'components/play/CharacterList';
 
 const PlayPage = () => {
   //// [Modal 사용예시]
@@ -39,19 +41,26 @@ const PlayPage = () => {
   };
 
   return (
-    <>
+    <div className="play-page">
       <UserPlayBox
         playerType="opponent"
         option={gameInfo.option.opponent}
         userInfo={gameInfo.players.opponent}
         turn={gameInfo.turn}
       />
+
+      <div className="game-box">
+        <CharacterList option={gameInfo.option.opponent} />
+        <CharacterList option={gameInfo.option.me} />
+      </div>
+
       <UserPlayBox
         playerType="me"
         option={gameInfo.option.me}
         userInfo={gameInfo.players.me}
         turn={gameInfo.turn}
       />
+
       <Modal
         isOpen={isModalOpen}
         imageSrc={eggwin}
@@ -62,7 +71,7 @@ const PlayPage = () => {
           { label: '나가기', onClick: closeModal, type: 'secondary' },
         ]}
       />
-    </>
+    </div>
   );
 };
 
