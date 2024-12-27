@@ -13,16 +13,20 @@
   font-size: $font-lg;
   cursor: pointer;
   white-space: pre-wrap;
+
   &.stranger {
     color: $color-green4;
     background-color: $color-green2;
+
     &.selected {
       border: 5px solid $color-green3;
     }
   }
+
   &.friend {
     color: $color-orange4;
     background-color: $color-orange2;
+
     &.selected {
       border: 5px solid $color-orange3;
     }
@@ -32,14 +36,16 @@
     position: absolute;
     z-index: 500;
     aspect-ratio: 1/1;
+
     &.stranger {
       top: -25%;
       width: 70px;
       transform: rotate(-5deg);
     }
+
     &.friend {
-      top: -40%;
-      width: 120px;
+      top: -53%;
+      width: 130px;
       transform: rotate(5deg);
     }
   }
