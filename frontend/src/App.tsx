@@ -3,21 +3,23 @@ import './App.css';
 import LandingPage from 'pages/LandingPage';
 import MainPage from 'pages/MainPage';
 import PlayPage from 'pages/PlayPage';
-import RankingPage from 'pages/RankingPage';
+import RankPage from 'pages/RankPage';
+import MainLayout from 'components/common/Layout/MainLayout';
 
 const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
   { path: '/play', element: <PlayPage /> },
   {
     path: '/main',
+    element: <MainLayout />,
     children: [
       {
-        path: '',
+        index: true,
         element: <MainPage />,
       },
       {
-        path: 'ranking',
-        element: <RankingPage />,
+        path: 'rank',
+        element: <RankPage />,
       },
     ],
   },
