@@ -21,10 +21,10 @@ const PlayPage = () => {
   };
   ////
 
-  const [showStartCount, setShowStartCount] = useState(true);
+  const [isStartCountVisible, setStartCountVisible] = useState(true);
 
   const handleStartCountEnd = () => {
-    setShowStartCount(false);
+    setStartCountVisible(false);
   };
 
   interface GameInfo {
@@ -50,7 +50,7 @@ const PlayPage = () => {
 
   return (
     <div className="play-page">
-      {showStartCount && <Count onEnd={handleStartCountEnd} />}
+      {isStartCountVisible && <Count onEnd={handleStartCountEnd} />}
 
       <UserPlayBox
         playerType="opponent"

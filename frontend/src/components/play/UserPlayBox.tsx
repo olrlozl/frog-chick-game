@@ -27,7 +27,7 @@ const UserPlayBox = ({
 
   const progressBarWidth = (remainingTime / 10) * 100;
 
-  const hadleGiveup = () => {
+  const handleGiveup = () => {
     console.log('기권');
   };
 
@@ -66,7 +66,7 @@ const UserPlayBox = ({
       </div>
 
       {playerType === 'me' && (
-        <LongButton option={option} onClick={hadleGiveup} />
+        <LongButton option={option} onClick={handleGiveup} />
       )}
 
       {playerType == 'opponent' && (
