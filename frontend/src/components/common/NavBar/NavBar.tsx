@@ -1,13 +1,13 @@
 import 'styles/components/common/NavBar/navbar.scss';
-import { Menu } from 'components/common/NavBar/Menu';
+import { navbarMenus } from 'constants/navebarMenus';
+import { Menu } from './Menu';
 
 export const NavBar = () => {
   return (
-    <div className='navbar'>
-      <Menu />
-      <Menu />
-      <Menu />
+    <div className="navbar">
+      {navbarMenus.map((menu) => (
+        <Menu key={menu.to} {...menu} />
+      ))}
     </div>
-  )
-}
-
+  );
+};
