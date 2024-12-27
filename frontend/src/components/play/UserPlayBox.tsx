@@ -57,8 +57,7 @@ const UserPlayBox = ({
           option={option}
           playerType={playerType}
         />
-        {((playerType == 'me' && turn == 'me') ||
-          (playerType == 'opponent' && turn == 'opponent')) && (
+        {playerType === turn && (
           <div className="timer-text">{remainingTime}</div>
         )}
       </div>
