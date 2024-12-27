@@ -10,7 +10,7 @@ import game from 'assets/images/game.png';
 export const Menu = () => {
   return (
     <div className='menu'>
-      <img src={game} alt="" />
+      <img src={game} alt='게임' />
       <span>게임</span>
     </div>
     

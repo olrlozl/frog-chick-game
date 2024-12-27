@@ -28,7 +28,7 @@ const Balloon = ({ option }: BalloonProps) => {
     content = (
       <>
         <BalloonTitle title="낯선이를 탐색중입니다..." />
-        <img src={loadingSpinner} alt="" />
+        <img src={loadingSpinner} alt='로딩 스피너' />
         <ModalButton label="취소" onClick={handleClickTmp} type="cancel" />
       </>
     );
