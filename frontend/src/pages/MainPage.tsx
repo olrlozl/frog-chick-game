@@ -7,17 +7,26 @@ import { GameType } from 'types/user';
 const MainPage = () => {
   const [selectedOption, setSelectedOption] = useState<GameType>('friend');
 
-  const handleClickChangeOption = (option: GameType) => {
-    setSelectedOption(option);
-  }
+  const handleClickChangeOption = (nextOption: GameType) => {
+    if (nextOption !== selectedOption)
+      setSelectedOption((prev) => (prev === 'friend' ? 'stranger' : 'friend'));
+  };
 
   return (
-    <div className='main-page'>
-      <div className='start-button-box'>
-        <StartButton option='stranger' onClick={() => handleClickChangeOption('friend')} isSelected={selectedOption === 'stranger'} />
-        <StartButton option='friend' onClick={() => handleClickChangeOption('stranger')} isSelected={selectedOption === 'friend'}/>
+    <div className="main-page">
+      <div className="start-button-box">
+        <StartButton
+          option="stranger"
+          onClick={handleClickChangeOption}
+          isSelected={selectedOption === 'stranger'}
+        />
+        <StartButton
+          option="friend"
+          onClick={handleClickChangeOption}
+          isSelected={selectedOption === 'friend'}
+        />
       </div>
-      <Balloon option={selectedOption}/>
+      <Balloon option={selectedOption} />
     </div>
   );
 };

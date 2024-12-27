@@ -1,10 +1,11 @@
 import 'styles/components/common/Button/start-button.scss';
 import frog from 'assets/images/frog.png';
 import chick from 'assets/images/chick.png';
+import { GameType } from 'types/user';
 
 interface StartButtonProps {
-  option: 'stranger' | 'friend';
-  onClick: () => void;
+  option: GameType;
+  onClick: (nextOption: GameType) => void;
   isSelected: boolean;
 }
 
@@ -18,7 +19,7 @@ const StartButton = ({ option, onClick, isSelected }: StartButtonProps) => {
   return (
     <div
       className={`start-button ${option} ${isSelected && 'selected'}`}
-      onClick={onClick}
+      onClick={() => onClick(option)}
     >
       <img className={option} src={image} alt="" />
       {text}
