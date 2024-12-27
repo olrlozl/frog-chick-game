@@ -1,5 +1,4 @@
 import StartButton from 'components/common/Button/StartButton';
-import { NavBar } from 'components/common/NavBar/NavBar';
 import Balloon from 'components/user/Balloon';
 import { useState } from 'react';
 import 'styles/pages/main-page.scss';
@@ -19,7 +18,6 @@ const MainPage = () => {
         <StartButton option='friend' onClick={() => handleClickChangeOption('stranger')} isSelected={selectedOption === 'friend'}/>
       </div>
       <Balloon option={selectedOption}/>
-      <NavBar />
     </div>
   );
 };

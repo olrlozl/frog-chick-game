@@ -1,7 +1,7 @@
 import 'styles/components/user/user-state.scss';
 
 interface UserStateProps {
-  state: 'playing' | 'offline'
+  state: 'playing' | 'offline' | 'online';
 }
 
 const UserState = ({state}: UserStateProps) => {
