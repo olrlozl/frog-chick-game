@@ -11,14 +11,14 @@ const GuidePage = () => {
 
   let guideImage = selectedOption === 'rule' ? pond : farmer;
 
-  const toggleSelectedOption = (nextOption: GuideOptionType) => {
+  const handleClickChangeOption = (nextOption: GuideOptionType) => {
     if (nextOption !== selectedOption)
       setSelectedOption((prev) => (prev === 'rule' ? 'control' : 'rule'));
   };
 
   return (
     <div className="guide-page">
-      <GuideBalloon option={selectedOption} onClick={toggleSelectedOption} />
+      <GuideBalloon option={selectedOption} onClick={handleClickChangeOption} />
       <img src={guideImage} alt='구리와 농부' />
       <Logout />
     </div>
