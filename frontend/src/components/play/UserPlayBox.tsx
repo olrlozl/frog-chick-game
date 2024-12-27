@@ -43,13 +43,11 @@ const UserPlayBox = ({
 
   return (
     <div className={`user-play-box ${playerType} ${option}`}>
-      {playerType == 'me' && (
-        <Timer
-          playerType={playerType}
-          turn={turn}
-          progressBarWidth={progressBarWidth}
-        />
-      )}
+      <Timer
+        playerType={playerType}
+        turn={turn}
+        progressBarWidth={progressBarWidth}
+      />
 
       <div className="player-info-container">
         <PlayerInfo
@@ -67,14 +65,6 @@ const UserPlayBox = ({
 
       {playerType === 'me' && (
         <LongButton option={option} onClick={handleGiveup} />
-      )}
-
-      {playerType == 'opponent' && (
-        <Timer
-          playerType={playerType}
-          turn={turn}
-          progressBarWidth={progressBarWidth}
-        />
       )}
     </div>
   );

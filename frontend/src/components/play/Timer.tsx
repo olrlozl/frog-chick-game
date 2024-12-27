@@ -8,7 +8,7 @@ interface TimerProps {
 
 const Timer = ({ playerType, turn, progressBarWidth }: TimerProps) => {
   return (
-    <div className="timer">
+    <div className={`timer ${playerType}`}>
       {playerType === turn && (
         <div
           className="progress-bar"
