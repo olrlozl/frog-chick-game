@@ -2,19 +2,16 @@ import 'styles/components/play/timer.scss';
 
 interface TimerProps {
   playerType: 'me' | 'opponent';
-  turn: 'me' | 'opponent';
   progressBarWidth: number;
 }
 
-const Timer = ({ playerType, turn, progressBarWidth }: TimerProps) => {
+const Timer = ({ playerType, progressBarWidth }: TimerProps) => {
   return (
     <div className={`timer ${playerType}`}>
-      {playerType === turn && (
-        <div
-          className="progress-bar"
-          style={{ width: `${progressBarWidth}%` }}
-        ></div>
-      )}
+      <div
+        className="progress-bar"
+        style={{ width: `${progressBarWidth}%` }}
+      ></div>
     </div>
   );
 };

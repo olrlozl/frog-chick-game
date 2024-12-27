@@ -43,11 +43,11 @@ const UserPlayBox = ({
 
   return (
     <div className={`user-play-box ${playerType} ${option}`}>
-      <Timer
-        playerType={playerType}
-        turn={turn}
-        progressBarWidth={progressBarWidth}
-      />
+      {playerType === turn ? (
+        <Timer playerType={playerType} progressBarWidth={progressBarWidth} />
+      ) : (
+        <Timer playerType={playerType} progressBarWidth={0} />
+      )}
 
       <div className="player-info-container">
         <PlayerInfo
