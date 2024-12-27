@@ -3,7 +3,7 @@ import UserRankItem from 'components/rank/UserRankItem';
 import 'styles/pages/rank-page.scss';
 
 const RankPage = () => {
-  const userList = {
+  const rankList = {
     me: { nickname: '은지0', wins: 4, losses: 5, rank: 7 },
     users: [
       { nickname: '은지1', wins: 10, losses: 5, isMe: false, rank: 1 },
@@ -26,24 +26,24 @@ const RankPage = () => {
         <section className='my-rank-section'>
           <UserRankItem
             userInfo={{
-              nickname: userList.me.nickname,
-              wins: userList.me.wins,
-              losses: userList.me.losses,
+              nickname: rankList.me.nickname,
+              wins: rankList.me.wins,
+              losses: rankList.me.losses,
             }}
-            myNickname={userList.me.nickname}
-            rank={userList.me.rank}
+            myNickname={rankList.me.nickname}
+            rank={rankList.me.rank}
             isMyRankSection={true}
           />
         </section>
         <section className='users-rank-section'>
-          {userList.users.map((user) => (
+          {rankList.users.map((user) => (
             <UserRankItem
               userInfo={{
                 nickname: user.nickname,
                 wins: user.wins,
                 losses: user.losses,
               }}
-              myNickname={userList.me.nickname}
+              myNickname={rankList.me.nickname}
               rank={user.rank}
               isMyRankSection={false}
             />
