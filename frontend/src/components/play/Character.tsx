@@ -1,11 +1,6 @@
 import { CharacterOptionType, CharacterSizeType } from 'types/play';
 import 'styles/components/play/character.scss';
-import frog from 'assets/images/frog.png';
-import tadpole from 'assets/images/tadpole.png';
-import greenegg from 'assets/images/green-egg.png';
-import chicken from 'assets/images/chicken.png';
-import chick from 'assets/images/chick.png';
-import egg from 'assets/images/egg.png';
+import { characterMap } from 'constants/characterMap';
 
 interface CharacterProps {
   option: CharacterOptionType;
@@ -13,25 +8,7 @@ interface CharacterProps {
 }
 
 const Character = ({ option, size }: CharacterProps) => {
-  let imageSrc;
-
-  if (option === 'frog') {
-    if (size === 'large') {
-      imageSrc = frog;
-    } else if (size === 'middle') {
-      imageSrc = tadpole;
-    } else if (size === 'small') {
-      imageSrc = greenegg;
-    }
-  } else if (option === 'chick') {
-    if (size === 'large') {
-      imageSrc = chicken;
-    } else if (size === 'middle') {
-      imageSrc = chick;
-    } else if (size === 'small') {
-      imageSrc = egg;
-    }
-  }
+  const imageSrc = characterMap[option][size];
 
   return (
     <img
