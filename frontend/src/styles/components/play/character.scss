@@ -2,14 +2,16 @@
   display: block;
 
   &.large {
-    height: 20%;
+    height: 65px;
+    width: 65px;
   }
 
   &.middle {
-    height: 15%;
+    height: 50px;
+    width: 50px;
   }
 
   &.small {
-    height: 10%;
+    width: 30px;
   }
 }
