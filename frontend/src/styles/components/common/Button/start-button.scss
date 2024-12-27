@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: 5px;
   position: relative;
-  width: 150px;
+  width: $size-start-button;
   aspect-ratio: 1/1;
   border-radius: 10px;
   font-size: $font-lg;
@@ -41,12 +41,20 @@
       top: -25%;
       width: 70px;
       transform: rotate(-5deg);
+
+      &.selected {
+        top: calc(-25% - 7px);
+      }
     }
 
     &.friend {
-      top: -53%;
+      top: -48%;
       width: 130px;
       transform: rotate(5deg);
+
+      &.selected {
+        top: calc(-48% - 9px);
+      }
     }
   }
 }

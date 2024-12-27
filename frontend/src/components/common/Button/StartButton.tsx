@@ -21,7 +21,7 @@ const StartButton = ({ option, onClick, isSelected }: StartButtonProps) => {
       className={`start-button ${option} ${isSelected && 'selected'}`}
       onClick={() => onClick(option)}
     >
-      <img className={option} src={image} alt="" />
+      <img className={`${option} ${isSelected && 'selected'}`} src={image} alt="" />
       {text}
     </div>
   );

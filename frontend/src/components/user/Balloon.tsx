@@ -12,7 +12,6 @@ interface BalloonProps {
 }
 
 const Balloon = ({ option }: BalloonProps) => {
-
   const handleClickTmp = () => {};
 
   let content;
@@ -33,7 +32,11 @@ const Balloon = ({ option }: BalloonProps) => {
       </>
     );
 
-  return <div className={`balloon ${option}`}>{content}</div>;
+  return (
+    <div className={`balloon ${option}`}>
+      <div className="balloon-main">{content}</div>
+    </div>
+  );
 };
 
 export default Balloon;
