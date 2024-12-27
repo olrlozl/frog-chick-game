@@ -3,7 +3,7 @@ import { GuideOptionType } from 'types/guide';
 
 interface GuideBalloonProps {
   option: GuideOptionType;
-  onClick: () => void;
+  onClick: (nextOption: GuideOptionType) => void;
 }
 
 const GuideBalloon = ({ option, onClick }: GuideBalloonProps) => {
@@ -25,13 +25,13 @@ const GuideBalloon = ({ option, onClick }: GuideBalloonProps) => {
       <div className="button-box">
         <button
           className={option === 'rule' ? 'rule' : 'disabled'}
-          onClick={onClick}
+          onClick={() => onClick('rule')}
         >
           게임방법
         </button>
         <button
           className={option === 'control' ? 'control' : 'disabled'}
-          onClick={onClick}
+          onClick={() => onClick('control')}
         >
           조작방법
         </button>

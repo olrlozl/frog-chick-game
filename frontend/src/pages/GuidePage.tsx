@@ -11,8 +11,9 @@ const GuidePage = () => {
 
   let guideImage = selectedOption === 'rule' ? pond : farmer;
 
-  const toggleSelectedOption = () => {
-    setSelectedOption((prev) => (prev === 'rule' ? 'control' : 'rule'));
+  const toggleSelectedOption = (nextOption: GuideOptionType) => {
+    if (nextOption !== selectedOption)
+      setSelectedOption((prev) => (prev === 'rule' ? 'control' : 'rule'));
   };
 
   return (
