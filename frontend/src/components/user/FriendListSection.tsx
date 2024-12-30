@@ -6,11 +6,11 @@ import UserState from 'components/user/UserState';
 import { UserInfoInterface } from 'types/user';
 
 const FriendListSection = () => {
-  type userState = 'online' | 'offline' | 'playing';
+  type userStateType = 'online' | 'offline' | 'playing';
 
   interface User {
     userInfo: UserInfoInterface;
-    state: userState;
+    state: userStateType;
   }
 
   const users: User[] = [
@@ -30,11 +30,11 @@ const FriendListSection = () => {
           return (
             <div className="user-item">
               <UserInfo
-                option="list"
+                userInfoOption="list"
                 userInfo={user.userInfo}
               />
               {user.state === 'online' ? (
-                <MiniButton option="game" />
+                <MiniButton miniButtonOption="game" />
               ) : (
                 <UserState state={user.state} />
               )}

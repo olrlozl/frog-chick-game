@@ -2,11 +2,11 @@ import 'styles/components/guide/guide-balloon.scss';
 import { GuideOptionType } from 'types/guide';
 
 interface GuideBalloonProps {
-  option: GuideOptionType;
+  guideOption: GuideOptionType;
   onClick: (nextOption: GuideOptionType) => void;
 }
 
-const GuideBalloon = ({ option, onClick }: GuideBalloonProps) => {
+const GuideBalloon = ({ guideOption, onClick }: GuideBalloonProps) => {
   const guideTexts = {
     rule: [
       '각 선수는 큰 말, 중간 말, 작은 말 각각 2개씩 갖고 시작합니다.',
@@ -21,24 +21,24 @@ const GuideBalloon = ({ option, onClick }: GuideBalloonProps) => {
   };
 
   return (
-    <div className={`guide-balloon ${option}`}>
+    <div className={`guide-balloon ${guideOption}`}>
       <div className="button-box">
         <button
-          className={option === 'rule' ? 'rule' : 'disabled'}
+          className={guideOption === 'rule' ? 'rule' : 'disabled'}
           onClick={() => onClick('rule')}
         >
           게임방법
         </button>
         <button
-          className={option === 'control' ? 'control' : 'disabled'}
+          className={guideOption === 'control' ? 'control' : 'disabled'}
           onClick={() => onClick('control')}
         >
           조작방법
         </button>
       </div>
-      <ul className={`${option}`}>
-        {guideTexts[option].map((guideText) => (
-          <li className={`${option}`}>{guideText}</li>
+      <ul className={`${guideOption}`}>
+        {guideTexts[guideOption].map((guideText) => (
+          <li className={`${guideOption}`}>{guideText}</li>
         ))}
       </ul>
     </div>

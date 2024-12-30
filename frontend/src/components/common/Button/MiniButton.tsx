@@ -1,10 +1,10 @@
 import 'styles/components/common/Button/mini-button.scss';
 
 interface MiniButtonProps {
-  option: 'search' | 'add' | 'game' | 'accept' | 'reject';
+  miniButtonOption: 'search' | 'add' | 'game' | 'accept' | 'reject';
 }
 
-const MiniButton = ({option}: MiniButtonProps) => {
+const MiniButton = ({miniButtonOption}: MiniButtonProps) => {
   
   const handleClickSearchNickname = () => {
     
@@ -26,17 +26,17 @@ const MiniButton = ({option}: MiniButtonProps) => {
     
   }
 
-  const options = {
+  const miniButtonOptions = {
     search: { text: '검색', onClick: handleClickSearchNickname},
     add: { text: '친구추가', onClick: handleClickAddFriend},
     game: { text: '대결신청', onClick: handleClickRequestGame},
     accept: { text: '수락', onClick: handleClickAcceptFriend},
     reject: { text: '거절', onClick: handleClickRejectFriend},
   }
-  const { onClick, text } = options[option];
+  const { onClick, text } = miniButtonOptions[miniButtonOption];
 
   return (
-    <div className={`mini-button ${option}`} onClick={onClick}>
+    <div className={`mini-button ${miniButtonOption}`} onClick={onClick}>
       {text}
     </div>
   )

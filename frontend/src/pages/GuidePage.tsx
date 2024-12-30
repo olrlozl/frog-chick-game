@@ -18,7 +18,7 @@ const GuidePage = () => {
 
   return (
     <div className="guide-page">
-      <GuideBalloon option={selectedOption} onClick={handleClickChangeOption} />
+      <GuideBalloon guideOption={selectedOption} onClick={handleClickChangeOption} />
       <img src={guideImage} alt='구리와 농부' />
       <Logout />
     </div>

@@ -3,16 +3,16 @@ import WinLoseBox from './WinLoseBox';
 import { UserInfoInterface } from 'types/user';
 
 interface UserInfoProps {
-  option: 'search' | 'list';
+  userInfoOption: 'search' | 'list';
   userInfo: UserInfoInterface;
 }
 
-const UserInfo = ({option, userInfo}: UserInfoProps) => {
+const UserInfo = ({userInfoOption, userInfo}: UserInfoProps) => {
   const {nickname, wins, losses} = userInfo;
-  let color = option === 'search' ? 'main-green' : 'main-yellow';
+  let color = userInfoOption === 'search' ? 'main-green' : 'main-yellow';
   return (
     <div className='user-info'>
-      <span className={`nickname ${option}`}>{nickname}</span>
+      <span className={`nickname ${userInfoOption}`}>{nickname}</span>
       <WinLoseBox wins={wins} losses={losses} color={color} size='font-md'/>
     </div>
   )
