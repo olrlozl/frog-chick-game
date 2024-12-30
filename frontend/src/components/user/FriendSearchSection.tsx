@@ -12,11 +12,11 @@ const FriendSearchSection = () => {
       <BalloonTitle title="친구 검색" />
       <div className="friend-search-box">
         <NicknameInput text="닉네임을 입력해주세요." />
-        <MiniButton option="search" />
+        <MiniButton miniButtonOption="search" />
       </div>
       <div className='result-box'>
-        <UserInfo option='search' userInfo={userInfo}/>
-        <MiniButton option='add'/>
+        <UserInfo userInfoOption='search' userInfo={userInfo}/>
+        <MiniButton miniButtonOption='add'/>
       </div>
     </div>
   );

@@ -9,8 +9,8 @@ const FriendRequestSection = () => {
       <div className='request-box'>
         <span className='nickname'>은지여섯글자</span>
         <div className='button-box'>
-          <MiniButton option='accept'/>
-          <MiniButton option='reject'/>
+          <MiniButton miniButtonOption='accept'/>
+          <MiniButton miniButtonOption='reject'/>
         </div>
       </div>
     </div>
