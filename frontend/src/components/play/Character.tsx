@@ -15,7 +15,7 @@ const Character = ({ characterOption, characterSize }: CharacterProps) => {
       className={`character ${characterOption} ${characterSize}`}
       src={imageSrc}
       alt={`${characterOption} ${characterSize} character`}
-    ></img>
+    />
   );
 };
 
