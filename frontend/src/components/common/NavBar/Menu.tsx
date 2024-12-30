@@ -11,7 +11,6 @@ export const Menu = ({ to, imgSrc, text }: MenuProps) => {
   return (
     <div className="menu">
       <NavLink
-        key={to}
         to={to}
         className={({ isActive }) => (isActive ? 'active' : undefined)}
         end={to === '/main'}
