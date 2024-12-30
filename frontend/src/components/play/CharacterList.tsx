@@ -1,20 +1,26 @@
 import 'styles/components/play/character-list.scss';
-import { CharacterOptionType } from 'types/play';
+import { CharacterOptionType, CharacterSizeType } from 'types/play';
 import Character from './Character';
 
 interface CharacterProps {
-  option: CharacterOptionType;
+  characterOption: CharacterOptionType;
 }
 
-const CharacterList = ({ option }: CharacterProps) => {
+const CharacterList = ({ characterOption }: CharacterProps) => {
+  const CHARACTER_SIZES: CharacterSizeType[] = ['large', 'middle', 'small'];
+  const COUNT_PER_SIZE = 2;
+
   return (
     <div className="character-list">
-      <Character option={option} size="large"></Character>
-      <Character option={option} size="large"></Character>
-      <Character option={option} size="middle"></Character>
-      <Character option={option} size="middle"></Character>
-      <Character option={option} size="small"></Character>
-      <Character option={option} size="small"></Character>
+      {CHARACTER_SIZES.map((characterSize) =>
+        Array.from({ length: COUNT_PER_SIZE }).map((_, index) => (
+          <Character
+            key={`${characterSize}-${index}`}
+            characterOption={characterOption}
+            characterSize={characterSize}
+          />
+        ))
+      )}
     </div>
   );
 };

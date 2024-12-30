@@ -1,18 +1,23 @@
+import { NavLink } from 'react-router-dom';
 import 'styles/components/common/NavBar/menu.scss';
-import game from 'assets/images/game.png';
 
-// const NAVBAR_MENUS = [
-//   { image: game, text: '게임' },
-//   { image: rank, text: '순위' },
-//   { image: guide, text: '설명' },
-// ];
-
-export const Menu = () => {
-  return (
-    <div className='menu'>
-      <img src={game} alt='게임' />
-      <span>게임</span>
-    </div>
-    
-  )
+interface MenuProps {
+  to: string;
+  imgSrc: string;
+  text: string;
 }
+
+export const Menu = ({ to, imgSrc, text }: MenuProps) => {
+  return (
+    <div className="menu">
+      <NavLink
+        to={to}
+        className={({ isActive }) => (isActive ? 'active' : undefined)}
+        end={to === '/main'}
+      >
+        <img src={imgSrc} alt={text} />
+        <span>{text}</span>
+      </NavLink>
+    </div>
+  );
+};

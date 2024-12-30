@@ -1,21 +1,21 @@
 import { CharacterOptionType, CharacterSizeType } from 'types/play';
 import 'styles/components/play/character.scss';
-import { characterMap } from 'constants/characterMap';
+import { CHARACTER_MAP } from 'constants/characterMap';
 
 interface CharacterProps {
-  option: CharacterOptionType;
-  size: CharacterSizeType;
+  characterOption: CharacterOptionType;
+  characterSize: CharacterSizeType;
 }
 
-const Character = ({ option, size }: CharacterProps) => {
-  const imageSrc = characterMap[option][size];
+const Character = ({ characterOption, characterSize }: CharacterProps) => {
+  const imageSrc = CHARACTER_MAP[characterOption][characterSize];
 
   return (
     <img
-      className={`character ${option} ${size}`}
+      className={`character ${characterOption} ${characterSize}`}
       src={imageSrc}
-      alt={`${option} ${size} character`}
-    ></img>
+      alt={`${characterOption} ${characterSize} character`}
+    />
   );
 };
 
