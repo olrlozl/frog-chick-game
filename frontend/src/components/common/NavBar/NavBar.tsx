@@ -1,6 +1,6 @@
 import 'styles/components/common/NavBar/navbar.scss';
-import { NAVBAR_MENUS } from 'constants/navebarMenus';
-import { Menu } from './Menu';
+import { NAVBAR_MENUS } from 'constants/navbarMenus';
+import { Menu } from 'components/common/NavBar/Menu';
 
 export const NavBar = () => {
   return (
