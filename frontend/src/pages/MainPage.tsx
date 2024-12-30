@@ -7,8 +7,8 @@ import { GameOptionType } from 'types/user';
 const MainPage = () => {
   const [selectedOption, setSelectedOption] = useState<GameOptionType>('friend');
 
-  const handleClickChangeOption = (gameOption: GameOptionType) => {
-    setSelectedOption(gameOption);
+  const handleClickChangeOption = (nextGameOption: GameOptionType) => {
+    setSelectedOption(nextGameOption);
   }
 
   return (

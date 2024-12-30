@@ -3,8 +3,10 @@
 .main-page {
   @include flex-center;
   flex-direction: column;
+  padding: 20px 10px;
   padding-top: 50px;
   gap: 15px;
+
   .start-button-box {
     @include flex-center;
     gap: 15px;

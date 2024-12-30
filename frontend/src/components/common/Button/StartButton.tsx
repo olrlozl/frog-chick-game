@@ -1,9 +1,10 @@
 import 'styles/components/common/Button/start-button.scss';
 import frog from 'assets/images/frog.png';
 import chick from 'assets/images/chick.png';
+import { GameOptionType } from 'types/user';
 
 interface StartButtonProps {
-  gameOption: 'stranger' | 'friend';
+  gameOption: GameOptionType;
   onClick: () => void;
   isSelected: boolean;
 }
