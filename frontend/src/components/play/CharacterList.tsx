@@ -7,12 +7,13 @@ interface CharacterProps {
 }
 
 const CharacterList = ({ characterOption }: CharacterProps) => {
-  const characterSizes: CharacterSizeType[] = ['large', 'middle', 'small'];
+  const CHARACTER_SIZES: CharacterSizeType[] = ['large', 'middle', 'small'];
+  const COUNT_PER_SIZE = 2;
 
   return (
     <div className="character-list">
-      {characterSizes.map((characterSize) =>
-        Array.from({ length: 2 }).map((_, index) => (
+      {CHARACTER_SIZES.map((characterSize) =>
+        Array.from({ length: COUNT_PER_SIZE }).map((_, index) => (
           <Character
             key={`${characterSize}-${index}`}
             characterOption={characterOption}
