@@ -5,7 +5,10 @@ import 'styles/components/play/board.scss';
 
 const Board = () => {
   const [board, setBoard] = useState<
-    ({ option: CharacterOptionType; size: CharacterSizeType } | null)[][]
+    ({
+      characterOption: CharacterOptionType;
+      characterSize: CharacterSizeType;
+    } | null)[][]
   >(
     Array(3)
       .fill(null)
@@ -21,7 +24,7 @@ const Board = () => {
               key={`${rowIndex}-${colIndex}`}
               row={rowIndex}
               col={colIndex}
-              character={square}
+              characterInfo={square}
             />
           ))}
         </div>

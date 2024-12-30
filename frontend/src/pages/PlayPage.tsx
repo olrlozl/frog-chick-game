@@ -60,9 +60,9 @@ const PlayPage = () => {
       />
 
       <div className="game-box">
-        <CharacterList option={gameInfo.option.opponent} />
+        <CharacterList characterOption={gameInfo.option.opponent} />
         <Board />
-        <CharacterList option={gameInfo.option.me} />
+        <CharacterList characterOption={gameInfo.option.me} />
       </div>
 
       <UserPlayBox

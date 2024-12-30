@@ -5,14 +5,20 @@ import Character from 'components/play/Character';
 interface SquareProps {
   row: number;
   col: number;
-  character: { option: CharacterOptionType; size: CharacterSizeType } | null;
+  characterInfo: {
+    characterOption: CharacterOptionType;
+    characterSize: CharacterSizeType;
+  } | null;
 }
 
-const Square = ({ row, col, character }: SquareProps) => {
+const Square = ({ row, col, characterInfo }: SquareProps) => {
   return (
     <div className={`square row-${row} col-${col}`}>
-      {character && (
-        <Character option={character.option} size={character.size} />
+      {characterInfo && (
+        <Character
+          characterOption={characterInfo.characterOption}
+          characterSize={characterInfo.characterSize}
+        />
       )}
     </div>
   );
