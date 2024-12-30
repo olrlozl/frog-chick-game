@@ -1,5 +1,6 @@
 .character {
   display: block;
+  touch-action: none;
 
   &.large {
     height: 65px;
