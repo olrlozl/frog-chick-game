@@ -5,6 +5,7 @@ import MainPage from 'pages/MainPage';
 import PlayPage from 'pages/PlayPage';
 import RankPage from 'pages/RankPage';
 import MainLayout from 'components/common/Layout/MainLayout';
+import GuidePage from 'pages/GuidePage';
 
 const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'rank',
         element: <RankPage />,
+      },
+      {
+        path: 'guide',
+        element: <GuidePage />,
       },
     ],
   },
