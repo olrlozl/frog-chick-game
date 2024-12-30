@@ -3,18 +3,36 @@ import { CharacterOptionType } from 'types/play';
 import Character from './Character';
 
 interface CharacterProps {
-  option: CharacterOptionType;
+  characterOption: CharacterOptionType;
 }
 
-const CharacterList = ({ option }: CharacterProps) => {
+const CharacterList = ({ characterOption }: CharacterProps) => {
   return (
     <div className="character-list">
-      <Character option={option} size="large"></Character>
-      <Character option={option} size="large"></Character>
-      <Character option={option} size="middle"></Character>
-      <Character option={option} size="middle"></Character>
-      <Character option={option} size="small"></Character>
-      <Character option={option} size="small"></Character>
+      <Character
+        characterOption={characterOption}
+        characterSize="large"
+      ></Character>
+      <Character
+        characterOption={characterOption}
+        characterSize="large"
+      ></Character>
+      <Character
+        characterOption={characterOption}
+        characterSize="middle"
+      ></Character>
+      <Character
+        characterOption={characterOption}
+        characterSize="middle"
+      ></Character>
+      <Character
+        characterOption={characterOption}
+        characterSize="small"
+      ></Character>
+      <Character
+        characterOption={characterOption}
+        characterSize="small"
+      ></Character>
     </div>
   );
 };
