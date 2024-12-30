@@ -5,7 +5,7 @@ import chicken from 'assets/images/chicken.png';
 import chick from 'assets/images/chick.png';
 import egg from 'assets/images/egg.png';
 
-export const characterMap = {
+export const CHARACTER_MAP = {
   frog: {
     large: frog,
     middle: tadpole,

@@ -1,6 +1,6 @@
 import { CharacterOptionType, CharacterSizeType } from 'types/play';
 import 'styles/components/play/character.scss';
-import { characterMap } from 'constants/characterMap';
+import { CHARACTER_MAP } from 'constants/characterMap';
 
 interface CharacterProps {
   option: CharacterOptionType;
@@ -8,7 +8,7 @@ interface CharacterProps {
 }
 
 const Character = ({ option, size }: CharacterProps) => {
-  const imageSrc = characterMap[option][size];
+  const imageSrc = CHARACTER_MAP[option][size];
 
   return (
     <img
