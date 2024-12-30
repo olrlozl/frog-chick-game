@@ -1,4 +1,4 @@
-export type GameType = 'stranger' | 'friend';
+export type GameOptionType = 'stranger' | 'friend';
 
 export interface UserInfoInterface {
   nickname: string;
