@@ -1,13 +1,13 @@
-import { CharacterOptionType, CharacterSizeType } from 'types/play';
+import { CharacterInfoInterface } from 'types/play';
 
 // 모바일 터치 시작 처리
 export const handleTouchStartCharacter = (
   e: React.TouchEvent<HTMLImageElement>,
-  characterOption: CharacterOptionType,
-  characterSize: CharacterSizeType,
+  characterInfo: CharacterInfoInterface,
   imageSrc: string,
   dragShadowImgRef: React.RefObject<HTMLImageElement | null>
 ) => {
+  const { characterOption, characterSize } = characterInfo;
   const touch = e.touches[0]; // 터치 이벤트에서 첫 번째 터치 정보 가져오기 (여러 손가락을 사용한 터치를 감지할 수 있기 때문)
   const characterData = JSON.stringify({ characterOption, characterSize }); // JSON 형태로 직렬화
 

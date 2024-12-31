@@ -1,4 +1,4 @@
-import { CharacterOptionType, CharacterSizeType } from 'types/play';
+import { CharacterInfoInterface } from 'types/play';
 import 'styles/components/play/character.scss';
 import { CHARACTER_MAP } from 'constants/characterMap';
 import { useRef } from 'react';
@@ -7,11 +7,11 @@ import { handleTouchMoveCharacter } from 'utils/handleTouchMoveCharacter';
 import { handleTouchEndCharacter } from 'utils/handleTouchEndCharacter';
 
 interface CharacterProps {
-  characterOption: CharacterOptionType;
-  characterSize: CharacterSizeType;
+  characterInfo: CharacterInfoInterface;
 }
 
-const Character = ({ characterOption, characterSize }: CharacterProps) => {
+const Character = ({ characterInfo }: CharacterProps) => {
+  const { characterOption, characterSize } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
   const dragShadowImgRef = useRef<HTMLImageElement | null>(null); // 드래그 시 생성되는 쉐도우 이미지 참조
 
@@ -21,13 +21,7 @@ const Character = ({ characterOption, characterSize }: CharacterProps) => {
       src={imageSrc}
       alt={`${characterOption} ${characterSize} character`}
       onTouchStart={(e) =>
-        handleTouchStartCharacter(
-          e,
-          characterOption,
-          characterSize,
-          imageSrc,
-          dragShadowImgRef
-        )
+        handleTouchStartCharacter(e, characterInfo, imageSrc, dragShadowImgRef)
       }
       onTouchMove={(e) => handleTouchMoveCharacter(e, dragShadowImgRef)}
       onTouchEnd={() => handleTouchEndCharacter(dragShadowImgRef)}

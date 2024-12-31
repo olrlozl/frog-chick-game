@@ -1,13 +1,8 @@
 import { useState } from 'react';
-import { CharacterOptionType, CharacterSizeType } from 'types/play';
+import { CharacterInfoInterface } from 'types/play';
 
 export const useBoard = () => {
-  const [board, setBoard] = useState<
-    ({
-      characterOption: CharacterOptionType;
-      characterSize: CharacterSizeType;
-    } | null)[][]
-  >(
+  const [board, setBoard] = useState<(CharacterInfoInterface | null)[][]>(
     Array(3)
       .fill(null)
       .map(() => Array(3).fill(null))
@@ -16,14 +11,11 @@ export const useBoard = () => {
   const handleUpdateBoard = (
     row: number,
     col: number,
-    character: {
-      characterOption: CharacterOptionType;
-      characterSize: CharacterSizeType;
-    }
+    characterInfo: CharacterInfoInterface
   ) => {
     setBoard((prevBoard) => {
       const updatedBoard = [...prevBoard];
-      updatedBoard[col][row] = character;
+      updatedBoard[col][row] = characterInfo;
       return updatedBoard;
     });
   };
