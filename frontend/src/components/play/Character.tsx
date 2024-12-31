@@ -2,6 +2,7 @@ import { CharacterInfoInterface } from 'types/play';
 import 'styles/components/play/character.scss';
 import { CHARACTER_MAP } from 'constants/characterMap';
 import { useRef } from 'react';
+import { handleDragStartCharacter } from 'utils/handleDragStartCharacter';
 import { handleTouchStartCharacter } from 'utils/handleTouchStartCharacter';
 import { handleTouchMoveCharacter } from 'utils/handleTouchMoveCharacter';
 import { handleTouchEndCharacter } from 'utils/handleTouchEndCharacter';
@@ -20,6 +21,7 @@ const Character = ({ characterInfo }: CharacterProps) => {
       className={`character ${characterOption} ${characterSize}`}
       src={imageSrc}
       alt={`${characterOption} ${characterSize} character`}
+      onDragStart={(e) => handleDragStartCharacter(e, characterInfo)}
       onTouchStart={(e) =>
         handleTouchStartCharacter(e, characterInfo, imageSrc, dragShadowImgRef)
       }
