@@ -1,9 +1,15 @@
+import { CharacterInfoInterface } from 'types/play';
+
 // 웹 드롭 처리
 export const handleDropCharacter = (
   e: React.DragEvent<HTMLDivElement>,
-  row: number,
-  col: number,
-  updateBoard: Function
+  prevPosition: { row: number | null; col: number | null },
+  nextPosition: { row: number; col: number },
+  updateBoard: (
+    prevPosition: { row: number | null; col: number | null },
+    nextPosition: { row: number; col: number },
+    characterInfo: CharacterInfoInterface
+  ) => void
 ) => {
   e.preventDefault();
 
@@ -12,7 +18,7 @@ export const handleDropCharacter = (
 
     if (characterData) {
       const characterInfo = JSON.parse(characterData);
-      updateBoard(row, col, characterInfo);
+      updateBoard(prevPosition, nextPosition, characterInfo);
     }
 
     e.dataTransfer.clearData();

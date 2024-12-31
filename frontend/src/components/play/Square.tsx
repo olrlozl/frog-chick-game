@@ -11,24 +11,29 @@ interface SquareProps {
   col: number;
   characterInfo: CharacterInfoInterface | null;
   updateBoard: (
-    row: number,
-    col: number,
+    prevPosition: { row: number | null; col: number | null },
+    nextPosition: { row: number; col: number },
     characterInfo: CharacterInfoInterface
   ) => void;
 }
 
 const Square = ({ row, col, characterInfo, updateBoard }: SquareProps) => {
-  const { selectedCharacterKey, setSelectedCharacterKey } = useCharacterStore();
+  const { prevPosition, setSelectedCharacterKey, setPrevPosition } =
+    useCharacterStore();
+
+  const nextPosition = { row: row, col: col };
 
   // 모바일 환경
-  const dropCharacter = () => moveCharacterToSquare(row, col, updateBoard);
+  const dropCharacter = () =>
+    moveCharacterToSquare(prevPosition, nextPosition, updateBoard);
 
   useTouchEndListener(row, col, dropCharacter);
 
   // 웹 환경
   const handleDrop = (e: React.DragEvent<HTMLImageElement>) => {
-    handleDropCharacter(e, row, col, updateBoard);
+    handleDropCharacter(e, prevPosition, nextPosition, updateBoard);
     setSelectedCharacterKey(null);
+    setPrevPosition({ row: null, col: null });
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLImageElement>) => {

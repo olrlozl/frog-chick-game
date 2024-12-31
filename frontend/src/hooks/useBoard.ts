@@ -9,13 +9,21 @@ export const useBoard = () => {
   );
 
   const updateBoard = (
-    row: number,
-    col: number,
+    prevPosition: { row: number | null; col: number | null } = {
+      row: null,
+      col: null,
+    },
+    nextPosition: { row: number; col: number },
     characterInfo: CharacterInfoInterface
   ) => {
     setBoard((prevBoard) => {
-      const updatedBoard = [...prevBoard];
-      updatedBoard[col][row] = characterInfo;
+      const updatedBoard = prevBoard.map((col) => [...col]);
+
+      if (prevPosition.col !== null && prevPosition.row !== null) {
+        updatedBoard[prevPosition.col][prevPosition.row] = null;
+      }
+
+      updatedBoard[nextPosition.col][nextPosition.row] = characterInfo;
       return updatedBoard;
     });
   };

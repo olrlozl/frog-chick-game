@@ -17,17 +17,36 @@ const Character = ({ characterInfo }: CharacterProps) => {
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
   const dragShadowImgRef = useRef<HTMLImageElement | null>(null); // 드래그 시 생성되는 쉐도우 이미지 참조
 
-  const { selectedCharacterKey, setSelectedCharacterKey } = useCharacterStore();
+  const { selectedCharacterKey, setSelectedCharacterKey, setPrevPosition } =
+    useCharacterStore();
+
   const isSelected = selectedCharacterKey === characterKey;
+
+  const updatePrevPosition = (target: HTMLElement) => {
+    const parentSquare = target.closest('.square');
+
+    if (parentSquare) {
+      const rowMatch = parentSquare.className.match(/row-(\d+)/);
+      const colMatch = parentSquare.className.match(/col-(\d+)/);
+
+      if (rowMatch && colMatch) {
+        const row = parseInt(rowMatch[1], 10);
+        const col = parseInt(colMatch[1], 10);
+        setPrevPosition({ row, col });
+      }
+    }
+  };
 
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
     handleDragStartCharacter(e, characterInfo);
     setSelectedCharacterKey(characterKey);
+    updatePrevPosition(e.currentTarget);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
     handleTouchStartCharacter(e, characterInfo, imageSrc, dragShadowImgRef);
     setSelectedCharacterKey(characterKey);
+    updatePrevPosition(e.currentTarget);
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
@@ -37,6 +56,7 @@ const Character = ({ characterInfo }: CharacterProps) => {
   const handleTouchEnd = () => {
     handleTouchEndCharacter(dragShadowImgRef);
     setSelectedCharacterKey(null);
+    setPrevPosition({ row: null, col: null });
   };
 
   return (
