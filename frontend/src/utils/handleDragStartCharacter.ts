@@ -5,9 +5,9 @@ export const handleDragStartCharacter = (
   e: React.DragEvent<HTMLImageElement>,
   characterInfo: CharacterInfoInterface
 ) => {
-  const { characterOption, characterSize } = characterInfo;
+  const { characterOption, characterSize, characterKey } = characterInfo;
   e.dataTransfer.setData(
     'text/plain',
-    JSON.stringify({ characterOption, characterSize })
+    JSON.stringify({ characterOption, characterSize, characterKey })
   );
 };

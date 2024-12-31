@@ -18,16 +18,15 @@ const CharacterList = ({ characterOption }: CharacterProps) => {
     <div className="character-list">
       {CHARACTER_SIZES.map((characterSize) =>
         Array.from({ length: COUNT_PER_SIZE }).map((_, index) => {
+          const characterKey = `${characterOption}-${characterSize}-${index}`;
+
           const characterInfo: CharacterInfoInterface = {
             characterOption,
             characterSize,
+            characterKey,
           };
-          return (
-            <Character
-              key={`${characterSize}-${index}`}
-              characterInfo={characterInfo}
-            />
-          );
+
+          return <Character key={characterKey} characterInfo={characterInfo} />;
         })
       )}
     </div>
