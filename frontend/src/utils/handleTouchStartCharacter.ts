@@ -7,13 +7,9 @@ export const handleTouchStartCharacter = (
   imageSrc: string,
   dragShadowImgRef: React.RefObject<HTMLImageElement | null>
 ) => {
-  const { characterOption, characterSize, characterKey } = characterInfo;
+  const { characterOption, characterSize } = characterInfo;
   const touch = e.touches[0]; // 터치 이벤트에서 첫 번째 터치 정보 가져오기 (여러 손가락을 사용한 터치를 감지할 수 있기 때문)
-  const characterData = JSON.stringify({
-    characterOption,
-    characterSize,
-    characterKey,
-  }); // JSON 형태로 직렬화
+  const characterData = JSON.stringify(characterInfo);
 
   (window as any).currentTouchData = characterData; // 터치한 캐릭터 정보를 window 객체에 저장
   (window as any).touchingPosition = { x: touch.clientX, y: touch.clientY }; // 현재 터치 위치를 window 객체에 저장 (터치 중 위치 추적에 사용)

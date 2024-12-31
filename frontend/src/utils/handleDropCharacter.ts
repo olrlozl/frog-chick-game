@@ -11,9 +11,8 @@ export const handleDropCharacter = (
     const characterData = e.dataTransfer.getData('text/plain');
 
     if (characterData) {
-      const { characterOption, characterSize, characterKey } =
-        JSON.parse(characterData);
-      updateBoard(row, col, { characterOption, characterSize, characterKey });
+      const characterInfo = JSON.parse(characterData);
+      updateBoard(row, col, characterInfo);
     }
 
     e.dataTransfer.clearData();
