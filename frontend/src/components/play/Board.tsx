@@ -4,7 +4,7 @@ import { useBoard } from 'hooks/useBoard';
 import { useTouchTracking } from 'hooks/useTouchTracking';
 
 const Board = () => {
-  const { board, handleUpdateBoard } = useBoard();
+  const { board, updateBoard } = useBoard();
   useTouchTracking();
 
   return (
@@ -17,7 +17,7 @@ const Board = () => {
               row={rowIndex}
               col={colIndex}
               characterInfo={square}
-              handleUpdateBoard={handleUpdateBoard}
+              updateBoard={updateBoard}
             />
           ))}
         </div>

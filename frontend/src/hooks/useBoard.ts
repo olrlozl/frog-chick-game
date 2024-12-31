@@ -8,7 +8,7 @@ export const useBoard = () => {
       .map(() => Array(3).fill(null))
   );
 
-  const handleUpdateBoard = (
+  const updateBoard = (
     row: number,
     col: number,
     characterInfo: CharacterInfoInterface
@@ -20,5 +20,5 @@ export const useBoard = () => {
     });
   };
 
-  return { board, handleUpdateBoard };
+  return { board, updateBoard };
 };

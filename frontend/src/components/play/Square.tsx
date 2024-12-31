@@ -2,28 +2,23 @@ import { CharacterInfoInterface } from 'types/play';
 import 'styles/components/play/square.scss';
 import Character from 'components/play/Character';
 import { useTouchEndListener } from 'hooks/useTouchEndListener';
-import { handleDropCharacter } from 'utils/handleDropCharacter';
+import { moveCharacterToSquare } from 'utils/moveCharacterToSquare';
 
 interface SquareProps {
   row: number;
   col: number;
   characterInfo: CharacterInfoInterface | null;
-  handleUpdateBoard: (
+  updateBoard: (
     row: number,
     col: number,
     characterInfo: CharacterInfoInterface
   ) => void;
 }
 
-const Square = ({
-  row,
-  col,
-  characterInfo,
-  handleUpdateBoard,
-}: SquareProps) => {
-  useTouchEndListener(row, col, () =>
-    handleDropCharacter(row, col, handleUpdateBoard)
-  );
+const Square = ({ row, col, characterInfo, updateBoard }: SquareProps) => {
+  const dropCharacter = () => moveCharacterToSquare(row, col, updateBoard);
+
+  useTouchEndListener(row, col, dropCharacter);
 
   return (
     <div className={`square row-${row} col-${col}`}>
