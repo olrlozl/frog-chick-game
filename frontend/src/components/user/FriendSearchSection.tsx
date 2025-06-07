@@ -45,6 +45,7 @@ const FriendSearchSection = () => {
           nickname={nickname}
           setNickname={setNickname}
           setErrorMessage={setNicknameErrorMessage}
+          onEnter={validateAndSearchFriend}
         />
         <MiniButton
           type="search"
@@ -56,11 +57,7 @@ const FriendSearchSection = () => {
         {userInfo && (
           <>
             <UserInfo userInfoOption="search" userInfo={userInfo} />
-            <MiniButton
-              type={getMiniButtonType(userInfo)}
-              onClick={getMiniButtonOnClick(userInfo)}
-              isLoading={isApplyFriendLoading}
-            />
+            <MiniButton type={getMiniButtonType(userInfo)} />
           </>
         )}
         {nicknameErrorMessage && (
