@@ -6,6 +6,8 @@ export interface UserInfoInterface {
   losses: number;
 }
 
+export type UserStateType = 'online' | 'offline' | 'playing';
+
 // API 관련
 export interface NoNicknameUserkakaoLoginResponse {
   userId: string;

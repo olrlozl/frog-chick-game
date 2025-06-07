@@ -2,11 +2,12 @@
 
 .friend-list-section {
   width: 100%;
-  .list-box {
+  margin-bottom: 15px;
 
+  .list-box {
     .user-item {
       @include user-item;
-      border-bottom: 1px solid #CFCFCF;
+      border-bottom: 1px solid #cfcfcf;
     }
   }
 }

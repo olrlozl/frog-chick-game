@@ -3,43 +3,65 @@ import BalloonTitle from 'components/user/BalloonTitle';
 import UserInfo from 'components/user/UserInfo';
 import MiniButton from 'components/common/Button/MiniButton';
 import UserState from 'components/user/UserState';
-import { UserInfoInterface } from 'types/user';
-import { FriendStatus } from 'types/friend';
-
-interface Friend {
-  userInfo: UserInfoInterface;
-  status: FriendStatus;
-}
+import { useQuery } from '@tanstack/react-query';
+import { QUERY_KEYS } from 'constants/reactQueryKeys';
+import { getFriendList } from 'api/friendApi';
+import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
+import { COMMON_MESSAGES } from 'constants/errorMessages';
+import { useErrorStore } from 'stores/errorStore';
+import { errorHandle } from 'utils/error';
+import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
+import { queryClient } from 'api/queryClient';
+import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 
 const FriendListSection = () => {
-  const users: Friend[] = [
-    {
-      userInfo: { nickname: '은지여섯글자', wins: 10, losses: 3 },
-      status: 'online',
-    },
-    { userInfo: { nickname: '현수', wins: 5, losses: 1 }, status: 'playing' },
-    { userInfo: { nickname: '에찌얌', wins: 4, losses: 1 }, status: 'offline' },
-  ];
+  const [requestErrorMessage, setRequestErrorMessage] = useState('');
+
+  const { setErrorMessage } = useErrorStore();
+
+  const { data, refetch, isFetching, isError, error } = useQuery({
+    queryKey: [QUERY_KEYS.friends, 'myFriends'],
+    queryFn: getFriendList,
+  });
+
+  useEffect(() => {
+    if (!isError || !(error instanceof AxiosError)) {
+      return;
+    }
+    const errorType = error.response?.data.errorType;
+
+    if (errorType === 'INVALID_USERID') {
+      setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
+      // 에러 발생 시 캐싱된 데이터를 삭제하고, 에러메세지 출력
+    } else {
+      queryClient.removeQueries({
+        queryKey: [QUERY_KEYS.friends, 'myFriends'],
+      });
+      errorHandle(error, setRequestErrorMessage, 'GET_FRIEND');
+    }
+  }, [isError, error]);
 
   return (
     <div className="friend-list-section">
-      <BalloonTitle title="친구 목록"  showRefresh={true} onClick={()=>{}}/>
+      <BalloonTitle title="친구 목록" showRefresh={true} onClick={refetch} />
       <div className="list-box">
-        {users.map((user) => {
-          return (
-            <div className="user-item">
-              <UserInfo
-                userInfoOption="list"
-                userInfo={user.userInfo}
-              />
-              {user.status === 'online' ? (
-                <MiniButton type="game" />
-              ) : (
-                <UserState state={user.status} />
-              )}
-            </div>
-          );
-        })}
+        {isFetching && <LocalLoadingSpinner />}
+        {!isFetching &&
+          data &&
+          data.friendList.map((user, idx) => {
+            return (
+              <div className="user-item" key={idx}>
+                <UserInfo userInfoOption="list" userInfo={user.userInfo} />
+                {user.state === 'online' ? (
+                  <MiniButton type="game" />
+                ) : (
+                  <UserState state={user.state} />
+                )}
+              </div>
+            );
+          })}
+        {isError && <ErrorMessage errorMessage={requestErrorMessage} />}
       </div>
     </div>
   );
