@@ -1,3 +1,5 @@
+import { UserInfoInterface, UserStateType } from 'types/user';
+
 export interface SearchFriendParams {
   nickname: string;
 }
@@ -14,6 +16,15 @@ export interface ApplyFriendParams {
   to: string;
 }
 
+type FriendList = {
+  userInfo: UserInfoInterface;
+  state: UserStateType;
+}[];
+
+export interface GetFriendListResponse {
+  friendList: FriendList;
+}
+
 type ReceivedList = {
   nickname: string;
 }[];
@@ -21,5 +32,3 @@ type ReceivedList = {
 export interface GetReceivedFriendListResponse {
   receivedList: ReceivedList;
 }
-
-export type FriendStatus = 'online' | 'offline' | 'playing';

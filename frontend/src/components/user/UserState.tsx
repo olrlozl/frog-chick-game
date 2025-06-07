@@ -1,16 +1,17 @@
 import 'styles/components/user/user-state.scss';
+import { UserStateType } from 'types/user';
 
 interface UserStateProps {
-  state: 'playing' | 'offline' | 'online';
+  state: UserStateType;
 }
 
-const UserState = ({state}: UserStateProps) => {
+const UserState = ({ state }: UserStateProps) => {
   return (
-    <div className='user-state'>
+    <div className="user-state">
       <div className={`circle ${state}`}></div>
       <span>{state === 'offline' ? '비접속' : '게임중'}</span>
     </div>
-  )
-}
+  );
+};
 
-export default UserState
+export default UserState;

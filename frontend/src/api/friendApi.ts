@@ -1,5 +1,6 @@
 import {
   ApplyFriendParams,
+  GetFriendListResponse,
   GetReceivedFriendListResponse,
   SearchFriendParams,
   SearchFriendResponse,
@@ -24,10 +25,15 @@ const applyFriend = async ({ to }: ApplyFriendParams) => {
   });
 };
 
+const getFriendList = async (): Promise<GetFriendListResponse> => {
+  const { data } = await instance.get(API_ENDPOINTS.GET_FRIENDS);
+  return data;
+};
+
 const getReceivedFriendList =
   async (): Promise<GetReceivedFriendListResponse> => {
     const { data } = await instance.get(API_ENDPOINTS.GET_FRIEND_RECEIPTS);
     return data;
   };
 
-export { searchFriend, applyFriend, getReceivedFriendList };
+export { searchFriend, applyFriend, getFriendList, getReceivedFriendList };
