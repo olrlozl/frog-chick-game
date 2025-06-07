@@ -57,7 +57,11 @@ const FriendSearchSection = () => {
         {userInfo && (
           <>
             <UserInfo userInfoOption="search" userInfo={userInfo} />
-            <MiniButton type={getMiniButtonType(userInfo)} />
+            <MiniButton
+              type={getMiniButtonType(userInfo)}
+              onClick={getMiniButtonOnClick(userInfo)}
+              isLoading={isApplyFriendLoading}
+            />
           </>
         )}
         {nicknameErrorMessage && (
