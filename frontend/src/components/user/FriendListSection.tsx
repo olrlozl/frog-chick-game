@@ -40,7 +40,7 @@ const FriendListSection = () => {
       });
       errorHandle(error, setRequestErrorMessage, 'GET_FRIEND');
     }
-  }, [isError, error]);
+  }, [isError, error, setErrorMessage]);
 
   return (
     <div className="friend-list-section">

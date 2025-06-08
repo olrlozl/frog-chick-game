@@ -7,7 +7,7 @@ export type ErrorMessageKeys =
   | 'APPLY_FRIEND'
   | 'GET_FRIEND_RECEIPTS'
   | 'RECEPT_FRIEND'
-  | 'CANCEL_FRIEND_APPLY'
+  | 'CANCEL_APPLY_FRIEND'
   | 'GET_RANK'
   | 'COMMON';
 
@@ -61,6 +61,7 @@ export const ERROR_MESSAGES: ErrorMessages = {
     INVALID_USERID: COMMON_MESSAGES.RE_LOGIN,
   },
   APPLY_FRIEND: {
+    FAILED_APPLY_FRIEND: COMMON_MESSAGES.RETRY,
     UNKNOWN_USER: '존재하지 않는 유저입니다.',
   },
   GET_FRIEND_RECEIPTS: {
@@ -68,7 +69,10 @@ export const ERROR_MESSAGES: ErrorMessages = {
     INVALID_USERID: COMMON_MESSAGES.RE_LOGIN,
   },
   RECEPT_FRIEND: {},
-  CANCEL_FRIEND_APPLY: {},
+  CANCEL_APPLY_FRIEND: {
+    FAILED_CANCEL_APPLY_FRIEND: COMMON_MESSAGES.RETRY,
+    UNKNOWN_USER: '존재하지 않는 유저입니다.',
+  },
   GET_RANK: {},
   COMMON: {
     ERR_NETWORK: '서버 연결이 불안정합니다.\n잠시 후 다시 시도해주세요.',

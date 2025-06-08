@@ -25,6 +25,10 @@ const applyFriend = async ({ to }: ApplyFriendParams) => {
   });
 };
 
+const cancelApplyFriend = async ({ to }: ApplyFriendParams) => {
+  await instance.delete(`${API_ENDPOINTS.APPLY_FRIEND}/${to}`);
+};
+
 const getFriendList = async (): Promise<GetFriendListResponse> => {
   const { data } = await instance.get(API_ENDPOINTS.GET_FRIENDS);
   return data;
@@ -36,4 +40,10 @@ const getReceivedFriendList =
     return data;
   };
 
-export { searchFriend, applyFriend, getFriendList, getReceivedFriendList };
+export {
+  searchFriend,
+  applyFriend,
+  cancelApplyFriend,
+  getFriendList,
+  getReceivedFriendList,
+};
