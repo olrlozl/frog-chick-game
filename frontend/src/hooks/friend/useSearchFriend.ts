@@ -107,18 +107,24 @@ export const useSearchFriend = (
             // 이미 신청하거나, 친구인 경우 UI 갱신을 위해 쿼리 무효화
             case 'ALREADY_FRIEND':
             case 'ALREADY_APPLY_FRIEND':
-              if ('to' in err.config?.data) {
+              if (JSON.parse(err.config?.data).to) {
                 queryClient.invalidateQueries({
-                  queryKey: [QUERY_KEYS.friends, err.config?.data.to],
+                  queryKey: [
+                    QUERY_KEYS.friends,
+                    JSON.parse(err.config?.data).to,
+                  ],
                 });
               }
               break;
 
             // 존재하지 않는 사용자일 경우 캐시에서 삭제 후 에러메시지 표시
             case 'UNKNOWN_USER':
-              if ('to' in err.config?.data) {
+              if (JSON.parse(err.config?.data).to) {
                 queryClient.removeQueries({
-                  queryKey: [QUERY_KEYS.friends, err.config?.data.to],
+                  queryKey: [
+                    QUERY_KEYS.friends,
+                    JSON.parse(err.config?.data).to,
+                  ],
                 });
               }
               setNicknameErrorMessage(ERROR_MESSAGES.APPLY_FRIEND.UNKNOWN_USER);
