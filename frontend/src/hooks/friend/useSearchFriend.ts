@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { applyFriend, searchFriend } from 'api/friendApi';
+import { applyFriend, cancelApplyFriend, searchFriend } from 'api/friendApi';
 import { queryClient } from 'api/queryClient';
 import { AxiosError } from 'axios';
 import { COMMON_MESSAGES, ERROR_MESSAGES } from 'constants/errorMessages';
@@ -136,11 +136,57 @@ export const useSearchFriend = (
       },
     });
 
+  const {
+    mutate: executeCancelApplyFriend,
+    isPending: isCancelApplyFriendLoading,
+  } = useMutation({
+    mutationFn: cancelApplyFriend,
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.friends, variables.to],
+      });
+    },
+    onError: (err, variables) => {
+      if (err instanceof AxiosError && err.response?.data.errorType) {
+        switch (err.response?.data.errorType) {
+          case 'INVALID_USERID':
+            setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
+            break;
+
+          // 내가 친추 보낸 기록이 없고 상대도 받은 기록이 없는 경우, UI 갱신을 위해 쿼리 무효화
+          case 'NOT_FOUND_REQUEST':
+            if (variables?.to) {
+              queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.friends, variables.to],
+              });
+            }
+            break;
+
+          // 존재하지 않는 사용자일 경우 캐시에서 삭제 후 에러메시지 표시
+          case 'UNKNOWN_USER':
+            if (variables?.to) {
+              queryClient.removeQueries({
+                queryKey: [QUERY_KEYS.friends, variables.to],
+              });
+            }
+            setNicknameErrorMessage(
+              ERROR_MESSAGES.CANCEL_APPLY_FRIEND.UNKNOWN_USER
+            );
+            break;
+          default:
+            errorHandle(err, setNicknameErrorMessage, 'CANCEL_APPLY_FRIEND');
+        }
+      }
+    },
+  });
+
   return {
     userInfo,
     validateAndSearchFriend,
     searchFriendLoading,
     executeApplyFriend,
     isApplyFriendLoading,
+    executeCancelApplyFriend,
+    isCancelApplyFriendLoading,
   };
 };

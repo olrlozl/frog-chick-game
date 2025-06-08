@@ -17,6 +17,7 @@ const FriendSearchSection = () => {
     searchFriendLoading,
     validateAndSearchFriend,
     executeApplyFriend,
+    executeCancelApplyFriend,
     isApplyFriendLoading,
   } = useSearchFriend(nickname, setNicknameErrorMessage);
 
@@ -29,7 +30,10 @@ const FriendSearchSection = () => {
   const getMiniButtonOnClick = (userInfo: SearchFriendResponse) => {
     if (userInfo.isFriend) return;
 
-    if (userInfo.isSent) return () => {};
+    if (userInfo.isSent)
+      return () => {
+        executeCancelApplyFriend({ to: userInfo.nickname });
+      };
     else
       return () => {
         executeApplyFriend({ to: userInfo.nickname });
