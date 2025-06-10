@@ -8,6 +8,6 @@ export const API_ENDPOINTS = {
   APPLY_FRIEND: '/friend/apply',
   GET_FRIEND_RECEIPTS: '/friend/receipts',
   RECEPT_FRIEND: '/friend/recept',
-  CANCEL_FRIEND_APPLY: (nickname: string) => `friend/${nickname}`,
-  GET_RANK: '/rank'
-}
+  CANCEL_FRIEND_APPLY: (nickname: string) => `friend/apply/${nickname}`,
+  GET_RANK: '/rank',
+};

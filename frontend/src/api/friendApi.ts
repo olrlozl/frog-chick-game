@@ -26,7 +26,7 @@ const applyFriend = async ({ to }: ApplyFriendParams) => {
 };
 
 const cancelApplyFriend = async ({ to }: ApplyFriendParams) => {
-  await instance.delete(`${API_ENDPOINTS.APPLY_FRIEND}/${to}`);
+  await instance.delete(API_ENDPOINTS.CANCEL_FRIEND_APPLY(to));
 };
 
 const getFriendList = async (): Promise<GetFriendListResponse> => {
