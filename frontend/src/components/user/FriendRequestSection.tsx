@@ -5,7 +5,13 @@ import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 import { useRequestFriend } from 'hooks/friend/useRequestFriend';
 
 const FriendRequestSection = () => {
-  const { data, refetch, isFetching } = useRequestFriend();
+  const {
+    data,
+    refetch,
+    isFetching,
+    executeAcceptFriend,
+    isAcceptFriendLoading,
+  } = useRequestFriend();
 
   return (
     <div className="friend-request-section">
@@ -18,7 +24,11 @@ const FriendRequestSection = () => {
             <div className="request-item" key={idx}>
               <span className="nickname">{friend.nickname}</span>
               <div className="button-box">
-                <MiniButton type="accept" />
+                <MiniButton
+                  type="accept"
+                  onClick={() => executeAcceptFriend({ from: friend.nickname })}
+                  isLoading={isAcceptFriendLoading}
+                />
                 <MiniButton type="reject" />
               </div>
             </div>

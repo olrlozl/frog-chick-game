@@ -7,7 +7,7 @@ export const API_ENDPOINTS = {
   GET_FRIENDS: '/friend',
   APPLY_FRIEND: '/friend/apply',
   GET_FRIEND_RECEIPTS: '/friend/receipts',
-  RECEPT_FRIEND: '/friend/recept',
+  ACCEPT_FRIEND: (nickname: string) => `friend/accept/${nickname}`,
   CANCEL_FRIEND_APPLY: (nickname: string) => `friend/apply/${nickname}`,
   GET_RANK: '/rank',
 };

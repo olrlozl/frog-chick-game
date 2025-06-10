@@ -1,4 +1,5 @@
 import {
+  AcceptFriendParams,
   ApplyFriendParams,
   GetFriendListResponse,
   GetReceivedFriendListResponse,
@@ -40,10 +41,15 @@ const getReceivedFriendList =
     return data;
   };
 
+const acceptFriend = async ({ from }: AcceptFriendParams) => {
+  await instance.post(API_ENDPOINTS.ACCEPT_FRIEND(from));
+};
+
 export {
   searchFriend,
   applyFriend,
   cancelApplyFriend,
   getFriendList,
   getReceivedFriendList,
+  acceptFriend,
 };
