@@ -1,41 +1,11 @@
 import 'styles/components/user/friend-request-section.scss';
 import BalloonTitle from 'components/user/BalloonTitle';
 import MiniButton from 'components/common/Button/MiniButton';
-import { useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from 'constants/reactQueryKeys';
-import { getReceivedFriendList } from 'api/friendApi';
-import { useEffect, useState } from 'react';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
-import { AxiosError } from 'axios';
-import { useErrorStore } from 'stores/errorStore';
-import { errorHandle } from 'utils/error';
-import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
-import { queryClient } from 'api/queryClient';
+import { useRequestFriend } from 'hooks/friend/useRequestFriend';
 
 const FriendRequestSection = () => {
-  const [requestErrorMessage, setRequestErrorMessage] = useState('');
-
-  const { setErrorMessage } = useErrorStore();
-
-  const { data, refetch, isFetching, isError, error } = useQuery({
-    queryKey: [QUERY_KEYS.friends, 'receipts'],
-    queryFn: getReceivedFriendList,
-  });
-
-  useEffect(() => {
-    if (!isError || !(error instanceof AxiosError)) {
-      return;
-    }
-    const errorType = error.response?.data.errorType;
-
-    if (errorType === 'INVALID_USERID') {
-      setErrorMessage('GET_FRIEND_RECEIPTS', errorType);
-      // 에러 발생 시 캐싱된 데이터를 삭제하고, 에러메세지 출력
-    } else {
-      queryClient.removeQueries({ queryKey: [QUERY_KEYS.friends, 'receipts'] });
-      errorHandle(error, setRequestErrorMessage, 'GET_FRIEND_RECEIPTS');
-    }
-  }, [isError, error]);
+  const { data, refetch, isFetching } = useRequestFriend();
 
   return (
     <div className="friend-request-section">
@@ -53,7 +23,6 @@ const FriendRequestSection = () => {
               </div>
             </div>
           ))}
-        {isError && <ErrorMessage errorMessage={requestErrorMessage} />}
       </div>
     </div>
   );
