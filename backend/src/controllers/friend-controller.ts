@@ -266,10 +266,19 @@ const getReceivedFriendList = async (
   }
 };
 
-const acceptFriend = async (
+const acceptFriend = (req: Request, res: Response, next: NextFunction) => {
+  return handleFriendRequest(req, res, next, true);
+};
+
+const rejectFriend = (req: Request, res: Response, next: NextFunction) => {
+  return handleFriendRequest(req, res, next, false);
+};
+
+const handleFriendRequest = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
+  isAccepted: boolean
 ) => {
   const userId = req.userId as string;
   const from = req.params.nickname;
@@ -307,12 +316,14 @@ const acceptFriend = async (
       );
     }
 
-    // 친구 목록에 서로 추가
-    if (!user.friends.includes(fromUser._id)) {
-      user.friends.push(fromUser._id);
-    }
-    if (!fromUser.friends.includes(user._id)) {
-      fromUser.friends.push(user._id);
+    if (isAccepted) {
+      // 친구 목록에 서로 추가
+      if (!user.friends.includes(fromUser._id)) {
+        user.friends.push(fromUser._id);
+      }
+      if (!fromUser.friends.includes(user._id)) {
+        fromUser.friends.push(user._id);
+      }
     }
 
     // 친구 신청 목록에서 제거
@@ -347,4 +358,5 @@ export {
   getFriendList,
   getReceivedFriendList,
   acceptFriend,
+  rejectFriend,
 };
