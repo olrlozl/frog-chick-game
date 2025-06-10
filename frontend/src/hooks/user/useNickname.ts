@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { createNickname } from 'api/userApi';
 import { AxiosError } from 'axios';
-import { COMMON_MESSAGES, ERROR_MESSAGES } from 'constants/errorMessages';
+import { ERROR_MESSAGES } from 'constants/errorMessages';
 import { useNavigate } from 'react-router-dom';
 import { useErrorStore } from 'stores/errorStore';
 import { useUserStore } from 'stores/userStore';
@@ -34,14 +34,12 @@ export const useNickname = (
           case 'INVALID_USERID':
           case 'NOT_FOUND_USER':
             closeModal(); // 닉네임 생성 모달 닫기
-            setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
+            setErrorMessage('CREATE_NICKNAME', e.response?.data.errorType);
             break;
           // 이미 닉네임이 있는 유저인 경우 메인으로 이동 후 닉네임 이미 있다는 모달 띄우기
           case 'ALREADY_EXISTS_NICKNAME':
             navigate('/main');
-            setErrorMessage(
-              ERROR_MESSAGES.CREATE_NICKNAME.ALREADY_EXISTS_NICKNAME
-            );
+            setErrorMessage('CREATE_NICKNAME', e.response?.data.errorType);
             break;
           // 그 외의 errorType은 닉네임 input 밑에 에러메세지 표시
           default:

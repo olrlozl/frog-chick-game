@@ -77,6 +77,7 @@ export const ERROR_MESSAGES: ErrorMessages = {
   COMMON: {
     ERR_NETWORK: '서버 연결이 불안정합니다.\n잠시 후 다시 시도해주세요.',
     MISSING_JWT_ACCESS_TOKEN: COMMON_MESSAGES.RE_LOGIN,
-    OTHER: '에러가 발생했습니다.\n잠시 후 다시 시도해주세요.',
+    OTHER: '오류가 발생했습니다.\n잠시 후 다시 시도해주세요.',
+    RE_LOGIN: '다시 로그인 해주세요.',
   },
 };

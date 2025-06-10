@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { kakaoLogin } from 'api/userApi';
+import { AxiosError } from 'axios';
 import { MUTATION_KEYS } from 'constants/reactQueryKeys';
 import { useNavigate } from 'react-router-dom';
 import { useErrorStore } from 'stores/errorStore';
@@ -32,8 +33,10 @@ export const useLogin = (
         openModal();
       }
     },
-    onError: (e) => {
-      errorHandle(e, setErrorMessage, 'KAKAO_LOGIN');
+    onError: (err) => {
+      if (err instanceof AxiosError && err.response?.data.errorType) {
+        setErrorMessage('KAKAO_LOGIN', err.response?.data.errorType);
+      }
     },
   });
 

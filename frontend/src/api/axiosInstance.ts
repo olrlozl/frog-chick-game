@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { refreshJwtAccessToken } from './userApi';
-import { COMMON_MESSAGES, ERROR_MESSAGES } from 'constants/errorMessages';
+import { ErrorMessageKeys } from 'constants/errorMessages';
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL_DEV + '/api',
@@ -25,7 +25,7 @@ let refreshingPromise: Promise<boolean> | null = null;
 const requestQueue: (() => void)[] = [];
 
 export const setAxiosInterceptorResponse = (
-  setErrorMessage: (errorMessage: string) => void
+  setErrorMessage: (errorKey: ErrorMessageKeys, errorType: string) => void
 ) => {
   const interceptorId = instance.interceptors.response.use(
     (res) => res,
@@ -63,7 +63,7 @@ export const setAxiosInterceptorResponse = (
                   ) {
                     return true;
                   } else {
-                    setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
+                    setErrorMessage('COMMON', 'RE_LOGIN');
                     return false;
                   }
                 } finally {
@@ -80,18 +80,18 @@ export const setAxiosInterceptorResponse = (
               });
             }
             case 'MISSING_JWT_ACCESS_TOKEN':
-              setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
+              setErrorMessage('COMMON', 'RE_LOGIN');
               break;
           }
         } else if (!(err.code === 'ERR_NETWORK')) {
-          setErrorMessage(ERROR_MESSAGES.COMMON.OTHER);
+          setErrorMessage('COMMON', 'OTHER');
         }
       } else if (err instanceof Error) {
         console.log('JavaScript 에러 발생', err);
-        setErrorMessage(ERROR_MESSAGES.COMMON.OTHER);
+        setErrorMessage('COMMON', 'OTHER');
       } else {
         console.log('알 수 없는 에러 발생.', err);
-        setErrorMessage(ERROR_MESSAGES.COMMON.OTHER);
+        setErrorMessage('COMMON', 'OTHER');
       }
       return Promise.reject(err);
     }

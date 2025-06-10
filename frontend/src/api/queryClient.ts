@@ -1,6 +1,5 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { ERROR_MESSAGES } from 'constants/errorMessages';
 import { useErrorStore } from 'stores/errorStore';
 
 const MAX_RETRIES = 3;
@@ -30,14 +29,14 @@ export const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     onError: (err) => {
       if (err instanceof AxiosError && err.code === 'ERR_NETWORK') {
-        setErrorMessage(ERROR_MESSAGES.COMMON.ERR_NETWORK);
+        setErrorMessage('COMMON', err.code);
       }
     },
   }),
   queryCache: new QueryCache({
     onError: (err) => {
       if (err instanceof AxiosError && err.code === 'ERR_NETWORK') {
-        setErrorMessage(ERROR_MESSAGES.COMMON.ERR_NETWORK);
+        setErrorMessage('COMMON', err.code);
       }
     },
   }),

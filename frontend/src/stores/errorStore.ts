@@ -1,22 +1,21 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { ERROR_MESSAGES, ErrorMessageKeys } from 'constants/errorMessages';
 
-type ErrorStoreState = {
+interface ErrorState {
   errorMessage: string;
-}
-
-type ErrorStoreActions = {
-  setErrorMessage: (errorMessage: string) => void;
+  setErrorMessage: (errorKey: ErrorMessageKeys, errorType: string) => void;
   clearErrorMessage: () => void;
 }
 
-type ErrorStore = ErrorStoreState & ErrorStoreActions
-
-export const useErrorStore = create<ErrorStore>()(
+export const useErrorStore = create<ErrorState>()(
   devtools(
     (set) => ({
       errorMessage: '',
-      setErrorMessage: (errorMessage: ErrorStoreState['errorMessage']) => set({ errorMessage }),
+      setErrorMessage: (errorKey, errorType) =>
+        set({
+          errorMessage: ERROR_MESSAGES[errorKey][errorType],
+        }),
       clearErrorMessage: () => set({ errorMessage: '' }),
     }),
     { name: 'ErrorStore' }
