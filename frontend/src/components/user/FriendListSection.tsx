@@ -20,7 +20,7 @@ const FriendListSection = () => {
   const { setErrorMessage } = useErrorStore();
 
   const { data, refetch, isFetching, isError, error } = useQuery({
-    queryKey: [QUERY_KEYS.friends, 'myFriends'],
+    queryKey: [QUERY_KEYS.friends, 'list'],
     queryFn: getFriendList,
   });
 
@@ -35,7 +35,7 @@ const FriendListSection = () => {
       // 에러 발생 시 캐싱된 데이터를 삭제하고, 에러메세지 출력
     } else {
       queryClient.removeQueries({
-        queryKey: [QUERY_KEYS.friends, 'myFriends'],
+        queryKey: [QUERY_KEYS.friends, 'list'],
       });
       errorHandle(error, setRequestErrorMessage, 'GET_FRIEND');
     }
