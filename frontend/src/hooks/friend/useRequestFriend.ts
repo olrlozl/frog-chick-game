@@ -1,5 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getReceivedFriendList, acceptFriend } from 'api/friendApi';
+import {
+  getReceivedFriendList,
+  acceptFriend,
+  rejectFriend,
+} from 'api/friendApi';
 import { queryClient } from 'api/queryClient';
 import { AxiosError } from 'axios';
 import { QUERY_KEYS } from 'constants/reactQueryKeys';
@@ -53,6 +57,24 @@ export const useRequestFriend = () => {
       },
     });
 
+  const { mutate: executeRejectFriend, isPending: isRejectFriendLoading } =
+    useMutation({
+      mutationFn: rejectFriend,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.friends, 'receipts'],
+        });
+      },
+      onError: (err) => {
+        if (err instanceof AxiosError && err.response?.data.errorType) {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.friends, 'receipts'],
+          });
+          setErrorMessage('REJECT_FRIEND', err.response?.data.errorType);
+        }
+      },
+    });
+
   return {
     data,
     refetch,
@@ -61,5 +83,7 @@ export const useRequestFriend = () => {
     error,
     executeAcceptFriend,
     isAcceptFriendLoading,
+    executeRejectFriend,
+    isRejectFriendLoading,
   };
 };

@@ -11,6 +11,8 @@ const FriendRequestSection = () => {
     isFetching,
     executeAcceptFriend,
     isAcceptFriendLoading,
+    executeRejectFriend,
+    isRejectFriendLoading,
   } = useRequestFriend();
 
   return (
@@ -27,9 +29,13 @@ const FriendRequestSection = () => {
                 <MiniButton
                   type="accept"
                   onClick={() => executeAcceptFriend({ from: friend.nickname })}
-                  isLoading={isAcceptFriendLoading}
+                  isLoading={isAcceptFriendLoading || isRejectFriendLoading}
                 />
-                <MiniButton type="reject" />
+                <MiniButton
+                  type="reject"
+                  onClick={() => executeRejectFriend({ from: friend.nickname })}
+                  isLoading={isAcceptFriendLoading || isRejectFriendLoading}
+                />
               </div>
             </div>
           ))}

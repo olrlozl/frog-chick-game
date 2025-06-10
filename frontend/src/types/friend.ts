@@ -33,6 +33,6 @@ export interface GetReceivedFriendListResponse {
   receivedList: ReceivedList;
 }
 
-export interface AcceptFriendParams {
+export interface handelFriendRequestParams {
   from: string;
 }

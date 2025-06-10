@@ -1,5 +1,5 @@
 import {
-  AcceptFriendParams,
+  handelFriendRequestParams,
   ApplyFriendParams,
   GetFriendListResponse,
   GetReceivedFriendListResponse,
@@ -41,8 +41,12 @@ const getReceivedFriendList =
     return data;
   };
 
-const acceptFriend = async ({ from }: AcceptFriendParams) => {
+const acceptFriend = async ({ from }: handelFriendRequestParams) => {
   await instance.post(API_ENDPOINTS.ACCEPT_FRIEND(from));
+};
+
+const rejectFriend = async ({ from }: handelFriendRequestParams) => {
+  await instance.post(API_ENDPOINTS.REJECT_FRIEND(from));
 };
 
 export {
@@ -52,4 +56,5 @@ export {
   getFriendList,
   getReceivedFriendList,
   acceptFriend,
+  rejectFriend,
 };

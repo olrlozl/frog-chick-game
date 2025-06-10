@@ -7,6 +7,7 @@ export type ErrorMessageKeys =
   | 'APPLY_FRIEND'
   | 'GET_FRIEND_RECEIPTS'
   | 'ACCEPT_FRIEND'
+  | 'REJECT_FRIEND'
   | 'CANCEL_APPLY_FRIEND'
   | 'GET_RANK'
   | 'COMMON';
@@ -72,6 +73,11 @@ export const ERROR_MESSAGES: ErrorMessages = {
     FAILED_ACCEPT_FRIEND: COMMON_MESSAGES.RETRY,
     UNKNOWN_USER: '존재하지 않는 유저입니다.',
     NOT_FOUND_FRIEND_REQUEST: '수락할 친구 요청이 존재하지 않습니다.',
+  },
+  REJECT_FRIEND: {
+    FAILED_ACCEPT_FRIEND: COMMON_MESSAGES.RETRY,
+    UNKNOWN_USER: '존재하지 않는 유저입니다.',
+    NOT_FOUND_FRIEND_REQUEST: '거절할 친구 요청이 존재하지 않습니다.',
   },
   CANCEL_APPLY_FRIEND: {
     FAILED_CANCEL_APPLY_FRIEND: COMMON_MESSAGES.RETRY,
