@@ -159,7 +159,7 @@ const cancelApplyFriend = async (
         new HttpError(
           '취소할 친구 신청이 존재하지 않습니다.',
           404,
-          'NOT_FOUND_REQUEST'
+          'NOT_FOUND_FRIEND_REQUEST'
         )
       );
     }
@@ -266,10 +266,97 @@ const getReceivedFriendList = async (
   }
 };
 
+const acceptFriend = (req: Request, res: Response, next: NextFunction) => {
+  return handleFriendRequest(req, res, next, true);
+};
+
+const rejectFriend = (req: Request, res: Response, next: NextFunction) => {
+  return handleFriendRequest(req, res, next, false);
+};
+
+const handleFriendRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+  isAccepted: boolean
+) => {
+  const userId = req.userId as string;
+  const from = req.params.nickname;
+
+  const session = await mongoose.startSession();
+  session.startTransaction(); // 트랜잭션 시작
+
+  try {
+    const user = await User.findById(userId)
+      .select('friends friendRequests')
+      .session(session);
+    if (!user) {
+      throw new HttpError('사용자를 찾을 수 없습니다.', 401, 'INVALID_USERID');
+    }
+
+    const fromUser = await User.findOne({ nickname: from })
+      .select('friends friendRequests')
+      .session(session);
+    if (!fromUser) {
+      return next(
+        new HttpError('존재하지 않는 사용자입니다.', 404, 'UNKNOWN_USER')
+      );
+    }
+
+    if (
+      !user.friendRequests.received.includes(fromUser._id) &&
+      !fromUser.friendRequests.sent.includes(user._id)
+    ) {
+      return next(
+        new HttpError(
+          '친구 요청이 존재하지 않습니다.',
+          404,
+          'NOT_FOUND_FRIEND_REQUEST'
+        )
+      );
+    }
+
+    if (isAccepted) {
+      // 친구 목록에 서로 추가
+      if (!user.friends.includes(fromUser._id)) {
+        user.friends.push(fromUser._id);
+      }
+      if (!fromUser.friends.includes(user._id)) {
+        fromUser.friends.push(user._id);
+      }
+    }
+
+    // 친구 신청 목록에서 제거
+    user.friendRequests.received = user.friendRequests.received.filter(
+      (id) => !id.equals(fromUser._id)
+    );
+
+    fromUser.friendRequests.sent = fromUser.friendRequests.sent.filter(
+      (id) => !id.equals(user._id)
+    );
+
+    await user.save({ session });
+    await fromUser.save({ session });
+
+    await session.commitTransaction(); // 트랜젝션 커밋
+
+    res.status(204).send();
+  } catch (error) {
+    await session.abortTransaction(); // 오류 발생 시 롤백
+    return next(
+      new HttpError('친구 수락에 실패했습니다.', 500, 'FAILED_ACCEPT_FRIEND')
+    );
+  } finally {
+    session.endSession(); // 세션 종료
+  }
+};
+
 export {
   searchFriend,
   applyFriend,
   cancelApplyFriend,
   getFriendList,
   getReceivedFriendList,
+  acceptFriend,
+  rejectFriend,
 };
