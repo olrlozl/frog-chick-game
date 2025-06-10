@@ -6,7 +6,8 @@ export type ErrorMessageKeys =
   | 'GET_FRIEND'
   | 'APPLY_FRIEND'
   | 'GET_FRIEND_RECEIPTS'
-  | 'RECEPT_FRIEND'
+  | 'ACCEPT_FRIEND'
+  | 'REJECT_FRIEND'
   | 'CANCEL_APPLY_FRIEND'
   | 'GET_RANK'
   | 'COMMON';
@@ -68,7 +69,16 @@ export const ERROR_MESSAGES: ErrorMessages = {
     FAILED_GET_RECEIVED_FRIEND_LIST: COMMON_MESSAGES.RETRY,
     INVALID_USERID: COMMON_MESSAGES.RE_LOGIN,
   },
-  RECEPT_FRIEND: {},
+  ACCEPT_FRIEND: {
+    FAILED_ACCEPT_FRIEND: COMMON_MESSAGES.RETRY,
+    UNKNOWN_USER: '존재하지 않는 유저입니다.',
+    NOT_FOUND_FRIEND_REQUEST: '수락할 친구 요청이 존재하지 않습니다.',
+  },
+  REJECT_FRIEND: {
+    FAILED_ACCEPT_FRIEND: COMMON_MESSAGES.RETRY,
+    UNKNOWN_USER: '존재하지 않는 유저입니다.',
+    NOT_FOUND_FRIEND_REQUEST: '거절할 친구 요청이 존재하지 않습니다.',
+  },
   CANCEL_APPLY_FRIEND: {
     FAILED_CANCEL_APPLY_FRIEND: COMMON_MESSAGES.RETRY,
     UNKNOWN_USER: '존재하지 않는 유저입니다.',
@@ -77,6 +87,7 @@ export const ERROR_MESSAGES: ErrorMessages = {
   COMMON: {
     ERR_NETWORK: '서버 연결이 불안정합니다.\n잠시 후 다시 시도해주세요.',
     MISSING_JWT_ACCESS_TOKEN: COMMON_MESSAGES.RE_LOGIN,
-    OTHER: '에러가 발생했습니다.\n잠시 후 다시 시도해주세요.',
+    OTHER: '오류가 발생했습니다.\n잠시 후 다시 시도해주세요.',
+    RE_LOGIN: '다시 로그인 해주세요.',
   },
 };

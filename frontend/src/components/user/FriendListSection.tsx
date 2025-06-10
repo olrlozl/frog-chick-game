@@ -8,7 +8,6 @@ import { QUERY_KEYS } from 'constants/reactQueryKeys';
 import { getFriendList } from 'api/friendApi';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import { COMMON_MESSAGES } from 'constants/errorMessages';
 import { useErrorStore } from 'stores/errorStore';
 import { errorHandle } from 'utils/error';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
@@ -21,7 +20,7 @@ const FriendListSection = () => {
   const { setErrorMessage } = useErrorStore();
 
   const { data, refetch, isFetching, isError, error } = useQuery({
-    queryKey: [QUERY_KEYS.friends, 'myFriends'],
+    queryKey: [QUERY_KEYS.friends, 'list'],
     queryFn: getFriendList,
   });
 
@@ -32,11 +31,11 @@ const FriendListSection = () => {
     const errorType = error.response?.data.errorType;
 
     if (errorType === 'INVALID_USERID') {
-      setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
+      setErrorMessage('GET_FRIEND', errorType);
       // 에러 발생 시 캐싱된 데이터를 삭제하고, 에러메세지 출력
     } else {
       queryClient.removeQueries({
-        queryKey: [QUERY_KEYS.friends, 'myFriends'],
+        queryKey: [QUERY_KEYS.friends, 'list'],
       });
       errorHandle(error, setRequestErrorMessage, 'GET_FRIEND');
     }

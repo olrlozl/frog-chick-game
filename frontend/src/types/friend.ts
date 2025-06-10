@@ -32,3 +32,7 @@ type ReceivedList = {
 export interface GetReceivedFriendListResponse {
   receivedList: ReceivedList;
 }
+
+export interface handelFriendRequestParams {
+  from: string;
+}

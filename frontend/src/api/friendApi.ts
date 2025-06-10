@@ -1,4 +1,5 @@
 import {
+  handelFriendRequestParams,
   ApplyFriendParams,
   GetFriendListResponse,
   GetReceivedFriendListResponse,
@@ -26,7 +27,7 @@ const applyFriend = async ({ to }: ApplyFriendParams) => {
 };
 
 const cancelApplyFriend = async ({ to }: ApplyFriendParams) => {
-  await instance.delete(`${API_ENDPOINTS.APPLY_FRIEND}/${to}`);
+  await instance.delete(API_ENDPOINTS.CANCEL_FRIEND_APPLY(to));
 };
 
 const getFriendList = async (): Promise<GetFriendListResponse> => {
@@ -40,10 +41,20 @@ const getReceivedFriendList =
     return data;
   };
 
+const acceptFriend = async ({ from }: handelFriendRequestParams) => {
+  await instance.post(API_ENDPOINTS.ACCEPT_FRIEND(from));
+};
+
+const rejectFriend = async ({ from }: handelFriendRequestParams) => {
+  await instance.post(API_ENDPOINTS.REJECT_FRIEND(from));
+};
+
 export {
   searchFriend,
   applyFriend,
   cancelApplyFriend,
   getFriendList,
   getReceivedFriendList,
+  acceptFriend,
+  rejectFriend,
 };

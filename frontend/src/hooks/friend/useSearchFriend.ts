@@ -69,25 +69,18 @@ export const useSearchFriend = (
     [nickname]
   );
 
-  useEffect(
-    function setSearchFriendErrorMessage() {
-      if (!isSearchFriendError || !(searchFriendError instanceof AxiosError)) {
-        return;
-      }
-      const errorType = searchFriendError.response?.data.errorType;
+  useEffect(() => {
+    if (!isSearchFriendError || !(searchFriendError instanceof AxiosError)) {
+      return;
+    }
+    const errorType = searchFriendError.response?.data.errorType;
 
-      if (errorType === 'INVALID_USERID') {
-        setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
-      } else {
-        errorHandle(
-          searchFriendError,
-          setNicknameErrorMessage,
-          'SEARCH_FRIEND'
-        );
-      }
-    },
-    [isSearchFriendError, searchFriendError]
-  );
+    if (errorType === 'INVALID_USERID') {
+      setErrorMessage('SEARCH_FRIEND', errorType);
+    } else {
+      errorHandle(searchFriendError, setNicknameErrorMessage, 'SEARCH_FRIEND');
+    }
+  }, [isSearchFriendError, searchFriendError]);
 
   const { mutate: executeApplyFriend, isPending: isApplyFriendLoading } =
     useMutation({
@@ -100,10 +93,6 @@ export const useSearchFriend = (
       onError: (err) => {
         if (err instanceof AxiosError && err.response?.data.errorType) {
           switch (err.response?.data.errorType) {
-            case 'INVALID_USERID':
-              setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
-              break;
-
             // 이미 신청하거나, 친구인 경우 UI 갱신을 위해 쿼리 무효화
             case 'ALREADY_FRIEND':
             case 'ALREADY_APPLY_FRIEND':
@@ -130,7 +119,7 @@ export const useSearchFriend = (
               setNicknameErrorMessage(ERROR_MESSAGES.APPLY_FRIEND.UNKNOWN_USER);
               break;
             default:
-              errorHandle(err, setNicknameErrorMessage, 'APPLY_FRIEND');
+              setErrorMessage('APPLY_FRIEND', err.response?.data.errorType);
           }
         }
       },
@@ -149,12 +138,8 @@ export const useSearchFriend = (
     onError: (err, variables) => {
       if (err instanceof AxiosError && err.response?.data.errorType) {
         switch (err.response?.data.errorType) {
-          case 'INVALID_USERID':
-            setErrorMessage(COMMON_MESSAGES.RE_LOGIN);
-            break;
-
           // 내가 친추 보낸 기록이 없고 상대도 받은 기록이 없는 경우, UI 갱신을 위해 쿼리 무효화
-          case 'NOT_FOUND_REQUEST':
+          case 'NOT_FOUND_FRIEND_REQUEST':
             if (variables?.to) {
               queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.friends, variables.to],
@@ -174,7 +159,10 @@ export const useSearchFriend = (
             );
             break;
           default:
-            errorHandle(err, setNicknameErrorMessage, 'CANCEL_APPLY_FRIEND');
+            setErrorMessage(
+              'CANCEL_APPLY_FRIEND',
+              err.response?.data.errorType
+            );
         }
       }
     },
