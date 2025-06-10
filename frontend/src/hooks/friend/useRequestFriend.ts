@@ -19,6 +19,15 @@ export const useRequestFriend = () => {
       return;
     }
     const errorType = error.response?.data.errorType;
+
+    // axiosInstance에서 처리한 에러를 중복 처리하지 않기 위해
+    if (
+      errorType === 'EXPIRED_JWT_TOKEN' ||
+      errorType === 'MISSING_JWT_ACCESS_TOKEN'
+    ) {
+      return;
+    }
+
     queryClient.removeQueries({ queryKey: [QUERY_KEYS.friends, 'receipts'] });
     setErrorMessage('GET_FRIEND_RECEIPTS', errorType);
   }, [isError, error]);
