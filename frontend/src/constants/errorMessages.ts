@@ -9,7 +9,7 @@ export type ErrorMessageKeys =
   | 'ACCEPT_FRIEND'
   | 'REJECT_FRIEND'
   | 'CANCEL_APPLY_FRIEND'
-  | 'GET_RANK'
+  | 'GET_RANKS'
   | 'COMMON';
 
 type ErrorMessages = {
@@ -83,7 +83,10 @@ export const ERROR_MESSAGES: ErrorMessages = {
     FAILED_CANCEL_APPLY_FRIEND: COMMON_MESSAGES.RETRY,
     UNKNOWN_USER: '존재하지 않는 유저입니다.',
   },
-  GET_RANK: {},
+  GET_RANKS: {
+    FAILED_GET_RANKS: COMMON_MESSAGES.RETRY,
+    INVALID_USERID: COMMON_MESSAGES.RE_LOGIN,
+  },
   COMMON: {
     ERR_NETWORK: '서버 연결이 불안정합니다.\n잠시 후 다시 시도해주세요.',
     MISSING_JWT_ACCESS_TOKEN: COMMON_MESSAGES.RE_LOGIN,

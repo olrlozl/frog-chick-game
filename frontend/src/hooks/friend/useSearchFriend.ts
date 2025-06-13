@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { applyFriend, cancelApplyFriend, searchFriend } from 'api/friendApi';
 import { queryClient } from 'api/queryClient';
 import { AxiosError } from 'axios';
-import { COMMON_MESSAGES, ERROR_MESSAGES } from 'constants/errorMessages';
+import { ERROR_MESSAGES } from 'constants/errorMessages';
 import { QUERY_KEYS } from 'constants/reactQueryKeys';
 import { useEffect, useState } from 'react';
 import { useErrorStore } from 'stores/errorStore';
