@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'styles/pages/play-page.scss';
-import eggwin from 'assets/images/egg-win.png';
+import frogwin from 'assets/images/frog-win.png';
+import chickwin from 'assets/images/chick-win.png';
 import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
 import CharacterList from 'components/play/CharacterList';
 import Board from 'components/play/Board';
 import Count from 'components/play/Count';
 import { modalProps } from 'constants/modal';
+import { usePlayStore } from 'stores/playStore';
 
 const PlayPage = () => {
+  const winner = usePlayStore((state) => state.winner); // 승리자 상태 구독
+  const winnerImage = winner === 'frog' ? frogwin : chickwin;
+
   //// [Modal 사용예시]
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
@@ -21,6 +26,16 @@ const PlayPage = () => {
     closeModal();
   };
   ////
+
+  useEffect(() => {
+    if (winner) {
+      const timer = setTimeout(() => {
+        openModal();
+      }, 400);
+
+      return () => clearTimeout(timer); // winner가 바뀌거나 언마운트 시 타이머 제거
+    }
+  }, [winner]);
 
   const [isStartCountVisible, setStartCountVisible] = useState(true);
 
@@ -45,8 +60,8 @@ const PlayPage = () => {
   const gameInfo: GameInfo = {
     option: { me: 'chick', opponent: 'frog' },
     players: {
-      me: { nickname: '아리', wins: 5, losses: 1 },
-      opponent: { nickname: '구리여섯글자', wins: 3, losses: 2 },
+      me: { nickname: '이응지읒', wins: 5, losses: 1 },
+      opponent: { nickname: '짱구는못말려', wins: 3, losses: 2 },
     },
     turn: 'opponent',
   };
@@ -77,12 +92,12 @@ const PlayPage = () => {
 
       <Modal
         isOpen={isModalOpen}
-        message="아리 승!" // 추후 동적으로 입력할 값
+        message={winner ? (winner === 'frog' ? '구리 승!' : '아리 승!') : ''}
         messageFontSize={messageFontSize}
         btns={btns}
         buttonActions={[rematch, closeModal]}
       >
-        <Modal.Image imageSrc={eggwin} />
+        <Modal.Image imageSrc={winnerImage} />
       </Modal>
     </div>
   );
