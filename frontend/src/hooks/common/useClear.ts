@@ -7,8 +7,6 @@ import { useUserStore } from 'stores/userStore';
 export const useClear = () => {
   const { clearErrorMessage } = useErrorStore();
 
-  const { clearCharacterState } = usePlayStore();
-
   const { logout } = useUserStore();
 
   const navigate = useNavigate();
@@ -16,9 +14,8 @@ export const useClear = () => {
   const clearAndNavigateToLanding = () => {
     queryClient.clear();
     clearErrorMessage();
-    clearCharacterState();
     logout();
-    navigate('/')
+    navigate('/');
   };
 
   return clearAndNavigateToLanding;

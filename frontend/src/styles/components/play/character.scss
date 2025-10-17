@@ -6,6 +6,10 @@
   &.selected {
     border: 2px solid $color-red4;
   }
+
+  &.hidden {
+    visibility: hidden;
+  }
 }
 
 .character-img {

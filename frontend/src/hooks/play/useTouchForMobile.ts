@@ -8,14 +8,15 @@ import { updateShadowImgAndTrackTouch } from 'utils/updateShadowImgAndTrackTouch
 import { removeShadowImgAndDispatchEndEvent } from 'utils/removeShadowImgAndDispatchEndEvent';
 
 export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
-  const { characterOption, characterSize, characterKey } = characterInfo;
+  const { characterOption, characterSize } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
   const dragShadowImgRef = useRef<HTMLImageElement | null>(null); // 드래그 시 생성되는 쉐도우 이미지 참조
-  const { setSelectedCharacterKey, setPrevPosition } = usePlayStore();
+  const { setSelectedCharacter, setPrevPosition, resetSelectionState } =
+    usePlayStore();
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
     createShadowImgAndTrackTouch(e, characterInfo, imageSrc, dragShadowImgRef);
-    setSelectedCharacterKey(characterKey);
+    setSelectedCharacter(characterInfo);
 
     const parentSquare = e.currentTarget.closest('.square');
 
@@ -31,8 +32,7 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
 
   const handleTouchEnd = () => {
     removeShadowImgAndDispatchEndEvent(dragShadowImgRef);
-    setSelectedCharacterKey(null);
-    setPrevPosition({ row: null, col: null });
+    resetSelectionState();
   };
 
   return { handleTouchStart, handleTouchMove, handleTouchEnd };

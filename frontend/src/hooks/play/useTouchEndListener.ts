@@ -1,19 +1,16 @@
-import { CharacterInfoInterface, CharacterPosition } from 'types/play';
 import { usePlayStore } from 'stores/playStore';
 import { moveCharacterForMobile } from 'utils/moveCharacterForMobile';
 import { useEffect } from 'react';
+import { canPlaceCharacter } from 'utils/canPlaceCharacter';
 
-export const useTouchEndListener = (
-  row: number,
-  col: number,
-  updateBoard: (
-    prevPosition: CharacterPosition,
-    nextPosition: { row: number; col: number },
-    characterInfo: CharacterInfoInterface
-  ) => void
-) => {
-  const { prevPosition } = usePlayStore();
-  const nextPosition = { row, col };
+export const useTouchEndListener = (row: number, col: number) => {
+  const {
+    board,
+    selectedCharacter,
+    prevPosition,
+    addUsedCharacter,
+    updateBoard,
+  } = usePlayStore();
 
   const checkIfWithinBounds = (
     bounds: DOMRect | undefined,
@@ -39,7 +36,25 @@ export const useTouchEndListener = (
       const touchingPosition = (window as any).touchingPosition; // 현재 터치 중인 위치 정보
 
       if (checkIfWithinBounds(bounds, touchingPosition)) {
-        moveCharacterForMobile(prevPosition, nextPosition, updateBoard);
+        const targetCell = board[row][col];
+
+        if (selectedCharacter) {
+          const canPlace = canPlaceCharacter(targetCell, selectedCharacter);
+
+          if (canPlace) {
+            const nextPosition = { row, col };
+            moveCharacterForMobile(prevPosition, nextPosition, updateBoard);
+
+            const isFromCharacterList =
+              prevPosition.row === null && prevPosition.col === null;
+
+            if (isFromCharacterList && selectedCharacter) {
+              addUsedCharacter(selectedCharacter.characterKey);
+            }
+          } else {
+            console.log('can not place');
+          }
+        }
       }
     };
 
@@ -50,5 +65,13 @@ export const useTouchEndListener = (
     return () => {
       window.removeEventListener('character-touch-end', handleDropAttempt);
     };
-  }, [row, col, prevPosition]);
+  }, [
+    row,
+    col,
+    prevPosition,
+    board,
+    selectedCharacter,
+    updateBoard,
+    addUsedCharacter,
+  ]);
 };

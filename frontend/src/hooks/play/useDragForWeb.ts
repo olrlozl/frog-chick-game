@@ -4,11 +4,12 @@ import { getPrevPosition } from 'utils/getPrevPosition';
 import { saveCharacterInfo } from 'utils/saveCharacterInfo';
 
 export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
-  const { setSelectedCharacterKey, setPrevPosition } = usePlayStore();
+  const { selectedCharacter, setSelectedCharacter, setPrevPosition } =
+    usePlayStore();
 
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
     saveCharacterInfo(e, characterInfo);
-    setSelectedCharacterKey(characterInfo.characterKey);
+    setSelectedCharacter(characterInfo);
 
     const parentSquare = e.currentTarget.closest('.square');
 
