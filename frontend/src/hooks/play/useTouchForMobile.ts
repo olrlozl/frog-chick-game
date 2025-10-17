@@ -11,8 +11,7 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
   const { characterOption, characterSize } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
   const dragShadowImgRef = useRef<HTMLImageElement | null>(null); // 드래그 시 생성되는 쉐도우 이미지 참조
-  const { setSelectedCharacter, setPrevPosition, resetSelectionState } =
-    usePlayStore();
+  const { setSelectedCharacter, setPrevPosition } = usePlayStore();
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
     createShadowImgAndTrackTouch(e, characterInfo, imageSrc, dragShadowImgRef);
@@ -32,7 +31,7 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
 
   const handleTouchEnd = () => {
     removeShadowImgAndDispatchEndEvent(dragShadowImgRef);
-    // resetSelectionState();
+    setPrevPosition({ row: null, col: null });
   };
 
   return { handleTouchStart, handleTouchMove, handleTouchEnd };

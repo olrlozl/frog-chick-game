@@ -8,9 +8,9 @@ export const useDropForWeb = (row: number, col: number) => {
     board,
     selectedCharacter,
     prevPosition,
-    resetSelectionState,
-    addUsedCharacter,
     updateBoard,
+    setPrevPosition,
+    addUsedCharacter,
     setShakeCharacter,
   } = usePlayStore();
 
@@ -35,7 +35,7 @@ export const useDropForWeb = (row: number, col: number) => {
         setTimeout(() => setShakeCharacter(null), 600);
       }
     }
-    // resetSelectionState();
+    setPrevPosition({ row: null, col: null });
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLImageElement>) => {
