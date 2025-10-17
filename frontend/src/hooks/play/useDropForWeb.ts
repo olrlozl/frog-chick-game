@@ -11,6 +11,7 @@ export const useDropForWeb = (row: number, col: number) => {
     resetSelectionState,
     addUsedCharacter,
     updateBoard,
+    setShakeCharacter,
   } = usePlayStore();
 
   const handleDrop = (e: React.DragEvent<HTMLImageElement>) => {
@@ -29,9 +30,12 @@ export const useDropForWeb = (row: number, col: number) => {
         addUsedCharacter(selectedCharacter.characterKey);
       }
     } else {
-      console.log('can not place');
+      if (selectedCharacter) {
+        setShakeCharacter(selectedCharacter.characterKey);
+        setTimeout(() => setShakeCharacter(null), 600);
+      }
     }
-    resetSelectionState();
+    // resetSelectionState();
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLImageElement>) => {

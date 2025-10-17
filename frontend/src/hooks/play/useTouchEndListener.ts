@@ -10,6 +10,7 @@ export const useTouchEndListener = (row: number, col: number) => {
     prevPosition,
     addUsedCharacter,
     updateBoard,
+    setShakeCharacter,
   } = usePlayStore();
 
   const checkIfWithinBounds = (
@@ -52,7 +53,10 @@ export const useTouchEndListener = (row: number, col: number) => {
               addUsedCharacter(selectedCharacter.characterKey);
             }
           } else {
-            console.log('can not place');
+            if (selectedCharacter) {
+              setShakeCharacter(selectedCharacter.characterKey);
+              setTimeout(() => setShakeCharacter(null), 600);
+            }
           }
         }
       }

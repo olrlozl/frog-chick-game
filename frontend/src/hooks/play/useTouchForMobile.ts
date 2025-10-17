@@ -32,7 +32,7 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
 
   const handleTouchEnd = () => {
     removeShadowImgAndDispatchEndEvent(dragShadowImgRef);
-    resetSelectionState();
+    // resetSelectionState();
   };
 
   return { handleTouchStart, handleTouchMove, handleTouchEnd };

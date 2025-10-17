@@ -7,6 +7,7 @@ interface PlayState {
   selectedCharacter: CharacterInfoInterface | null;
   prevPosition: CharacterPosition;
   usedCharacterKeys: string[];
+  shakeCharacterKey: string | null;
 }
 
 interface PlayAction {
@@ -19,6 +20,7 @@ interface PlayAction {
   setPrevPosition: (position: CharacterPosition) => void;
   resetSelectionState: () => void;
   addUsedCharacter: (key: string) => void;
+  setShakeCharacter: (key: string | null) => void;
 }
 
 export const usePlayStore = create<PlayState & PlayAction>()(
@@ -30,6 +32,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
       selectedCharacter: null,
       prevPosition: { row: null, col: null },
       usedCharacterKeys: [],
+      shakeCharacterKey: null,
 
       updateBoard: (prevPosition, nextPosition, characterInfo) => {
         set((state) => {
@@ -65,6 +68,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
         set((state) => ({
           usedCharacterKeys: [...state.usedCharacterKeys, key],
         })),
+      setShakeCharacter: (key) => set({ shakeCharacterKey: key }),
     }),
     { name: 'PlayStore' }
   )
