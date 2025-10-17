@@ -1,9 +1,18 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { Board, CharacterInfoInterface, CharacterPosition } from 'types/play';
+import {
+  Board,
+  CharacterOptionType,
+  CharacterInfoInterface,
+  CharacterPosition,
+  sizeRank,
+} from 'types/play';
+import { checkBingo } from 'utils/checkBingo';
 
 interface PlayState {
+  winner: CharacterOptionType | null;
   board: Board;
+  topLayer: (CharacterOptionType | null)[][];
   selectedCharacter: CharacterInfoInterface | null;
   prevPosition: CharacterPosition;
   usedCharacterKeys: string[];
@@ -18,7 +27,6 @@ interface PlayAction {
   ) => void;
   setSelectedCharacter: (characterInfo: CharacterInfoInterface | null) => void;
   setPrevPosition: (position: CharacterPosition) => void;
-  resetSelectionState: () => void;
   addUsedCharacter: (key: string) => void;
   setShakeCharacter: (key: string | null) => void;
 }
@@ -26,9 +34,11 @@ interface PlayAction {
 export const usePlayStore = create<PlayState & PlayAction>()(
   devtools(
     (set) => ({
+      winner: null,
       board: Array.from({ length: 3 }, () =>
         Array.from({ length: 3 }, () => [])
       ),
+      topLayer: Array.from({ length: 3 }, () => Array(3).fill(null)),
       selectedCharacter: null,
       prevPosition: { row: null, col: null },
       usedCharacterKeys: [],
@@ -40,30 +50,44 @@ export const usePlayStore = create<PlayState & PlayAction>()(
             row.map((cell) => [...cell])
           );
 
-          // 타겟 위치에 말 추가
+          const updatedTopLayer = state.topLayer.map((row) => [...row]);
+
+          // 새 위치에 말 추가
           const targetCell = updatedBoard[nextPosition.row][nextPosition.col];
           targetCell.push(characterInfo);
 
-          // 이전 위치에서 말 제거
+          // 새 위치 topLayer 갱신
+          updatedTopLayer[nextPosition.row][nextPosition.col] =
+            characterInfo.characterOption;
+
           if (prevPosition.row !== null && prevPosition.col !== null) {
+            // 이전 위치에서 말 제거
             updatedBoard[prevPosition.row][prevPosition.col] = updatedBoard[
               prevPosition.row
             ][prevPosition.col].filter(
               (c) => c.characterKey !== characterInfo.characterKey
             );
+
+            // 이전 위치 topLayer 갱신
+            updatedTopLayer[prevPosition.row][prevPosition.col] =
+              updatedBoard[prevPosition.row][prevPosition.col].length > 0
+                ? updatedBoard[prevPosition.row][prevPosition.col].reduce(
+                    (max, curr) =>
+                      sizeRank[curr.characterSize] > sizeRank[max.characterSize]
+                        ? curr
+                        : max
+                  ).characterOption
+                : null;
           }
 
-          return { board: updatedBoard };
+          const winner = checkBingo(updatedTopLayer);
+
+          return { board: updatedBoard, topLayer: updatedTopLayer, winner };
         });
       },
       setSelectedCharacter: (characterInfo) =>
         set({ selectedCharacter: characterInfo }),
       setPrevPosition: (position) => set({ prevPosition: position }),
-      resetSelectionState: () =>
-        set({
-          selectedCharacter: null,
-          prevPosition: { row: null, col: null },
-        }),
       addUsedCharacter: (key) =>
         set((state) => ({
           usedCharacterKeys: [...state.usedCharacterKeys, key],
