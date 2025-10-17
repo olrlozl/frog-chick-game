@@ -1,20 +1,21 @@
 import { CharacterInfoInterface } from 'types/play';
 import { CHARACTER_MAP } from 'constants/characterMap';
 import { usePlayStore } from 'stores/playStore';
-import { useTouchForMobile } from 'hooks/useTouchForMobile';
-import { useDragForWeb } from 'hooks/useDragForWeb';
+import { useTouchForMobile } from 'hooks/play/useTouchForMobile';
+import { useDragForWeb } from 'hooks/play/useDragForWeb';
 import 'styles/components/play/character.scss';
 
 interface CharacterProps {
   characterInfo: CharacterInfoInterface;
+  isHidden: boolean;
 }
 
-const Character = ({ characterInfo }: CharacterProps) => {
+const Character = ({ characterInfo, isHidden }: CharacterProps) => {
   const { characterOption, characterSize, characterKey } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
 
-  const { selectedCharacterKey } = usePlayStore();
-  const isSelected = selectedCharacterKey === characterKey;
+  const { selectedCharacter } = usePlayStore();
+  const isSelected = selectedCharacter?.characterKey === characterKey;
 
   const { handleTouchStart, handleTouchMove, handleTouchEnd } =
     useTouchForMobile(characterInfo);
@@ -22,7 +23,7 @@ const Character = ({ characterInfo }: CharacterProps) => {
 
   return (
     <div
-      className={`character ${characterKey} ${isSelected ? 'selected' : ''}`}
+      className={`character ${characterKey} ${isSelected ? 'selected' : ''} ${isHidden ? 'hidden' : ''}`}
     >
       <img
         className={`character-img ${characterOption} ${characterSize}`}
