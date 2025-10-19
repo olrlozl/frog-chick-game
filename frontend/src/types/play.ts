@@ -1,3 +1,11 @@
+export interface Player {
+  userId: string;
+  nickname: string;
+  characterOption: CharacterOptionType;
+}
+
+export type PlayerType = 'player1' | 'player2';
+
 export type CharacterOptionType = 'frog' | 'chick';
 
 export type CharacterSizeType = 'large' | 'middle' | 'small';
