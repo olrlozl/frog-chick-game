@@ -1,12 +1,11 @@
 .play-page {
-  position: relative;
   height: 100vh;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .game-box {
-    position: absolute;
-    // UserPlayBox와 GameBox 사이의 여백을 동일하게
-    top: calc(56px + (100vh - 56px - 510px - 99px) / 2);
+    position: relative;
     left: 0;
     right: 0;
   }
