@@ -2,10 +2,12 @@ import { CharacterInfoInterface } from 'types/play';
 import { CHARACTER_MAP } from 'constants/characterMap';
 import { usePlayStore } from 'stores/playStore';
 import { useRef } from 'react';
-import { createShadowImgAndTrackTouch } from 'utils/createShadowImgAndTrackTouch';
+import {
+  createShadowImgAndTrackTouch,
+  updateShadowImgAndTrackTouch,
+  removeShadowImgAndDispatchEndEvent,
+} from 'utils/shadowImg';
 import { getPrevPosition } from 'utils/getPrevPosition';
-import { updateShadowImgAndTrackTouch } from 'utils/updateShadowImgAndTrackTouch';
-import { removeShadowImgAndDispatchEndEvent } from 'utils/removeShadowImgAndDispatchEndEvent';
 
 export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
   const { characterOption, characterSize } = characterInfo;

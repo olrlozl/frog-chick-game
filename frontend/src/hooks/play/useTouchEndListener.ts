@@ -26,12 +26,12 @@ export const useTouchEndListener = (row: number, col: number) => {
       }
     };
 
-    // 터치 이벤트 리스너 등록 (`character-touch-end` 이벤트 발생 시 handleDrop 함수 실행)
-    window.addEventListener('character-touch-end', handleDrop);
+    // 터치 이벤트 리스너 등록 (`play:character:touchEnd` 이벤트 발생 시 handleDrop 함수 실행)
+    window.addEventListener('play:character:touchEnd', handleDrop);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     return () => {
-      window.removeEventListener('character-touch-end', handleDrop);
+      window.removeEventListener('play:character:touchEnd', handleDrop);
     };
   }, [row, col, prevPosition, selectedCharacter]);
 };
