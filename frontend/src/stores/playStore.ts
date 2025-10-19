@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import {
+  Player,
+  PlayerType,
   Board,
   CharacterOptionType,
   CharacterInfoInterface,
@@ -10,6 +12,11 @@ import {
 import { checkBingo } from 'utils/checkBingo';
 
 interface PlayState {
+  player1: Player;
+  player2: Player;
+  turn: PlayerType;
+  time: number;
+  timerId: NodeJS.Timeout | null;
   winner: CharacterOptionType | null;
   board: Board;
   topLayer: (CharacterOptionType | null)[][];
@@ -21,6 +28,10 @@ interface PlayState {
 }
 
 interface PlayAction {
+  startTimer: () => void;
+  switchTurn: () => void;
+  decrementTime: () => void;
+  stopTimer: () => void;
   updateBoard: (
     prevPosition: CharacterPosition,
     nextPosition: { row: number; col: number },
@@ -34,7 +45,16 @@ interface PlayAction {
 
 export const usePlayStore = create<PlayState & PlayAction>()(
   devtools(
-    (set) => ({
+    (set, get) => ({
+      player1: {
+        userId: '',
+        nickname: '짱구는못말려',
+        characterOption: 'frog',
+      },
+      player2: { userId: '', nickname: '이응지읒', characterOption: 'chick' },
+      turn: 'player1',
+      time: 10,
+      timerId: null,
       winner: null,
       board: Array.from({ length: 3 }, () =>
         Array.from({ length: 3 }, () => [])
@@ -45,6 +65,40 @@ export const usePlayStore = create<PlayState & PlayAction>()(
       usedCharacterKeys: [],
       shakeCharacterKey: null,
       bingoCells: [],
+
+      startTimer: () => {
+        const oldTimer = get().timerId;
+        if (oldTimer) clearInterval(oldTimer);
+
+        const newTimer = setInterval(() => {
+          const { time, decrementTime } = get();
+          if (time > 0) decrementTime();
+          else get().switchTurn();
+        }, 1000);
+
+        set({ time: 10, timerId: newTimer });
+      },
+
+      decrementTime: () => set((state) => ({ time: state.time - 1 })),
+
+      switchTurn: () => {
+        const { timerId } = get();
+        if (timerId) clearInterval(timerId);
+
+        set((state) => ({
+          turn: state.turn === 'player1' ? 'player2' : 'player1',
+          time: 10,
+          timerId: null,
+        }));
+
+        get().startTimer();
+      },
+
+      stopTimer: () => {
+        const { timerId } = get();
+        if (timerId) clearInterval(timerId);
+        set({ timerId: null });
+      },
 
       updateBoard: (prevPosition, nextPosition, characterInfo) => {
         set((state) => {
@@ -92,6 +146,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
           };
         });
       },
+
       setSelectedCharacter: (characterInfo) =>
         set({ selectedCharacter: characterInfo }),
       setPrevPosition: (position) => set({ prevPosition: position }),
