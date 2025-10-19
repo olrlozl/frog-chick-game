@@ -30,7 +30,10 @@ const PlayPage = () => {
   ////
 
   useEffect(() => {
+    startTimer();
+
     if (winner) {
+      stopTimer();
       const timer = setTimeout(() => {
         openModal();
       }, 1000);

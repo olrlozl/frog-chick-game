@@ -17,6 +17,7 @@ export const placeCharacter = (
     addUsedCharacter,
     setShakeCharacter,
     setPrevPosition,
+    switchTurn,
   } = usePlayStore.getState();
 
   const targetCell = board[row][col];
@@ -31,6 +32,7 @@ export const placeCharacter = (
     if (prevPosition.row === null && prevPosition.col === null) {
       addUsedCharacter(selectedCharacter.characterKey);
     }
+    switchTurn();
   } else {
     setShakeCharacter(selectedCharacter.characterKey);
     setTimeout(() => setShakeCharacter(null), 600);
