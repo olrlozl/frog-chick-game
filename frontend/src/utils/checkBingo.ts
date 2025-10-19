@@ -23,7 +23,10 @@ export const checkBingo = (
 
   // 세로
   for (let col = 0; col < 3; col++) {
-    const [a, b, c] = topLayer[col];
+    const a = topLayer[0][col];
+    const b = topLayer[1][col];
+    const c = topLayer[2][col];
+
     if (a && a === b && a === c) {
       return {
         winner: a,
