@@ -1,6 +1,4 @@
-import { CharacterInfoInterface, CharacterPosition } from 'types/play';
 import { usePlayStore } from 'stores/playStore';
-import { moveCharacterForWeb } from 'utils/moveCharacterForWeb';
 import { canPlaceCharacter } from 'utils/canPlaceCharacter';
 
 export const useDropForWeb = (row: number, col: number) => {
@@ -21,7 +19,7 @@ export const useDropForWeb = (row: number, col: number) => {
 
     if (canPlace) {
       const nextPosition = { row, col };
-      moveCharacterForWeb(e, prevPosition, nextPosition, updateBoard);
+      updateBoard(prevPosition, nextPosition, selectedCharacter!);
 
       const isFromCharacterList =
         prevPosition.row === null && prevPosition.col === null;

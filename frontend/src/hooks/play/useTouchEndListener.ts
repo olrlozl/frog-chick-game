@@ -1,5 +1,4 @@
 import { usePlayStore } from 'stores/playStore';
-import { moveCharacterForMobile } from 'utils/moveCharacterForMobile';
 import { useEffect } from 'react';
 import { canPlaceCharacter } from 'utils/canPlaceCharacter';
 
@@ -44,7 +43,7 @@ export const useTouchEndListener = (row: number, col: number) => {
 
           if (canPlace) {
             const nextPosition = { row, col };
-            moveCharacterForMobile(prevPosition, nextPosition, updateBoard);
+            updateBoard(prevPosition, nextPosition, selectedCharacter); //추가
 
             const isFromCharacterList =
               prevPosition.row === null && prevPosition.col === null;
