@@ -31,7 +31,6 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
 
   const handleTouchEnd = () => {
     removeShadowImgAndDispatchEndEvent(dragShadowImgRef);
-    setPrevPosition({ row: null, col: null });
   };
 
   return { handleTouchStart, handleTouchMove, handleTouchEnd };

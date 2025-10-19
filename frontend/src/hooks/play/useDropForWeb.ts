@@ -1,39 +1,13 @@
 import { usePlayStore } from 'stores/playStore';
-import { canPlaceCharacter } from 'utils/canPlaceCharacter';
+import { placeCharacter } from 'utils/placeCharacter';
 
 export const useDropForWeb = (row: number, col: number) => {
-  const {
-    board,
-    selectedCharacter,
-    prevPosition,
-    updateBoard,
-    setPrevPosition,
-    addUsedCharacter,
-    setShakeCharacter,
-  } = usePlayStore();
+  const { selectedCharacter, prevPosition } = usePlayStore();
 
   const handleDrop = (e: React.DragEvent<HTMLImageElement>) => {
-    const targetCell = board[row][col];
-
-    const canPlace = canPlaceCharacter(targetCell, selectedCharacter!);
-
-    if (canPlace) {
-      const nextPosition = { row, col };
-      updateBoard(prevPosition, nextPosition, selectedCharacter!);
-
-      const isFromCharacterList =
-        prevPosition.row === null && prevPosition.col === null;
-
-      if (isFromCharacterList && selectedCharacter) {
-        addUsedCharacter(selectedCharacter.characterKey);
-      }
-    } else {
-      if (selectedCharacter) {
-        setShakeCharacter(selectedCharacter.characterKey);
-        setTimeout(() => setShakeCharacter(null), 600);
-      }
+    if (selectedCharacter) {
+      placeCharacter(row, col, selectedCharacter, prevPosition);
     }
-    setPrevPosition({ row: null, col: null });
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLImageElement>) => {

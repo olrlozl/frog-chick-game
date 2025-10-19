@@ -1,80 +1,37 @@
 import { usePlayStore } from 'stores/playStore';
 import { useEffect } from 'react';
-import { canPlaceCharacter } from 'utils/canPlaceCharacter';
+import { placeCharacter } from 'utils/placeCharacter';
 
 export const useTouchEndListener = (row: number, col: number) => {
-  const {
-    board,
-    selectedCharacter,
-    prevPosition,
-    addUsedCharacter,
-    updateBoard,
-    setShakeCharacter,
-  } = usePlayStore();
-
-  const checkIfWithinBounds = (
-    bounds: DOMRect | undefined,
-    touchingPosition: { x: number; y: number }
-  ) =>
-    bounds &&
-    touchingPosition &&
-    touchingPosition.x >= bounds.left &&
-    touchingPosition.x <= bounds.right &&
-    touchingPosition.y >= bounds.top &&
-    touchingPosition.y <= bounds.bottom;
+  const { selectedCharacter, prevPosition } = usePlayStore();
 
   useEffect(() => {
-    const handleDropAttempt = () => {
+    const handleDrop = () => {
       const squareElement = document.querySelector(
         `.square.row-${row}.col-${col}`
       );
-
       if (!squareElement) return;
 
       const bounds = squareElement.getBoundingClientRect(); // DOM 요소 square의 크기와 위치
+      const pos = (window as any).touchingPosition; // 현재 터치 중인 위치 정보
 
-      const touchingPosition = (window as any).touchingPosition; // 현재 터치 중인 위치 정보
+      const isInsideSquare =
+        pos.x >= bounds.left &&
+        pos.x <= bounds.right &&
+        pos.y >= bounds.top &&
+        pos.y <= bounds.bottom;
 
-      if (checkIfWithinBounds(bounds, touchingPosition)) {
-        const targetCell = board[row][col];
-
-        if (selectedCharacter) {
-          const canPlace = canPlaceCharacter(targetCell, selectedCharacter);
-
-          if (canPlace) {
-            const nextPosition = { row, col };
-            updateBoard(prevPosition, nextPosition, selectedCharacter); //추가
-
-            const isFromCharacterList =
-              prevPosition.row === null && prevPosition.col === null;
-
-            if (isFromCharacterList && selectedCharacter) {
-              addUsedCharacter(selectedCharacter.characterKey);
-            }
-          } else {
-            if (selectedCharacter) {
-              setShakeCharacter(selectedCharacter.characterKey);
-              setTimeout(() => setShakeCharacter(null), 600);
-            }
-          }
-        }
+      if (selectedCharacter && isInsideSquare) {
+        placeCharacter(row, col, selectedCharacter, prevPosition);
       }
     };
 
-    // 터치 이벤트 리스너 등록 (`character-touch-end` 이벤트 발생 시 handleDropAttempt 함수 실행)
-    window.addEventListener('character-touch-end', handleDropAttempt);
+    // 터치 이벤트 리스너 등록 (`character-touch-end` 이벤트 발생 시 handleDrop 함수 실행)
+    window.addEventListener('character-touch-end', handleDrop);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     return () => {
-      window.removeEventListener('character-touch-end', handleDropAttempt);
+      window.removeEventListener('character-touch-end', handleDrop);
     };
-  }, [
-    row,
-    col,
-    prevPosition,
-    board,
-    selectedCharacter,
-    updateBoard,
-    addUsedCharacter,
-  ]);
+  }, [row, col, prevPosition, selectedCharacter]);
 };
