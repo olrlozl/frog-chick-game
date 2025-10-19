@@ -1,28 +1,16 @@
 import 'styles/components/play/player-info.scss';
+import { CharacterOptionType } from 'types/play';
 
 interface PlayerInfoProps {
   nickname: string;
-  wins: number;
-  losses: number;
-  option: 'frog' | 'chick';
-  playerType: 'me' | 'opponent';
+  option: CharacterOptionType;
+  me: boolean;
 }
 
-const PlayerInfo = ({
-  nickname,
-  wins,
-  losses,
-  option,
-  playerType,
-}: PlayerInfoProps) => (
+const PlayerInfo = ({ nickname, option, me }: PlayerInfoProps) => (
   <div className="player-info">
     <p className="nickname">{nickname}</p>
-    <p className={`record ${option}`}>
-      {wins}승 {losses}패
-    </p>
-    <div className={`player-type ${option}`}>
-      {playerType === 'me' ? '나' : '상대'}
-    </div>
+    {/* <div className={`player-type ${option}`}>{me ? '나' : '상대'}</div> */}
   </div>
 );
 

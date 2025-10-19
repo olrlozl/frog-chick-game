@@ -11,8 +11,10 @@ import { modalProps } from 'constants/modal';
 import { usePlayStore } from 'stores/playStore';
 
 const PlayPage = () => {
-  const winner = usePlayStore((state) => state.winner); // 승리자 상태 구독
+  const { player1, player2, winner, startTimer, stopTimer } = usePlayStore();
   const winnerImage = winner === 'frog' ? frogwin : chickwin;
+  const winnerNickname =
+    winner === player1.characterOption ? player1.nickname : player2.nickname;
 
   //// [Modal 사용예시]
   const [isModalOpen, setModalOpen] = useState(false);
@@ -37,7 +39,7 @@ const PlayPage = () => {
     }
   }, [winner]);
 
-  const [isStartCountVisible, setStartCountVisible] = useState(true);
+  const [isStartCountVisible, setStartCountVisible] = useState(false); ////
 
   const handleStartCountEnd = () => {
     setStartCountVisible(false);
@@ -45,54 +47,31 @@ const PlayPage = () => {
 
   const { messageFontSize, btns } = modalProps.gameResult;
 
-  interface GameInfo {
-    option: {
-      me: 'chick' | 'frog';
-      opponent: 'chick' | 'frog';
-    };
-    players: {
-      me: { nickname: string; wins: number; losses: number };
-      opponent: { nickname: string; wins: number; losses: number };
-    };
-    turn: 'me' | 'opponent';
-  }
-
-  const gameInfo: GameInfo = {
-    option: { me: 'chick', opponent: 'frog' },
-    players: {
-      me: { nickname: '이응지읒', wins: 5, losses: 1 },
-      opponent: { nickname: '짱구는못말려', wins: 3, losses: 2 },
-    },
-    turn: 'opponent',
-  };
-
   return (
     <div className="play-page">
       {isStartCountVisible && <Count onEnd={handleStartCountEnd} />}
 
       <UserPlayBox
-        playerType="opponent"
-        option={gameInfo.option.opponent}
-        userInfo={gameInfo.players.opponent}
-        turn={gameInfo.turn}
+        playerType="player1"
+        option={player1.characterOption}
+        nickname={player1.nickname}
       />
 
       <div className="game-box">
-        <CharacterList characterOption={gameInfo.option.opponent} />
+        <CharacterList characterOption={player1.characterOption} />
         <Board />
-        <CharacterList characterOption={gameInfo.option.me} />
+        <CharacterList characterOption={player2.characterOption} />
       </div>
 
       <UserPlayBox
-        playerType="me"
-        option={gameInfo.option.me}
-        userInfo={gameInfo.players.me}
-        turn={gameInfo.turn}
+        playerType="player2"
+        option={player2.characterOption}
+        nickname={player2.nickname}
       />
 
       <Modal
         isOpen={isModalOpen}
-        message={winner ? (winner === 'frog' ? '구리 승!' : '아리 승!') : ''}
+        message={`${winnerNickname} 승!`}
         messageFontSize={messageFontSize}
         btns={btns}
         buttonActions={[rematch, closeModal]}
