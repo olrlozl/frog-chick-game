@@ -17,6 +17,7 @@ interface PlayState {
   prevPosition: CharacterPosition;
   usedCharacterKeys: string[];
   shakeCharacterKey: string | null;
+  bingoCells: { row: number; col: number }[];
 }
 
 interface PlayAction {
@@ -43,6 +44,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
       prevPosition: { row: null, col: null },
       usedCharacterKeys: [],
       shakeCharacterKey: null,
+      bingoCells: [],
 
       updateBoard: (prevPosition, nextPosition, characterInfo) => {
         set((state) => {
@@ -80,9 +82,14 @@ export const usePlayStore = create<PlayState & PlayAction>()(
                 : null;
           }
 
-          const winner = checkBingo(updatedTopLayer);
+          const { winner, bingoCells } = checkBingo(updatedTopLayer);
 
-          return { board: updatedBoard, topLayer: updatedTopLayer, winner };
+          return {
+            board: updatedBoard,
+            topLayer: updatedTopLayer,
+            winner,
+            bingoCells,
+          };
         });
       },
       setSelectedCharacter: (characterInfo) =>

@@ -16,4 +16,12 @@
   &.col-1 {
     border-right: 8px solid #98db7c;
   }
+
+  &.highlight {
+    background-color: rgba(255, 150, 0, 0.3);
+    transform: scale(1.05);
+    transition:
+      background-color 0.6s ease-in-out,
+      transform 0.6s ease-in-out;
+  }
 }

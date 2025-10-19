@@ -2,35 +2,64 @@ import { CharacterOptionType } from 'types/play';
 
 export const checkBingo = (
   topLayer: (CharacterOptionType | null)[][]
-): CharacterOptionType | null => {
-  const size = 3;
-
-  // 가로 체크
-  for (let row = 0; row < size; row++) {
-    const first = topLayer[row][0];
-    if (first && topLayer[row].every((cell) => cell === first)) {
-      return first;
+): {
+  winner: CharacterOptionType | null;
+  bingoCells: { row: number; col: number }[];
+} => {
+  // 가로
+  for (let row = 0; row < 3; row++) {
+    const [a, b, c] = topLayer[row];
+    if (a && a === b && a === c) {
+      return {
+        winner: a,
+        bingoCells: [
+          { row, col: 0 },
+          { row, col: 1 },
+          { row, col: 2 },
+        ],
+      };
     }
   }
 
-  // 세로 체크
-  for (let col = 0; col < size; col++) {
-    const first = topLayer[0][col];
-    if (first && topLayer.every((row) => row[col] === first)) {
-      return first;
+  // 세로
+  for (let col = 0; col < 3; col++) {
+    const [a, b, c] = topLayer[col];
+    if (a && a === b && a === c) {
+      return {
+        winner: a,
+        bingoCells: [
+          { row: 0, col },
+          { row: 1, col },
+          { row: 2, col },
+        ],
+      };
     }
   }
 
-  // 대각선 체크 (좌상→우하)
+  // 대각선 ↘
   const center = topLayer[1][1];
   if (center && topLayer[0][0] === center && topLayer[2][2] === center) {
-    return center;
+    return {
+      winner: center,
+      bingoCells: [
+        { row: 0, col: 0 },
+        { row: 1, col: 1 },
+        { row: 2, col: 2 },
+      ],
+    };
   }
 
-  // 대각선 체크 (우상→좌하)
+  // 대각선 ↙
   if (center && topLayer[0][2] === center && topLayer[2][0] === center) {
-    return center;
+    return {
+      winner: center,
+      bingoCells: [
+        { row: 0, col: 2 },
+        { row: 1, col: 1 },
+        { row: 2, col: 0 },
+      ],
+    };
   }
 
-  return null; // 아직 승리 없음
+  return { winner: null, bingoCells: [] };
 };

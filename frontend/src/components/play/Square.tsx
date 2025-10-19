@@ -15,7 +15,7 @@ const Square = ({ row, col }: SquareProps) => {
 
   const { handleDrop, handleDragOver } = useDropForWeb(row, col);
 
-  const { board } = usePlayStore();
+  const { board, bingoCells } = usePlayStore();
 
   const cell = board[row][col];
 
@@ -29,9 +29,11 @@ const Square = ({ row, col }: SquareProps) => {
     null
   );
 
+  const isHighlighted = bingoCells.some((c) => c.row === row && c.col === col);
+
   return (
     <div
-      className={`square row-${row} col-${col}`}
+      className={`square row-${row} col-${col} ${isHighlighted ? 'highlight' : ''}`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >

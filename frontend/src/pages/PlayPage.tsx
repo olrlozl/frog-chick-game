@@ -31,7 +31,7 @@ const PlayPage = () => {
     if (winner) {
       const timer = setTimeout(() => {
         openModal();
-      }, 400);
+      }, 1000);
 
       return () => clearTimeout(timer); // winner가 바뀌거나 언마운트 시 타이머 제거
     }
