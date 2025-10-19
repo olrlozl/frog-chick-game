@@ -3,9 +3,18 @@ import { usePlayStore } from 'stores/playStore';
 import { getPrevPosition } from 'utils/getPrevPosition';
 
 export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
-  const { setSelectedCharacter, setPrevPosition } = usePlayStore();
+  const { turn, player1, player2, setSelectedCharacter, setPrevPosition } =
+    usePlayStore();
 
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
+    const isCurrentPlayerCharacter =
+      (turn === 'player1' &&
+        characterInfo.characterOption === player1.characterOption) ||
+      (turn === 'player2' &&
+        characterInfo.characterOption === player2.characterOption);
+
+    if (!isCurrentPlayerCharacter) return;
+
     setSelectedCharacter(characterInfo);
 
     const parentSquare = e.currentTarget.closest('.square');
