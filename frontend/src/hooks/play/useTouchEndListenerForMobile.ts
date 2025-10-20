@@ -2,7 +2,7 @@ import { usePlayStore } from 'stores/playStore';
 import { useEffect } from 'react';
 import { placeCharacter } from 'utils/placeCharacter';
 
-export const useTouchEndListener = (row: number, col: number) => {
+export const useTouchEndListenerForMobile = (row: number, col: number) => {
   const { selectedCharacter, prevPosition } = usePlayStore();
 
   useEffect(() => {

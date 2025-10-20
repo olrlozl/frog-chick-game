@@ -1,5 +1,5 @@
 import { CharacterInfoInterface, sizeRank } from 'types/play';
-import { useTouchEndListener } from 'hooks/play/useTouchEndListener';
+import { useTouchEndListenerForMobile } from 'hooks/play/useTouchEndListenerForMobile';
 import { useDropForWeb } from 'hooks/play/useDropForWeb';
 import Character from 'components/play/Character';
 import 'styles/components/play/square.scss';
@@ -11,7 +11,7 @@ interface SquareProps {
 }
 
 const Square = ({ row, col }: SquareProps) => {
-  useTouchEndListener(row, col);
+  useTouchEndListenerForMobile(row, col);
 
   const { handleDrop, handleDragOver } = useDropForWeb(row, col);
 
