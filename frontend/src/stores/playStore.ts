@@ -10,6 +10,7 @@ import {
   sizeRank,
 } from 'types/play';
 import { checkBingo } from 'utils/checkBingo';
+import { TURN_TIME_LIMIT } from 'constants/play';
 
 interface PlayState {
   player1: Player;
@@ -53,7 +54,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
       },
       player2: { userId: '', nickname: '이응지읒', characterOption: 'yellow' },
       turn: 'player1',
-      time: 10,
+      time: TURN_TIME_LIMIT,
       timerId: null,
       winner: null,
       board: Array.from({ length: 3 }, () =>
@@ -74,9 +75,9 @@ export const usePlayStore = create<PlayState & PlayAction>()(
           const { time, decrementTime } = get();
           if (time > 0) decrementTime();
           else get().switchTurn();
-        }, 1000);
+        }, TURN_TIME_LIMIT * 100);
 
-        set({ time: 10, timerId: newTimer });
+        set({ time: TURN_TIME_LIMIT, timerId: newTimer });
       },
 
       decrementTime: () => set((state) => ({ time: state.time - 1 })),
@@ -87,7 +88,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
 
         set((state) => ({
           turn: state.turn === 'player1' ? 'player2' : 'player1',
-          time: 10,
+          time: TURN_TIME_LIMIT,
           timerId: null,
         }));
 
