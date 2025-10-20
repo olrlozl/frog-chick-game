@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import {
   createShadowImgAndTrackTouch,
   updateShadowImgAndTrackTouch,
-  removeShadowImgAndDispatchEndEvent,
+  removeShadowImg,
 } from 'utils/shadowImg';
 import { getPrevPosition } from 'utils/getPrevPosition';
 
@@ -40,8 +40,13 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
   };
 
   const handleTouchEnd = () => {
+    removeShadowImg(dragShadowImgRef);
+
     if (!isCurrentPlayerCharacter) return;
-    removeShadowImgAndDispatchEndEvent(dragShadowImgRef);
+
+    // 터치 종료 이벤트를 커스텀 이벤트로 생성하여 dispatch
+    const customEvent = new CustomEvent('play:character:touchEnd');
+    window.dispatchEvent(customEvent);
   };
 
   return { handleTouchStart, handleTouchMove, handleTouchEnd };
