@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import 'styles/pages/play-page.scss';
-import frogwin from 'assets/images/frog-win.png';
-import chickwin from 'assets/images/chick-win.png';
+import greenWin from 'assets/images/green-win.png';
+import yellowWin from 'assets/images/yellow-win.png';
 import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
 import CharacterList from 'components/play/CharacterList';
@@ -12,7 +12,7 @@ import { usePlayStore } from 'stores/playStore';
 
 const PlayPage = () => {
   const { player1, player2, winner, startTimer, stopTimer } = usePlayStore();
-  const winnerImage = winner === 'frog' ? frogwin : chickwin;
+  const winnerImage = winner === 'green' ? greenWin : yellowWin;
   const winnerNickname =
     winner === player1.characterOption ? player1.nickname : player2.nickname;
 

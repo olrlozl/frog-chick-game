@@ -13,13 +13,13 @@
   margin-bottom: 10px;
   cursor: pointer;
 
-  &.frog {
+  &.green {
     box-shadow: 2px 2px 4px $color-green3;
     color: $color-green3;
     background-color: $color-green1;
   }
 
-  &.chick {
+  &.yellow {
     box-shadow: 2px 2px 4px rgba(255, 116, 36, 0.5);
     color: #f5803c;
     background-color: $color-orange1;

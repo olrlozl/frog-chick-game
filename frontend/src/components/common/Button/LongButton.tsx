@@ -1,7 +1,8 @@
 import 'styles/components/common/Button/long-button.scss';
+import { CharacterOptionType } from 'types/play';
 
 interface LongButtonProps {
-  option: 'frog' | 'chick';
+  option: CharacterOptionType;
   onClick: () => void;
 }
 

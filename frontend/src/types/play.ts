@@ -6,7 +6,7 @@ export interface Player {
 
 export type PlayerType = 'player1' | 'player2';
 
-export type CharacterOptionType = 'frog' | 'chick';
+export type CharacterOptionType = 'green' | 'yellow';
 
 export type CharacterSizeType = 'large' | 'middle' | 'small';
 
