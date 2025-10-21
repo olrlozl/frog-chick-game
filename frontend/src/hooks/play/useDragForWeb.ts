@@ -13,7 +13,10 @@ export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
       (turn === 'player2' &&
         characterInfo.characterOption === player2.characterOption);
 
-    if (!isCurrentPlayerCharacter) return;
+    if (!isCurrentPlayerCharacter) {
+      e.preventDefault();
+      return;
+    }
 
     setCurSelectedCharacter(characterInfo);
 
