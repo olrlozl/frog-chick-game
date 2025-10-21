@@ -14,9 +14,11 @@ const Character = ({ characterInfo, isHidden }: CharacterProps) => {
   const { characterOption, characterSize, characterKey } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
 
-  const { selectedCharacter, shakeCharacterKey } = usePlayStore();
-  const isSelected = selectedCharacter?.characterKey === characterKey;
+  const { curSelectedCharacter, shakeCharacterKey, lastPlacedCharacter } =
+    usePlayStore();
+  const isSelected = curSelectedCharacter?.characterKey === characterKey;
   const isShaking = shakeCharacterKey === characterInfo.characterKey;
+  const isRecent = lastPlacedCharacter?.characterKey === characterKey;
 
   const { handleTouchStart, handleTouchMove, handleTouchEnd } =
     useTouchForMobile(characterInfo);
@@ -24,7 +26,11 @@ const Character = ({ characterInfo, isHidden }: CharacterProps) => {
 
   return (
     <div
-      className={`character ${characterKey} ${isSelected ? 'selected' : ''} ${isHidden ? 'hidden' : ''} ${isShaking ? 'shake' : ''}`}
+      className={`character ${characterKey} 
+      ${isSelected ? 'selected' : ''} 
+      ${isHidden ? 'hidden' : ''} 
+      ${isShaking ? 'shake' : ''} 
+      ${isRecent ? 'recent' : ''}`}
     >
       <img
         className={`character-img ${characterOption} ${characterSize}`}

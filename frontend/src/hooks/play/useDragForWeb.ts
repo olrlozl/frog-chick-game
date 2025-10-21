@@ -3,7 +3,7 @@ import { usePlayStore } from 'stores/playStore';
 import { getPrevPosition } from 'utils/getPrevPosition';
 
 export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
-  const { turn, player1, player2, setSelectedCharacter, setPrevPosition } =
+  const { turn, player1, player2, setCurSelectedCharacter, setPrevPosition } =
     usePlayStore();
 
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
@@ -15,7 +15,7 @@ export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
 
     if (!isCurrentPlayerCharacter) return;
 
-    setSelectedCharacter(characterInfo);
+    setCurSelectedCharacter(characterInfo);
 
     const parentSquare = e.currentTarget.closest('.square');
 

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { placeCharacter } from 'utils/placeCharacter';
 
 export const useTouchEndListenerForMobile = (row: number, col: number) => {
-  const { selectedCharacter, prevPosition } = usePlayStore();
+  const { curSelectedCharacter, prevPosition } = usePlayStore();
 
   useEffect(() => {
     const handleDrop = () => {
@@ -21,8 +21,8 @@ export const useTouchEndListenerForMobile = (row: number, col: number) => {
         pos.y >= bounds.top &&
         pos.y <= bounds.bottom;
 
-      if (selectedCharacter && isInsideSquare) {
-        placeCharacter(row, col, selectedCharacter, prevPosition);
+      if (curSelectedCharacter && isInsideSquare) {
+        placeCharacter(row, col, curSelectedCharacter, prevPosition);
       }
     };
 
@@ -33,5 +33,5 @@ export const useTouchEndListenerForMobile = (row: number, col: number) => {
     return () => {
       window.removeEventListener('play:character:touchEnd', handleDrop);
     };
-  }, [row, col, prevPosition, selectedCharacter]);
+  }, [row, col, prevPosition, curSelectedCharacter]);
 };

@@ -2,20 +2,20 @@ import { usePlayStore } from 'stores/playStore';
 import { placeCharacter } from 'utils/placeCharacter';
 
 export const useDropForWeb = (row: number, col: number) => {
-  const { turn, player1, player2, selectedCharacter, prevPosition } =
+  const { turn, player1, player2, curSelectedCharacter, prevPosition } =
     usePlayStore();
 
   const handleDrop = (e: React.DragEvent<HTMLImageElement>) => {
-    if (selectedCharacter) {
+    if (curSelectedCharacter) {
       const isCurrentPlayerCharacter =
         (turn === 'player1' &&
-          selectedCharacter.characterOption === player1.characterOption) ||
+          curSelectedCharacter.characterOption === player1.characterOption) ||
         (turn === 'player2' &&
-          selectedCharacter.characterOption === player2.characterOption);
+          curSelectedCharacter.characterOption === player2.characterOption);
 
       if (!isCurrentPlayerCharacter) return;
 
-      placeCharacter(row, col, selectedCharacter, prevPosition);
+      placeCharacter(row, col, curSelectedCharacter, prevPosition);
     }
   };
 

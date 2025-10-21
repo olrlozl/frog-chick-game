@@ -8,12 +8,13 @@ import {
 export const placeCharacter = (
   row: number,
   col: number,
-  selectedCharacter: CharacterInfoInterface,
+  curSelectedCharacter: CharacterInfoInterface,
   prevPosition: CharacterPosition
 ) => {
   const {
     board,
     updateBoard,
+    setLastPlacedCharacter,
     addUsedCharacter,
     setShakeCharacter,
     setPrevPosition,
@@ -22,19 +23,21 @@ export const placeCharacter = (
 
   const targetCell = board[row][col];
   const canPlace = targetCell.every(
-    (c) => sizeRank[c.characterSize] < sizeRank[selectedCharacter.characterSize]
+    (c) =>
+      sizeRank[c.characterSize] < sizeRank[curSelectedCharacter.characterSize]
   );
 
   if (canPlace) {
     const nextPosition = { row, col };
-    updateBoard(prevPosition, nextPosition, selectedCharacter);
+    updateBoard(prevPosition, nextPosition, curSelectedCharacter);
 
     if (prevPosition.row === null && prevPosition.col === null) {
-      addUsedCharacter(selectedCharacter.characterKey);
+      addUsedCharacter(curSelectedCharacter.characterKey);
     }
+    setLastPlacedCharacter(curSelectedCharacter);
     switchTurn();
   } else {
-    setShakeCharacter(selectedCharacter.characterKey);
+    setShakeCharacter(curSelectedCharacter.characterKey);
     setTimeout(() => setShakeCharacter(null), 600);
   }
 

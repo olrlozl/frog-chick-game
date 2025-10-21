@@ -13,7 +13,7 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
   const { characterOption, characterSize } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
   const dragShadowImgRef = useRef<HTMLImageElement | null>(null); // 드래그 시 생성되는 쉐도우 이미지 참조
-  const { player1, player2, turn, setSelectedCharacter, setPrevPosition } =
+  const { player1, player2, turn, setCurSelectedCharacter, setPrevPosition } =
     usePlayStore();
 
   const isCurrentPlayerCharacter =
@@ -24,7 +24,7 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
     if (!isCurrentPlayerCharacter) return;
 
     createShadowImgAndTrackTouch(e, characterInfo, imageSrc, dragShadowImgRef);
-    setSelectedCharacter(characterInfo);
+    setCurSelectedCharacter(characterInfo);
 
     const parentSquare = e.currentTarget.closest('.square');
 

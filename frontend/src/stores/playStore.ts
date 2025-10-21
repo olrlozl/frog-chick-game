@@ -21,7 +21,8 @@ interface PlayState {
   winner: CharacterOptionType | null;
   board: Board;
   topLayer: (CharacterOptionType | null)[][];
-  selectedCharacter: CharacterInfoInterface | null;
+  curSelectedCharacter: CharacterInfoInterface | null;
+  lastPlacedCharacter: CharacterInfoInterface | null;
   prevPosition: CharacterPosition;
   usedCharacterKeys: string[];
   shakeCharacterKey: string | null;
@@ -38,7 +39,12 @@ interface PlayAction {
     nextPosition: { row: number; col: number },
     characterInfo: CharacterInfoInterface
   ) => void;
-  setSelectedCharacter: (characterInfo: CharacterInfoInterface | null) => void;
+  setCurSelectedCharacter: (
+    characterInfo: CharacterInfoInterface | null
+  ) => void;
+  setLastPlacedCharacter: (
+    characterInfo: CharacterInfoInterface | null
+  ) => void;
   setPrevPosition: (position: CharacterPosition) => void;
   addUsedCharacter: (key: string) => void;
   setShakeCharacter: (key: string | null) => void;
@@ -61,7 +67,8 @@ export const usePlayStore = create<PlayState & PlayAction>()(
         Array.from({ length: 3 }, () => [])
       ),
       topLayer: Array.from({ length: 3 }, () => Array(3).fill(null)),
-      selectedCharacter: null,
+      curSelectedCharacter: null,
+      lastPlacedCharacter: null,
       prevPosition: { row: null, col: null },
       usedCharacterKeys: [],
       shakeCharacterKey: null,
@@ -90,6 +97,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
           turn: state.turn === 'player1' ? 'player2' : 'player1',
           time: TURN_TIME_LIMIT,
           timerId: null,
+          curSelectedCharacter: null,
         }));
 
         get().startTimer();
@@ -148,8 +156,10 @@ export const usePlayStore = create<PlayState & PlayAction>()(
         });
       },
 
-      setSelectedCharacter: (characterInfo) =>
-        set({ selectedCharacter: characterInfo }),
+      setCurSelectedCharacter: (characterInfo) =>
+        set({ curSelectedCharacter: characterInfo }),
+      setLastPlacedCharacter: (characterInfo) =>
+        set({ lastPlacedCharacter: characterInfo }),
       setPrevPosition: (position) => set({ prevPosition: position }),
       addUsedCharacter: (key) =>
         set((state) => ({

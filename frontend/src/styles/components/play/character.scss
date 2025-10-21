@@ -3,16 +3,20 @@
 .character {
   touch-action: none;
 
-  &.selected {
-    border: 2px solid $color-red4;
-  }
-
   &.hidden {
     visibility: hidden;
   }
 
   &.shake {
     animation: shake 0.4s ease-in-out;
+  }
+
+  &.recent {
+    border: 2px solid $color-orange2;
+  }
+
+  &.selected {
+    border: 2px solid $color-red4;
   }
 
   @keyframes shake {
