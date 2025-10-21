@@ -11,12 +11,12 @@ import { modalProps } from 'constants/modal';
 import { usePlayStore } from 'stores/playStore';
 
 const PlayPage = () => {
-  const { player1, player2, winner, startTimer, stopTimer } = usePlayStore();
+  const { player1, player2, winner, startTimer, stopTimer, resetGame } =
+    usePlayStore();
   const winnerImage = winner === 'green' ? greenWin : yellowWin;
   const winnerNickname =
     winner === player1.characterOption ? player1.nickname : player2.nickname;
 
-  //// [Modal 사용예시]
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -26,8 +26,8 @@ const PlayPage = () => {
   };
   const rematch = () => {
     closeModal();
+    resetGame();
   };
-  ////
 
   useEffect(() => {
     startTimer();

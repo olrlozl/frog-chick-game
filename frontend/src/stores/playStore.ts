@@ -48,6 +48,7 @@ interface PlayAction {
   setPrevPosition: (position: CharacterPosition) => void;
   addUsedCharacter: (key: string) => void;
   setShakeCharacter: (key: string | null) => void;
+  resetGame: () => void;
 }
 
 export const usePlayStore = create<PlayState & PlayAction>()(
@@ -166,6 +167,28 @@ export const usePlayStore = create<PlayState & PlayAction>()(
           usedCharacterKeys: [...state.usedCharacterKeys, key],
         })),
       setShakeCharacter: (key) => set({ shakeCharacterKey: key }),
+
+      resetGame: () => {
+        const { stopTimer } = get();
+        stopTimer();
+
+        set({
+          turn: 'player1',
+          time: TURN_TIME_LIMIT,
+          timerId: null,
+          winner: null,
+          board: Array.from({ length: 3 }, () =>
+            Array.from({ length: 3 }, () => [])
+          ),
+          topLayer: Array.from({ length: 3 }, () => Array(3).fill(null)),
+          curSelectedCharacter: null,
+          lastPlacedCharacter: null,
+          prevPosition: { row: null, col: null },
+          usedCharacterKeys: [],
+          shakeCharacterKey: null,
+          bingoCells: [],
+        });
+      },
     }),
     { name: 'PlayStore' }
   )
