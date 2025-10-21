@@ -1,1 +1,1 @@
-export const TURN_TIME_LIMIT = 7;
+export const TURN_TIME_LIMIT = 10;

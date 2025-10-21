@@ -13,42 +13,47 @@ import { usePlayStore } from 'stores/playStore';
 const PlayPage = () => {
   const { player1, player2, winner, startTimer, stopTimer, resetGame } =
     usePlayStore();
+
+  const [isStartCountVisible, setStartCountVisible] = useState(true);
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const { messageFontSize, btns } = modalProps.gameResult;
+
   const winnerImage = winner === 'green' ? greenWin : yellowWin;
+
   const winnerNickname =
     winner === player1.characterOption ? player1.nickname : player2.nickname;
 
-  const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
   };
+
   const closeModal = () => {
     setModalOpen(false);
   };
+
   const rematch = () => {
     closeModal();
     resetGame();
+    setStartCountVisible(true);
+  };
+
+  const handleStartCountEnd = () => {
+    setStartCountVisible(false);
+    startTimer();
   };
 
   useEffect(() => {
-    startTimer();
-
     if (winner) {
       stopTimer();
       const timer = setTimeout(() => {
         openModal();
       }, 1000);
 
-      return () => clearTimeout(timer); // winner가 바뀌거나 언마운트 시 타이머 제거
+      return () => clearTimeout(timer);
     }
   }, [winner]);
-
-  const [isStartCountVisible, setStartCountVisible] = useState(false); ////
-
-  const handleStartCountEnd = () => {
-    setStartCountVisible(false);
-  };
-
-  const { messageFontSize, btns } = modalProps.gameResult;
 
   return (
     <div className="play-page">
