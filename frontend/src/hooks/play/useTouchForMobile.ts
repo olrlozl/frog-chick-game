@@ -10,19 +10,17 @@ import {
 import { getPrevPosition } from 'utils/getPrevPosition';
 import { SoundManager } from 'utils/soundManager';
 
-export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
+export const useTouchForMobile = (
+  characterInfo: CharacterInfoInterface,
+  isDraggable: boolean
+) => {
   const { characterOption, characterSize } = characterInfo;
   const imageSrc = CHARACTER_MAP[characterOption][characterSize];
   const dragShadowImgRef = useRef<HTMLImageElement | null>(null); // 드래그 시 생성되는 쉐도우 이미지 참조
-  const { player1, player2, turn, setCurSelectedCharacter, setPrevPosition } =
-    usePlayStore();
-
-  const isCurrentPlayerCharacter =
-    (turn === 'player1' && characterOption === player1.characterOption) ||
-    (turn === 'player2' && characterOption === player2.characterOption);
+  const { setCurSelectedCharacter, setPrevPosition } = usePlayStore();
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
-    if (!isCurrentPlayerCharacter) {
+    if (!isDraggable) {
       SoundManager.touchLock();
       return;
     }
@@ -38,14 +36,14 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
-    if (!isCurrentPlayerCharacter) return;
+    if (!isDraggable) return;
     updateShadowImgAndTrackTouch(e, dragShadowImgRef);
   };
 
   const handleTouchEnd = () => {
     removeShadowImg(dragShadowImgRef);
 
-    if (!isCurrentPlayerCharacter) return;
+    if (!isDraggable) return;
 
     // 터치 종료 이벤트를 커스텀 이벤트로 생성하여 dispatch
     const customEvent = new CustomEvent('play:character:touchEnd');
