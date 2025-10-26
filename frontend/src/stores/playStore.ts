@@ -87,7 +87,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
             SoundManager.timeOver();
             get().switchTurn();
           }
-        }, TURN_TIME_LIMIT * 100);
+        }, 1000);
 
         set({ time: TURN_TIME_LIMIT, timerId: newTimer });
       },
