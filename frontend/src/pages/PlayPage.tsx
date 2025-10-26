@@ -9,29 +9,24 @@ import Board from 'components/play/Board';
 import Count from 'components/play/Count';
 import { modalProps } from 'constants/modal';
 import { usePlayStore } from 'stores/playStore';
+import { useNavigate } from 'react-router-dom';
+import { SoundManager } from 'utils/soundManager';
 
 const PlayPage = () => {
+  const navigate = useNavigate();
   const { player1, player2, winner, startTimer, stopTimer, resetGame } =
     usePlayStore();
 
   const [isStartCountVisible, setStartCountVisible] = useState(true);
-
   const [isModalOpen, setModalOpen] = useState(false);
-
   const { messageFontSize, btns } = modalProps.gameResult;
 
   const winnerImage = winner === 'green' ? greenWin : yellowWin;
-
   const winnerNickname =
     winner === player1.characterOption ? player1.nickname : player2.nickname;
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const rematch = () => {
     closeModal();
@@ -39,10 +34,21 @@ const PlayPage = () => {
     setStartCountVisible(true);
   };
 
+  const goToMain = () => {
+    closeModal();
+    navigate('/main');
+  };
+
   const handleStartCountEnd = () => {
     setStartCountVisible(false);
     startTimer();
   };
+
+  useEffect(() => {
+    if (isStartCountVisible) {
+      SoundManager.countDown();
+    }
+  }, [isStartCountVisible]);
 
   useEffect(() => {
     if (winner) {
@@ -82,7 +88,7 @@ const PlayPage = () => {
         message={`${winnerNickname} 승!`}
         messageFontSize={messageFontSize}
         btns={btns}
-        buttonActions={[rematch, closeModal]}
+        buttonActions={[rematch, goToMain]}
       >
         <Modal.Image imageSrc={winnerImage} />
       </Modal>

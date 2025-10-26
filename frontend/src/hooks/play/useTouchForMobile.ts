@@ -8,6 +8,7 @@ import {
   removeShadowImg,
 } from 'utils/shadowImg';
 import { getPrevPosition } from 'utils/getPrevPosition';
+import { SoundManager } from 'utils/soundManager';
 
 export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
   const { characterOption, characterSize } = characterInfo;
@@ -21,8 +22,10 @@ export const useTouchForMobile = (characterInfo: CharacterInfoInterface) => {
     (turn === 'player2' && characterOption === player2.characterOption);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
-    if (!isCurrentPlayerCharacter) return;
-
+    if (!isCurrentPlayerCharacter) {
+      SoundManager.touchLock();
+      return;
+    }
     createShadowImgAndTrackTouch(e, characterInfo, imageSrc, dragShadowImgRef);
     setCurSelectedCharacter(characterInfo);
 

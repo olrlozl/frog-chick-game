@@ -4,6 +4,7 @@ import {
   CharacterInfoInterface,
   sizeRank,
 } from 'types/play';
+import { SoundManager } from 'utils/soundManager';
 
 export const placeCharacter = (
   row: number,
@@ -28,6 +29,7 @@ export const placeCharacter = (
   );
 
   if (canPlace) {
+    SoundManager.placeSuccess();
     const nextPosition = { row, col };
     updateBoard(prevPosition, nextPosition, curSelectedCharacter);
 
@@ -37,6 +39,7 @@ export const placeCharacter = (
     setLastPlacedCharacter(curSelectedCharacter);
     switchTurn();
   } else {
+    SoundManager.placeFail();
     setShakeCharacter(curSelectedCharacter.characterKey);
     setTimeout(() => setShakeCharacter(null), 600);
   }

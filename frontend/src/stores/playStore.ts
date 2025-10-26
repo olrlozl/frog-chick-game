@@ -11,6 +11,7 @@ import {
 } from 'types/play';
 import { checkBingo } from 'utils/checkBingo';
 import { TURN_TIME_LIMIT } from 'constants/play';
+import { SoundManager } from 'utils/soundManager';
 
 interface PlayState {
   player1: Player;
@@ -82,7 +83,10 @@ export const usePlayStore = create<PlayState & PlayAction>()(
         const newTimer = setInterval(() => {
           const { time, decrementTime } = get();
           if (time > 0) decrementTime();
-          else get().switchTurn();
+          else {
+            SoundManager.timeOver();
+            get().switchTurn();
+          }
         }, TURN_TIME_LIMIT * 100);
 
         set({ time: TURN_TIME_LIMIT, timerId: newTimer });
@@ -147,6 +151,8 @@ export const usePlayStore = create<PlayState & PlayAction>()(
           }
 
           const { winner, bingoCells } = checkBingo(updatedTopLayer);
+
+          if (winner) SoundManager.bingo();
 
           return {
             board: updatedBoard,

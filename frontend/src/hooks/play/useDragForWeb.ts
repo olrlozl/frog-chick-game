@@ -1,6 +1,7 @@
 import { CharacterInfoInterface } from 'types/play';
 import { usePlayStore } from 'stores/playStore';
 import { getPrevPosition } from 'utils/getPrevPosition';
+import { SoundManager } from 'utils/soundManager';
 
 export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
   const { turn, player1, player2, setCurSelectedCharacter, setPrevPosition } =
@@ -15,6 +16,7 @@ export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
 
     if (!isCurrentPlayerCharacter) {
       e.preventDefault();
+      SoundManager.touchLock();
       return;
     }
 
