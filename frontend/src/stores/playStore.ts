@@ -19,7 +19,7 @@ interface PlayState {
   turn: PlayerType;
   time: number;
   timerId: NodeJS.Timeout | null;
-  winner: CharacterOptionType | null;
+  winners: CharacterOptionType[];
   board: Board;
   topLayer: (CharacterOptionType | null)[][];
   curSelectedCharacter: CharacterInfoInterface | null;
@@ -64,7 +64,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
       turn: 'player1',
       time: TURN_TIME_LIMIT,
       timerId: null,
-      winner: null,
+      winners: [],
       board: Array.from({ length: 3 }, () =>
         Array.from({ length: 3 }, () => [])
       ),
@@ -150,14 +150,14 @@ export const usePlayStore = create<PlayState & PlayAction>()(
                 : null;
           }
 
-          const { winner, bingoCells } = checkBingo(updatedTopLayer);
+          const { winners, bingoCells } = checkBingo(updatedTopLayer);
 
-          if (winner) SoundManager.bingo();
+          if (winners.length > 0) SoundManager.bingo();
 
           return {
             board: updatedBoard,
             topLayer: updatedTopLayer,
-            winner,
+            winners,
             bingoCells,
           };
         });
@@ -182,7 +182,7 @@ export const usePlayStore = create<PlayState & PlayAction>()(
           turn: 'player1',
           time: TURN_TIME_LIMIT,
           timerId: null,
-          winner: null,
+          winners: [],
           board: Array.from({ length: 3 }, () =>
             Array.from({ length: 3 }, () => [])
           ),

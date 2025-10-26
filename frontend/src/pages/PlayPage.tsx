@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import 'styles/pages/play-page.scss';
 import greenWin from 'assets/images/green-win.png';
 import yellowWin from 'assets/images/yellow-win.png';
+import greenYellowWin from 'assets/images/green-yellow-win.png';
 import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
 import CharacterList from 'components/play/CharacterList';
@@ -14,16 +15,12 @@ import { SoundManager } from 'utils/soundManager';
 
 const PlayPage = () => {
   const navigate = useNavigate();
-  const { player1, player2, winner, startTimer, stopTimer, resetGame } =
+  const { player1, player2, winners, startTimer, stopTimer, resetGame } =
     usePlayStore();
 
   const [isStartCountVisible, setStartCountVisible] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
   const { messageFontSize, btns } = modalProps.gameResult;
-
-  const winnerImage = winner === 'green' ? greenWin : yellowWin;
-  const winnerNickname =
-    winner === player1.characterOption ? player1.nickname : player2.nickname;
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -51,7 +48,7 @@ const PlayPage = () => {
   }, [isStartCountVisible]);
 
   useEffect(() => {
-    if (winner) {
+    if (winners.length > 0) {
       stopTimer();
       const timer = setTimeout(() => {
         openModal();
@@ -59,7 +56,21 @@ const PlayPage = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [winner]);
+  }, [winners]);
+
+  const gameResult =
+    winners.length === 1
+      ? winners[0] === player1.characterOption
+        ? `${player1.nickname} 승`
+        : `${player2.nickname} 승`
+      : '무승부';
+
+  const winnerImage =
+    winners.length === 1
+      ? winners[0] === 'green'
+        ? greenWin
+        : yellowWin
+      : greenYellowWin;
 
   return (
     <div className="play-page">
@@ -85,7 +96,7 @@ const PlayPage = () => {
 
       <Modal
         isOpen={isModalOpen}
-        message={`${winnerNickname} 승!`}
+        message={gameResult}
         messageFontSize={messageFontSize}
         btns={btns}
         buttonActions={[rematch, goToMain]}
