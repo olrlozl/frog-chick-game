@@ -4,6 +4,7 @@ import PlayerInfo from './PlayerInfo';
 import Timer from './Timer';
 import { PlayerType, CharacterOptionType } from 'types/play';
 import { usePlayStore } from 'stores/playStore';
+import { TURN_TIME_LIMIT } from 'constants/play';
 
 interface UserPlayBoxProps {
   playerType: PlayerType;
@@ -14,7 +15,7 @@ interface UserPlayBoxProps {
 const UserPlayBox = ({ playerType, option, nickname }: UserPlayBoxProps) => {
   const { turn, time } = usePlayStore();
 
-  const progressBarWidth = (time / 10) * 100;
+  const progressBarWidth = (time / TURN_TIME_LIMIT) * 100;
 
   const handleGiveup = () => {
     console.log('기권');
