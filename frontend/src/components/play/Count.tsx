@@ -1,4 +1,5 @@
 import OverLay from 'components/common/Modal/OverLay';
+import { START_COUNT } from 'constants/play';
 import { useState, useEffect } from 'react';
 import 'styles/components/play/count.scss';
 
@@ -7,26 +8,22 @@ interface CountProps {
 }
 
 const Count = ({ onEnd }: CountProps) => {
-  const [count, setCount] = useState<number>(3);
+  const [count, setCount] = useState<number>(START_COUNT);
 
   useEffect(() => {
-    if (count === -1) {
-      onEnd();
-      return;
-    }
-
+    let currentCount = START_COUNT;
     const timer = setInterval(() => {
-      setCount((prevCount) => {
-        if (prevCount === 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prevCount - 1;
-      });
+      if (currentCount > 0) {
+        currentCount -= 1;
+        setCount(currentCount);
+      } else {
+        clearInterval(timer);
+        onEnd();
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [count, onEnd]);
+  }, [onEnd]);
 
   return (
     <div className="count">

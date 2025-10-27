@@ -1,14 +1,22 @@
 import { CharacterInfoInterface } from 'types/play';
 import { usePlayStore } from 'stores/playStore';
 import { getPrevPosition } from 'utils/getPrevPosition';
-import { saveCharacterInfo } from 'utils/saveCharacterInfo';
+import { SoundManager } from 'utils/soundManager';
 
-export const useDragForWeb = (characterInfo: CharacterInfoInterface) => {
-  const { setSelectedCharacterKey, setPrevPosition } = usePlayStore();
+export const useDragForWeb = (
+  characterInfo: CharacterInfoInterface,
+  isDraggable: boolean
+) => {
+  const { setCurSelectedCharacter, setPrevPosition } = usePlayStore();
 
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
-    saveCharacterInfo(e, characterInfo);
-    setSelectedCharacterKey(characterInfo.characterKey);
+    if (!isDraggable) {
+      e.preventDefault();
+      SoundManager.touchLock();
+      return;
+    }
+
+    setCurSelectedCharacter(characterInfo);
 
     const parentSquare = e.currentTarget.closest('.square');
 

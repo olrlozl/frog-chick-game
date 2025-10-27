@@ -1,88 +1,107 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'styles/pages/play-page.scss';
-import eggwin from 'assets/images/egg-win.png';
+import greenWin from 'assets/images/green-win.png';
+import yellowWin from 'assets/images/yellow-win.png';
+import greenYellowWin from 'assets/images/green-yellow-win.png';
 import Modal from 'components/common/Modal/Modal';
 import UserPlayBox from 'components/play/UserPlayBox';
 import CharacterList from 'components/play/CharacterList';
 import Board from 'components/play/Board';
 import Count from 'components/play/Count';
 import { modalProps } from 'constants/modal';
+import { usePlayStore } from 'stores/playStore';
+import { useNavigate } from 'react-router-dom';
+import { SoundManager } from 'utils/soundManager';
 
 const PlayPage = () => {
-  //// [Modal 사용예시]
-  const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-  const rematch = () => {
-    closeModal();
-  };
-  ////
+  const navigate = useNavigate();
+  const { player1, player2, winners, startTimer, stopTimer, resetGame } =
+    usePlayStore();
 
   const [isStartCountVisible, setStartCountVisible] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { messageFontSize, btns } = modalProps.gameResult;
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  const rematch = () => {
+    closeModal();
+    resetGame();
+    setStartCountVisible(true);
+  };
+
+  const goToMain = () => {
+    closeModal();
+    navigate('/main');
+  };
 
   const handleStartCountEnd = () => {
     setStartCountVisible(false);
+    startTimer();
   };
 
-  const { messageFontSize, btns } = modalProps.gameResult;
+  useEffect(() => {
+    if (isStartCountVisible) {
+      SoundManager.countDown();
+    }
+  }, [isStartCountVisible]);
 
-  interface GameInfo {
-    option: {
-      me: 'chick' | 'frog';
-      opponent: 'chick' | 'frog';
-    };
-    players: {
-      me: { nickname: string; wins: number; losses: number };
-      opponent: { nickname: string; wins: number; losses: number };
-    };
-    turn: 'me' | 'opponent';
-  }
+  useEffect(() => {
+    if (winners.length > 0) {
+      stopTimer();
+      const timer = setTimeout(() => {
+        openModal();
+      }, 1000);
 
-  const gameInfo: GameInfo = {
-    option: { me: 'chick', opponent: 'frog' },
-    players: {
-      me: { nickname: '아리', wins: 5, losses: 1 },
-      opponent: { nickname: '구리여섯글자', wins: 3, losses: 2 },
-    },
-    turn: 'opponent',
-  };
+      return () => clearTimeout(timer);
+    }
+  }, [winners]);
+
+  const gameResult =
+    winners.length === 1
+      ? winners[0] === player1.characterOption
+        ? `${player1.nickname} 승`
+        : `${player2.nickname} 승`
+      : '무승부';
+
+  const winnerImage =
+    winners.length === 1
+      ? winners[0] === 'green'
+        ? greenWin
+        : yellowWin
+      : greenYellowWin;
 
   return (
     <div className="play-page">
       {isStartCountVisible && <Count onEnd={handleStartCountEnd} />}
 
       <UserPlayBox
-        playerType="opponent"
-        option={gameInfo.option.opponent}
-        userInfo={gameInfo.players.opponent}
-        turn={gameInfo.turn}
+        playerType="player1"
+        option={player1.characterOption}
+        nickname={player1.nickname}
       />
 
       <div className="game-box">
-        <CharacterList characterOption={gameInfo.option.opponent} />
+        <CharacterList characterOption={player1.characterOption} />
         <Board />
-        <CharacterList characterOption={gameInfo.option.me} />
+        <CharacterList characterOption={player2.characterOption} />
       </div>
 
       <UserPlayBox
-        playerType="me"
-        option={gameInfo.option.me}
-        userInfo={gameInfo.players.me}
-        turn={gameInfo.turn}
+        playerType="player2"
+        option={player2.characterOption}
+        nickname={player2.nickname}
       />
 
       <Modal
         isOpen={isModalOpen}
-        message="아리 승!" // 추후 동적으로 입력할 값
+        message={gameResult}
         messageFontSize={messageFontSize}
         btns={btns}
-        buttonActions={[rematch, closeModal]}
+        buttonActions={[rematch, goToMain]}
       >
-        <Modal.Image imageSrc={eggwin} />
+        <Modal.Image imageSrc={winnerImage} />
       </Modal>
     </div>
   );

@@ -1,7 +1,8 @@
 import 'styles/components/play/timer.scss';
+import { PlayerType } from 'types/play';
 
 interface TimerProps {
-  playerType: 'me' | 'opponent';
+  playerType: PlayerType;
   progressBarWidth: number;
 }
 

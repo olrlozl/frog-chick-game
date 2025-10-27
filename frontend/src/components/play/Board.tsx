@@ -1,21 +1,19 @@
-import { useBoard } from 'hooks/useBoard';
+import { usePlayStore } from 'stores/playStore';
 import Square from './Square';
 import 'styles/components/play/board.scss';
 
 const Board = () => {
-  const { board, updateBoard } = useBoard();
+  const { board } = usePlayStore();
 
   return (
     <div className="board">
       {board.map((col, colIndex) => (
         <div className="board-col" key={colIndex}>
-          {col.map((square, rowIndex) => (
+          {col.map((_, rowIndex) => (
             <Square
               key={`${rowIndex}-${colIndex}`}
               row={rowIndex}
               col={colIndex}
-              characterInfo={square}
-              updateBoard={updateBoard}
             />
           ))}
         </div>

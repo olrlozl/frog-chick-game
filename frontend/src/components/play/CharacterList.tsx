@@ -5,6 +5,7 @@ import {
   CharacterInfoInterface,
 } from 'types/play';
 import Character from './Character';
+import { usePlayStore } from 'stores/playStore';
 
 interface CharacterProps {
   characterOption: CharacterOptionType;
@@ -13,6 +14,8 @@ interface CharacterProps {
 const CharacterList = ({ characterOption }: CharacterProps) => {
   const CHARACTER_SIZES: CharacterSizeType[] = ['large', 'middle', 'small'];
   const COUNT_PER_SIZE = 2;
+
+  const { usedCharacterKeys } = usePlayStore();
 
   return (
     <div className="character-list">
@@ -26,7 +29,15 @@ const CharacterList = ({ characterOption }: CharacterProps) => {
             characterKey,
           };
 
-          return <Character key={characterKey} characterInfo={characterInfo} />;
+          const isHidden = usedCharacterKeys.includes(characterKey);
+
+          return (
+            <Character
+              key={characterKey}
+              characterInfo={characterInfo}
+              isHidden={isHidden}
+            />
+          );
         })
       )}
     </div>
