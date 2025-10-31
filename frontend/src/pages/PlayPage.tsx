@@ -4,7 +4,7 @@ import greenWin from 'assets/images/green-win.png';
 import yellowWin from 'assets/images/yellow-win.png';
 import greenYellowWin from 'assets/images/green-yellow-win.png';
 import Modal from 'components/common/Modal/Modal';
-import UserPlayBox from 'components/play/UserPlayBox';
+import PlayerBox from 'components/play/PlayerBox';
 import CharacterList from 'components/play/CharacterList';
 import Board from 'components/play/Board';
 import Count from 'components/play/Count';
@@ -90,7 +90,7 @@ const PlayPage = () => {
     <div className="play-page">
       {isStartCountVisible && <Count onEnd={handleStartCountEnd} />}
 
-      <UserPlayBox
+      <PlayerBox
         playerType="player1"
         option={player1.characterOption}
         nickname={player1.nickname}
@@ -102,7 +102,7 @@ const PlayPage = () => {
         <CharacterList characterOption={player2.characterOption} />
       </div>
 
-      <UserPlayBox
+      <PlayerBox
         playerType="player2"
         option={player2.characterOption}
         nickname={player2.nickname}
