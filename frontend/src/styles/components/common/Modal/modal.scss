@@ -14,9 +14,9 @@
   .container {
     @include flex-center;
     background: white;
-    border: 5px solid $color-blue4;
-    padding: 40px;
-    border-radius: 20px;
+    border: 10px solid #cfcfcf;
+    padding: 30px;
+    border-radius: 40px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 320px;
@@ -27,7 +27,7 @@
 
     .message {
       line-height: 1;
-      margin-bottom: 15px;
+      margin-bottom: 25px;
       white-space: pre-wrap;
 
       &.font-xl {
@@ -41,8 +41,21 @@
 
     .buttons {
       display: flex;
-      margin-top: 15px;
-      gap: 25px;
+      width: 100%;
+      gap: 20px;
+
+      &.row {
+        flex-direction: row;
+      }
+
+      &.column {
+        flex-direction: column;
+        width: 100%;
+
+        button {
+          width: 100%;
+        }
+      }
     }
   }
 }

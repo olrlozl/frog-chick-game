@@ -12,6 +12,7 @@ import { modalProps } from 'constants/modal';
 import { usePlayStore } from 'stores/playStore';
 import { useNavigate } from 'react-router-dom';
 import { SoundManager } from 'utils/soundManager';
+import BasicButton from 'components/common/Button/BasicButton';
 
 const PlayPage = () => {
   const navigate = useNavigate();
@@ -106,6 +107,14 @@ const PlayPage = () => {
         option={player2.characterOption}
         nickname={player2.nickname}
       />
+
+      <div className={`pause-box ${player2.characterOption}`}>
+        <BasicButton
+          label="일시정지"
+          onClick={handleGamePause}
+          type={player2.characterOption}
+        />
+      </div>
 
       <Modal
         isOpen={isResultModalOpen}
