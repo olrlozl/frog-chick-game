@@ -37,7 +37,7 @@ const UserRankItem = ({
         {myNickname === nickname && <div className="me-mark">나</div>}
       </div>
       <div className="win-lose-box">
-        <WinLoseBox wins={wins} losses={losses} color={color} size="font-xs" />
+        <WinLoseBox wins={wins} losses={losses} color={color} size="font-sm" />
       </div>
     </div>
   );

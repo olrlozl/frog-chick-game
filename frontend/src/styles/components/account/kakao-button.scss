@@ -4,13 +4,24 @@
 
 .kakao-button {
   @include flex-center;
-  background-color: #FEE500;
+  cursor: pointer;
   width: 95%;
   min-height: 50px;
-  box-shadow: 3px 3px 4px rgba(0,0, 0, 0.25);
-  border-radius: 12px;
-  padding: 0px 5px;
-  cursor: pointer;
+  border-radius: 25px;
+  background-color: #fee500;
+  box-shadow: 0 8px 0 #d3b700;
+  transition: all 0.1s ease;
+
+  &:hover {
+    transform: translateY(3px);
+    box-shadow: 0 5px 0 #d3b700;
+  }
+
+  &:active {
+    transform: translateY(6px);
+    background-color: darken(#fee500, 5%);
+    box-shadow: 0 2px 0 #d3b700;
+  }
 
   .content-box {
     @include flex-center;
@@ -19,14 +30,12 @@
 
     img {
       width: 24px;
-      aspect-ratio: 1/1;  
+      aspect-ratio: 1/1;
     }
 
     span {
       font-size: $font-sm;
-      // windows, ios & macOS, android 기본서체
-      font-family: 'Segoe UI', 'San Francisco', 'Roboto';
-      color: rgba(0,0, 0, 0.85);
+      color: rgba(0, 0, 0, 0.85);
     }
   }
 }

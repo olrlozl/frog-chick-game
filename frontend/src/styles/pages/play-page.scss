@@ -1,12 +1,29 @@
-.play-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
 
+.play-page {
   .game-box {
-    position: relative;
-    left: 0;
-    right: 0;
+    flex: 1;
+    @include flex-center;
+    flex-direction: column;
+    margin-top: 18px; // +8px(player1 timer length)
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .pause-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px 15px 10px;
+
+    &.green {
+      background-color: $color-green2;
+    }
+
+    &.yellow {
+      background-color: $color-orange2;
+    }
   }
 }

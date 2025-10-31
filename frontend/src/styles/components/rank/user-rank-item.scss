@@ -6,7 +6,7 @@
   align-items: center;
   position: relative;
   // 10개의 요소가 화면에 거의 꽉 차기 위해
-  height: 10%; 
+  height: 10%;
   border-radius: 10px;
 
   .rank-number-box {
@@ -37,6 +37,7 @@
 
     .nickname {
       font-size: $font-lg;
+      color: #353535;
     }
 
     .me-mark {
@@ -61,40 +62,40 @@
   }
 
   &:nth-child(1) {
-    background-color: #F5CD6D;
+    background-color: #f5cd6d;
 
     .rank-number-box {
-      background-color: #FCB01E;
+      background-color: #fcb01e;
     }
   }
 
   &:nth-child(2) {
-    background-color: #F5CD6D80;
+    background-color: #f5cd6d80;
 
     .rank-number-box {
-      background-color: #FCB01E80;
+      background-color: #fcb01e80;
     }
   }
 
   &:nth-child(3) {
-    background-color: #F5CD6D50;
+    background-color: #f5cd6d50;
 
     .rank-number-box {
-      background-color: #FCB01E50;
+      background-color: #fcb01e50;
     }
   }
 
   //4번째 요소부터 끝까지
-  &:nth-child(n+4) {
-    background-color: #97CC8150;
-    
+  &:nth-child(n + 4) {
+    background-color: #97cc8150;
+
     .rank-number-box {
       background-color: $color-green2;
     }
   }
 
   &.my-rank {
-    height: 100%; 
+    height: 100%;
     background-color: $color-blue3;
 
     .rank-number-box {

@@ -5,7 +5,7 @@
   color: black;
 }
 
-@mixin balloon-title {
+@mixin content-title {
   font-size: $font-md;
   color: black;
 }
@@ -32,7 +32,8 @@
 
 @mixin disabled {
   pointer-events: none;
-  color: #929292;
-  border: none;
-  background-color: #d9d9d9;
+  color: #bababa;
+  transform: translateY(6px);
+  background-color: #6d6d6d;
+  box-shadow: 0 2px 0 rgb(0, 0, 0, 0.7);
 }

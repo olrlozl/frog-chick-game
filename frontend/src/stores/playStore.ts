@@ -57,10 +57,10 @@ export const usePlayStore = create<PlayState & PlayAction>()(
     (set, get) => ({
       player1: {
         userId: '',
-        nickname: '짱구는못말려',
-        characterOption: 'green',
+        nickname: 'Player1',
+        characterOption: 'yellow',
       },
-      player2: { userId: '', nickname: '이응지읒', characterOption: 'yellow' },
+      player2: { userId: '', nickname: 'Player2', characterOption: 'green' },
       turn: 'player1',
       time: TURN_TIME_LIMIT,
       timerId: null,
