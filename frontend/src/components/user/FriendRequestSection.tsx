@@ -1,8 +1,8 @@
 import 'styles/components/user/friend-request-section.scss';
-import BalloonTitle from 'components/user/BalloonTitle';
 import MiniButton from 'components/common/Button/MiniButton';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 import { useRequestFriend } from 'hooks/friend/useRequestFriend';
+import ContentTitle from 'components/user/ContentTitle';
 
 const FriendRequestSection = () => {
   const {
@@ -17,7 +17,7 @@ const FriendRequestSection = () => {
 
   return (
     <div className="friend-request-section">
-      <BalloonTitle title="받은 요청" showRefresh={true} onClick={refetch} />
+      <ContentTitle title="받은 요청" showRefresh={true} onClick={refetch} />
       <div className="request-box">
         {isFetching && <LocalLoadingSpinner />}
         {!isFetching &&

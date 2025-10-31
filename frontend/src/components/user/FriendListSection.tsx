@@ -1,5 +1,4 @@
 import 'styles/components/user/friend-list-section.scss';
-import BalloonTitle from 'components/user/BalloonTitle';
 import UserInfo from 'components/user/UserInfo';
 import MiniButton from 'components/common/Button/MiniButton';
 import UserState from 'components/user/UserState';
@@ -13,6 +12,7 @@ import { errorHandle } from 'utils/error';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { queryClient } from 'api/queryClient';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
+import ContentTitle from 'components/user/ContentTitle';
 
 const FriendListSection = () => {
   const [requestErrorMessage, setRequestErrorMessage] = useState('');
@@ -43,7 +43,7 @@ const FriendListSection = () => {
 
   return (
     <div className="friend-list-section">
-      <BalloonTitle title="친구 목록" showRefresh={true} onClick={refetch} />
+      <ContentTitle title="친구 목록" showRefresh={true} onClick={refetch} />
       <div className="list-box">
         {isFetching && <LocalLoadingSpinner />}
         {!isFetching &&

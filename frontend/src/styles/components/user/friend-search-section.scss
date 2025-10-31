@@ -1,6 +1,8 @@
 @import 'styles/abstracts/mixins';
 
 .friend-search-section {
+  width: 100%;
+
   .friend-search-box {
     @include flex-center;
     gap: 10px;

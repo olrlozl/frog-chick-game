@@ -1,0 +1,43 @@
+@import 'styles/abstracts/variables';
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e4e4e4;
+  box-sizing: border-box;
+
+  .back-button {
+    position: absolute;
+    left: 16px;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    img {
+      width: 35px;
+      height: 35px;
+    }
+
+    &:hover {
+      opacity: 0.8;
+      transform: scale(1.08);
+    }
+
+    &:active {
+      opacity: 0.6;
+      transform: scale(0.92);
+    }
+  }
+
+  .header-title {
+    font-size: $font-xl;
+    font-weight: 500;
+    color: #222;
+  }
+}
