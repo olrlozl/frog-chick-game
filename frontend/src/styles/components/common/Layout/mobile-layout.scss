@@ -1,0 +1,47 @@
+@import 'styles/abstracts/mixins';
+
+.layout-wrapper {
+  @include flex-center;
+  background: #f2f2f2;
+  width: 100%;
+  overflow-y: auto;
+
+  .mobile-frame {
+    display: flex;
+    flex-direction: column;
+    width: 430px;
+    height: 100dvh;
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+
+    .main-page,
+    .rank-page,
+    .guide-page,
+    .setting-page,
+    .friend-mode-page,
+    .landing-page,
+    .play-page {
+      flex: 1;
+      @include flex-center;
+      flex-direction: column;
+      overflow: hidden;
+
+      .page-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      box-shadow: none;
+    }
+  }
+}
