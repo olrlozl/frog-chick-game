@@ -24,10 +24,11 @@ export const ProtectedRoute = () => {
         <Outlet />
         <Modal
           isOpen={!!errorMessage}
-          message={errorMessage}
           btns={btns}
           buttonActions={[handleClickModalAction]}
-        />
+        >
+          <Modal.Message message={errorMessage} />
+        </Modal>
       </>
     );
   else return <Navigate to="/" />;

@@ -1,6 +1,5 @@
 import logo from 'assets/images/logo.png';
 import board from 'assets/images/board.png';
-import 'styles/components/common/Button/long-button.scss';
 import 'styles/pages/landing-page.scss';
 import { useEffect, useState } from 'react';
 import Modal from 'components/common/Modal/Modal';
@@ -21,7 +20,7 @@ const LandingPage = () => {
   const handleClickGetKakaoCode = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
   };
-  
+
   // 2. 리다이렉션 후 카카오 로그인 시도
   const code = new URL(window.location.href).searchParams.get('code');
   const executeKakaoLogin = useLogin(setUserId, openModal);
@@ -47,11 +46,11 @@ const LandingPage = () => {
       <KakaoButton onClick={handleClickGetKakaoCode} kakaoOption="로그인" />
       <Modal
         isOpen={isModalOpen}
-        message={message}
         btns={btns}
         buttonActions={[validateAndCreateNickname]}
         isLoading={isCreateNicknameLoading}
       >
+        <Modal.Message message={message} />
         <Modal.NicknameInput
           text="한글, 영어 2~6자"
           nickname={nickname}

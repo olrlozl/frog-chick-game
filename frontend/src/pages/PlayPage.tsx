@@ -19,26 +19,39 @@ const PlayPage = () => {
     usePlayStore();
 
   const [isStartCountVisible, setStartCountVisible] = useState(true);
-  const [isModalOpen, setModalOpen] = useState(false);
-  const { messageFontSize, btns } = modalProps.gameResult;
+  const [isResultModalOpen, setResultModalOpen] = useState(false);
+  const [isPauseModalOpen, setPauseModalOpen] = useState(false);
+  const { messageFontSize, btns: resultModalBtns } = modalProps.gameResult;
+  const { btns: pauseModalBtns } = modalProps.gamePause;
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const handleStartCountEnd = () => {
+    setStartCountVisible(false);
+    startTimer();
+  };
+
+  const handleGamePause = () => {
+    setPauseModalOpen(true);
+  };
 
   const rematch = () => {
-    closeModal();
+    setResultModalOpen(false);
     resetGame();
     setStartCountVisible(true);
   };
 
   const goToMain = () => {
-    closeModal();
+    setResultModalOpen(false);
     navigate('/main');
   };
 
-  const handleStartCountEnd = () => {
-    setStartCountVisible(false);
-    startTimer();
+  const gameAgain = () => {
+    setPauseModalOpen(false);
+    resetGame();
+    setStartCountVisible(true);
+  };
+
+  const gameContinue = () => {
+    setPauseModalOpen(false);
   };
 
   useEffect(() => {
@@ -51,7 +64,7 @@ const PlayPage = () => {
     if (winners.length > 0) {
       stopTimer();
       const timer = setTimeout(() => {
-        openModal();
+        setResultModalOpen(true);
       }, 1000);
 
       return () => clearTimeout(timer);
@@ -95,14 +108,20 @@ const PlayPage = () => {
       />
 
       <Modal
-        isOpen={isModalOpen}
-        message={gameResult}
-        messageFontSize={messageFontSize}
-        btns={btns}
+        isOpen={isResultModalOpen}
+        btns={resultModalBtns}
         buttonActions={[rematch, goToMain]}
       >
+        <Modal.Message message={gameResult} messageFontSize={messageFontSize} />
         <Modal.Image imageSrc={winnerImage} />
       </Modal>
+
+      <Modal
+        isOpen={isPauseModalOpen}
+        btns={pauseModalBtns}
+        buttonActions={[gameAgain, gameContinue, goToMain]}
+        buttonDirection="column"
+      />
     </div>
   );
 };
