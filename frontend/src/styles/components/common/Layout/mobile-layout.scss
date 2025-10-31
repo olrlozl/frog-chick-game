@@ -16,11 +16,11 @@
     position: relative;
 
     .main-page,
+    .landing-page,
+    .friend-mode-page,
     .rank-page,
     .guide-page,
     .setting-page,
-    .friend-mode-page,
-    .landing-page,
     .play-page {
       flex: 1;
       @include flex-center;

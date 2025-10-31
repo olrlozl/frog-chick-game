@@ -42,7 +42,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <img className="logo" src={logo} alt="로고" />
-      <img className="board" src={board} alt="게임판" />
+      <img className="board-img" src={board} alt="게임판" />
       <KakaoButton onClick={handleClickGetKakaoCode} kakaoOption="로그인" />
       <Modal
         isOpen={isModalOpen}
