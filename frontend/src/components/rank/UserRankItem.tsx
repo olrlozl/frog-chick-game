@@ -6,17 +6,16 @@ interface UserInfo {
   nickname: string;
   wins: number;
   losses: number;
+  rank: number;
 }
 
 interface UserRankItemProps {
-  rank: number;
   userInfo: UserInfo;
   myNickname: string;
   isMyRankSection: boolean;
 }
 
 const UserRankItem = ({
-  rank,
   userInfo,
   myNickname,
   isMyRankSection,
@@ -24,13 +23,13 @@ const UserRankItem = ({
   const { nickname, wins, losses } = userInfo;
 
   let color = isMyRankSection ? 'white' : 'rank-yellow';
-  let isTopRank = rank !== null && rank <= 3;
+  let isTopRank = userInfo.rank !== null && userInfo.rank <= 3;
 
   return (
     <div className={`user-rank-item ${isMyRankSection && 'my-rank'}`}>
       <div className="rank-number-box">
         {isTopRank && <img src={crown} alt="상위권" />}
-        <span>{rank}</span>
+        <span>{userInfo.rank}</span>
       </div>
       <div className="nickname-box">
         <span className="nickname">{nickname}</span>

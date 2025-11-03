@@ -1,4 +1,4 @@
-import { UserInfoInterface, UserStateType } from 'types/user';
+import { UserStateType } from 'types/user';
 
 export interface SearchFriendParams {
   nickname: string;
@@ -17,7 +17,9 @@ export interface ApplyFriendParams {
 }
 
 type FriendList = {
-  userInfo: UserInfoInterface;
+  nickname: string;
+  wins: number;
+  losses: number;
   state: UserStateType;
 }[];
 

@@ -1,11 +1,5 @@
 export type GameModeType = 'local' | 'friend' | 'random';
 
-export interface UserInfoInterface {
-  nickname: string;
-  wins: number;
-  losses: number;
-}
-
 export type UserStateType = 'online' | 'offline' | 'playing';
 
 // API 관련

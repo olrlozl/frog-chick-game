@@ -21,9 +21,9 @@ const RankPage = () => {
                     nickname: data.me.nickname,
                     wins: data.me.wins,
                     losses: data.me.losses,
+                    rank: data.me.rank,
                   }}
                   myNickname={data.me.nickname}
-                  rank={data.me.rank}
                   isMyRankSection={true}
                 />
               </section>
@@ -35,9 +35,9 @@ const RankPage = () => {
                       nickname: user.nickname,
                       wins: user.wins,
                       losses: user.losses,
+                      rank: user.rank,
                     }}
                     myNickname={data.me.nickname}
-                    rank={user.rank}
                     isMyRankSection={false}
                   />
                 ))}
