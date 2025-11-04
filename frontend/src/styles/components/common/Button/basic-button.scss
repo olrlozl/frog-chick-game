@@ -6,15 +6,16 @@
   @include flex-center;
   font-family: 'ButtonFont';
   cursor: pointer;
-  font-size: 25px;
+  font-size: $font-md;
   border-radius: 25px;
-  width: 100%;
+  padding: 0 10px;
   height: 50px;
   border: none;
   transition: all 0.1s ease;
   color: #fff;
   font-weight: 500;
   position: relative;
+  white-space: nowrap;
 
   &:hover {
     transform: translateY(3px);
@@ -22,6 +23,14 @@
 
   &:active {
     transform: translateY(6px);
+  }
+
+  &.disabled {
+    pointer-events: none;
+    color: #bababa;
+    transform: translateY(6px);
+    background-color: #6d6d6d;
+    box-shadow: 0 2px 0 rgb(0, 0, 0, 0.7);
   }
 
   &.deepblue {
@@ -66,43 +75,89 @@
     }
   }
 
-  &.yellow {
+  &.deepgreen {
+    background-color: #1db956;
+    box-shadow: 0 8px 0 #15803d;
+
+    &:hover {
+      box-shadow: 0 5px 0 #15803d;
+    }
+
+    &:active {
+      background-color: darken(#1db956, 10%);
+      box-shadow: 0 2px 0 #15803d;
+    }
+  }
+
+  &.gray {
+    background-color: #bebebe;
+    box-shadow: 0 8px 0 #8e8e8e;
+
+    &:hover {
+      box-shadow: 0 5px 0 #8e8e8e;
+    }
+
+    &:active {
+      background-color: darken(#bebebe, 10%);
+      box-shadow: 0 2px 0 #8e8e8e;
+    }
+  }
+
+  &.long {
     height: 40px;
-    color: $color-orange3;
-    background-color: $color-orange1;
-    box-shadow: 0 6px 0 $color-orange3;
+    width: 100%;
 
     &:hover {
       transform: translateY(2px);
-      box-shadow: 0 4px 0 $color-orange3;
     }
 
     &:active {
       transform: translateY(4px);
-      background-color: darken($color-orange1, 5%);
-      box-shadow: 0 2px 0 $color-orange3;
+    }
+
+    &.yellow {
+      color: $color-orange3;
+      background-color: $color-orange1;
+      box-shadow: 0 6px 0 $color-orange3;
+
+      &:hover {
+        box-shadow: 0 4px 0 $color-orange3;
+      }
+
+      &:active {
+        background-color: darken($color-orange1, 5%);
+        box-shadow: 0 2px 0 $color-orange3;
+      }
+    }
+
+    &.green {
+      color: $color-green3;
+      background-color: #d0e8c6;
+      box-shadow: 0 6px 0 $color-green3;
+
+      &:hover {
+        box-shadow: 0 4px 0 $color-green3;
+      }
+
+      &:active {
+        background-color: darken(#d0e8c6, 5%);
+        box-shadow: 0 2px 0 $color-green3;
+      }
     }
   }
 
-  &.green {
-    height: 40px;
-    color: $color-green3;
-    background-color: $color-green1;
-    box-shadow: 0 6px 0 $color-green3;
+  &.mini,
+  &.middle {
+    height: 35px;
+    font-size: $font-sm;
+    margin-bottom: 8px;
 
-    &:hover {
+    &.disabled {
       transform: translateY(2px);
-      box-shadow: 0 4px 0 $color-green3;
-    }
-
-    &:active {
-      transform: translateY(4px);
-      background-color: darken($color-green1, 5%);
-      box-shadow: 0 2px 0 $color-green3;
     }
   }
 
-  &.disabled {
-    @include disabled;
+  &.middle {
+    padding: 0 20px;
   }
 }

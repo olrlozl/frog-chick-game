@@ -1,22 +1,24 @@
+import { ButtonColor, ButtonType } from 'constants/button';
 import 'styles/components/common/Button/basic-button.scss';
-import { ButtonColor } from 'types/common';
 
 interface BasicButtonProps {
+  type: ButtonType;
   label: string;
+  color: ButtonColor;
   onClick: () => void;
-  type: ButtonColor;
-  isLoading?: boolean;
+  disabled?: boolean;
 }
 
 const BasicButton = ({
-  label,
-  onClick,
   type,
-  isLoading = false,
+  label,
+  color,
+  onClick,
+  disabled = false,
 }: BasicButtonProps) => {
   return (
     <button
-      className={`basic-button ${type} ${isLoading ? 'disabled' : undefined}`}
+      className={`basic-button ${type} ${color} ${disabled ? 'disabled' : undefined}`}
       onClick={onClick}
     >
       {label}

@@ -2,16 +2,16 @@ import ReactDOM from 'react-dom';
 import BasicButton from 'components/common/Button/BasicButton';
 import 'styles/components/common/Modal/modal.scss';
 import OverLay from 'components/common/Modal/OverLay';
-import { ButtonColor } from 'types/common';
 import { ReactNode } from 'react';
 import NicknameInput from 'components/user/NicknameInput';
 import { ErrorMessage } from './ErrorMessage';
 import { ModalImage } from './ModalImage';
 import { ModalMessage } from './ModalMessage';
+import { ButtonColor } from 'constants/button';
 
 interface ModalProps {
   isOpen: boolean;
-  btns: { label: string; type: ButtonColor }[];
+  btns: { label: string; color: ButtonColor }[];
   buttonActions: (() => void)[];
   buttonDirection?: 'row' | 'column';
   isLoading?: boolean;
@@ -36,11 +36,12 @@ const Modal = ({
         <div className={`buttons ${buttonDirection}`}>
           {btns.map((btn, index) => (
             <BasicButton
+              type="modal"
               key={index}
               label={btn.label}
               onClick={buttonActions[index]}
-              type={btn.type}
-              isLoading={isLoading}
+              color={btn.color}
+              disabled={isLoading}
             />
           ))}
         </div>
