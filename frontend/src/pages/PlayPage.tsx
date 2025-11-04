@@ -110,9 +110,10 @@ const PlayPage = () => {
 
       <div className={`pause-box ${player2.characterOption}`}>
         <BasicButton
+          type="long"
           label="일시정지"
           onClick={handleGamePause}
-          type={player2.characterOption}
+          color={player2.characterOption}
         />
       </div>
 

@@ -1,6 +1,5 @@
 import FriendSearchSection from 'components/user/FriendSearchSection';
 import FriendListSection from 'components/user/FriendListSection';
-import FriendRequestSection from 'components/user/FriendRequestSection';
 import Header from 'components/common/Layout/Header';
 
 const FriendModePage = () => {
@@ -10,7 +9,6 @@ const FriendModePage = () => {
       <div className="page-content">
         <FriendSearchSection />
         <FriendListSection />
-        <FriendRequestSection />
       </div>
     </div>
   );

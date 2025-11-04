@@ -1,21 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {
-  getReceivedFriendList,
-  acceptFriend,
-  rejectFriend,
-} from 'api/friendApi';
+import { acceptFriend, getFriendList, rejectFriend } from 'api/friendApi';
 import { queryClient } from 'api/queryClient';
 import { AxiosError } from 'axios';
 import { QUERY_KEYS } from 'constants/reactQueryKeys';
 import { useEffect } from 'react';
 import { useErrorStore } from 'stores/errorStore';
 
-export const useRequestFriend = () => {
+export const useFriendManager = () => {
   const { setErrorMessage } = useErrorStore();
 
   const { data, refetch, isFetching, isError, error } = useQuery({
-    queryKey: [QUERY_KEYS.friends, 'receipts'],
-    queryFn: getReceivedFriendList,
+    queryKey: [QUERY_KEYS.friends],
+    queryFn: getFriendList,
   });
 
   useEffect(() => {
@@ -32,8 +28,8 @@ export const useRequestFriend = () => {
       return;
     }
 
-    queryClient.removeQueries({ queryKey: [QUERY_KEYS.friends, 'receipts'] });
-    setErrorMessage('GET_FRIEND_RECEIPTS', errorType);
+    queryClient.removeQueries({ queryKey: [QUERY_KEYS.friends] });
+    setErrorMessage('GET_FRIEND', errorType);
   }, [isError, error]);
 
   const { mutate: executeAcceptFriend, isPending: isAcceptFriendLoading } =
@@ -41,16 +37,13 @@ export const useRequestFriend = () => {
       mutationFn: acceptFriend,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends, 'receipts'],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends, 'list'],
+          queryKey: [QUERY_KEYS.friends],
         });
       },
       onError: (err) => {
         if (err instanceof AxiosError && err.response?.data.errorType) {
           queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.friends, 'receipts'],
+            queryKey: [QUERY_KEYS.friends],
           });
           setErrorMessage('ACCEPT_FRIEND', err.response?.data.errorType);
         }
@@ -62,13 +55,13 @@ export const useRequestFriend = () => {
       mutationFn: rejectFriend,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends, 'receipts'],
+          queryKey: [QUERY_KEYS.friends],
         });
       },
       onError: (err) => {
         if (err instanceof AxiosError && err.response?.data.errorType) {
           queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.friends, 'receipts'],
+            queryKey: [QUERY_KEYS.friends],
           });
           setErrorMessage('REJECT_FRIEND', err.response?.data.errorType);
         }
