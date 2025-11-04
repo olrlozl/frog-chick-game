@@ -1,12 +1,15 @@
-import MiniButton from 'components/common/Button/MiniButton';
 import 'styles/components/user/friend-search-section.scss';
 import NicknameInput from 'components/user/NicknameInput';
-import UserInfo from 'components/user/UserInfo';
 import { useState } from 'react';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { SearchFriendResponse } from 'types/friend';
 import { useSearchFriend } from 'hooks/friend/useSearchFriend';
-import ContentTitle from 'components/user/ContentTitle';
+import BasicButton from 'components/common/Button/BasicButton';
+import { BUTTON_INFO } from 'constants/button';
+import { useFriendManager } from 'hooks/friend/useFriendManager';
+import FriendUserCard from './userCard/FriendUserCard';
+import ReceivedUserCard from './userCard/ReceivedUserCard';
+import SentUserCard from './userCard/SentUserCard';
 
 const FriendSearchSection = () => {
   const [nickname, setNickname] = useState('');
@@ -19,30 +22,51 @@ const FriendSearchSection = () => {
     executeApplyFriend,
     executeCancelApplyFriend,
     isApplyFriendLoading,
+    isCancelApplyFriendLoading,
   } = useSearchFriend(nickname, setNicknameErrorMessage);
 
-  const getMiniButtonType = (userInfo: SearchFriendResponse) => {
-    if (userInfo.isFriend) return 'friend';
-    if (userInfo.isSent) return 'pending';
-    return 'add';
-  };
+  const {
+    executeAcceptFriend,
+    isAcceptFriendLoading,
+    executeRejectFriend,
+    isRejectFriendLoading,
+  } = useFriendManager();
 
-  const getMiniButtonOnClick = (userInfo: SearchFriendResponse) => {
-    if (userInfo.isFriend) return;
+  const userCard = (userInfo: SearchFriendResponse) => {
+    if (userInfo.isFriend)
+      return (
+        <FriendUserCard
+          nickname={userInfo.nickname}
+          state={userInfo.state}
+          onInvite={() => {}}
+          onDelete={() => {}}
+        />
+      );
+    if (userInfo.isReceived)
+      return (
+        <ReceivedUserCard
+          nickname={userInfo.nickname}
+          executeAcceptFriend={executeAcceptFriend}
+          executeRejectFriend={executeRejectFriend}
+          isAcceptFriendLoading={isAcceptFriendLoading}
+          isRejectFriendLoading={isRejectFriendLoading}
+        />
+      );
 
-    if (userInfo.isSent)
-      return () => {
-        executeCancelApplyFriend({ to: userInfo.nickname });
-      };
-    else
-      return () => {
-        executeApplyFriend({ to: userInfo.nickname });
-      };
+    return (
+      <SentUserCard
+        nickname={nickname}
+        isSent={userInfo.isSent}
+        executeApplyFriend={executeApplyFriend}
+        executeCancelApplyFriend={executeCancelApplyFriend}
+        isApplyFriendLoading={isApplyFriendLoading}
+        isCancelApplyFriendLoading={isCancelApplyFriendLoading}
+      />
+    );
   };
 
   return (
     <div className="friend-search-section">
-      <ContentTitle title="친구 검색" />
       <div className="friend-search-box">
         <NicknameInput
           text="닉네임을 입력해주세요."
@@ -51,23 +75,17 @@ const FriendSearchSection = () => {
           setErrorMessage={setNicknameErrorMessage}
           onEnter={validateAndSearchFriend}
         />
-        <MiniButton
-          type="search"
+        <BasicButton
+          type="middle"
+          label={BUTTON_INFO.search.label}
+          color={BUTTON_INFO.search.color}
           onClick={validateAndSearchFriend}
-          isLoading={searchFriendLoading}
+          disabled={searchFriendLoading}
         />
       </div>
+
       <div className="result-box">
-        {userInfo && (
-          <>
-            <UserInfo userInfoOption="search" userInfo={userInfo} />
-            <MiniButton
-              type={getMiniButtonType(userInfo)}
-              onClick={getMiniButtonOnClick(userInfo)}
-              isLoading={isApplyFriendLoading}
-            />
-          </>
-        )}
+        {userInfo && userCard(userInfo)}
         {nicknameErrorMessage && (
           <ErrorMessage errorMessage={nicknameErrorMessage} />
         )}
@@ -75,5 +93,4 @@ const FriendSearchSection = () => {
     </div>
   );
 };
-
 export default FriendSearchSection;

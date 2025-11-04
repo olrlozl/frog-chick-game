@@ -4,10 +4,11 @@
   width: 100%;
 
   .friend-search-box {
+    flex-wrap: wrap;
     @include flex-center;
     gap: 10px;
   }
   .result-box {
-    @include user-item;
+    margin-bottom: 10px;
   }
 }

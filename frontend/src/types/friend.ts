@@ -6,33 +6,23 @@ export interface SearchFriendParams {
 
 export interface SearchFriendResponse {
   nickname: string;
-  wins: number;
-  losses: number;
-  isSent: boolean;
+  state: UserStateType;
   isFriend: boolean;
+  isSent: boolean;
+  isReceived: boolean;
 }
 
 export interface ApplyFriendParams {
   to: string;
 }
-
-type FriendList = {
+export interface FriendItem {
   nickname: string;
-  wins: number;
-  losses: number;
   state: UserStateType;
-}[];
-
-export interface GetFriendListResponse {
-  friendList: FriendList;
 }
 
-type ReceivedList = {
-  nickname: string;
-}[];
-
-export interface GetReceivedFriendListResponse {
-  receivedList: ReceivedList;
+export interface GetFriendListResponse {
+  friends: FriendItem[];
+  friendRequests: FriendItem[];
 }
 
 export interface handelFriendRequestParams {
