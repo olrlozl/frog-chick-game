@@ -9,7 +9,7 @@ export const useRank = () => {
   const { setErrorMessage } = useErrorStore();
 
   const { data, isFetching, isError, error } = useQuery({
-    queryKey: [QUERY_KEYS.ranks],
+    queryKey: [QUERY_KEYS.rank],
     queryFn: getRankList,
     staleTime: 1000 * 60 * 30,
   });

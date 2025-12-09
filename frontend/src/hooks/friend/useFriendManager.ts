@@ -10,7 +10,7 @@ export const useFriendManager = () => {
   const { setErrorMessage } = useErrorStore();
 
   const { data, refetch, isFetching, isError, error } = useQuery({
-    queryKey: [QUERY_KEYS.friends],
+    queryKey: [QUERY_KEYS.friend],
     queryFn: getFriendList,
   });
 
@@ -28,7 +28,7 @@ export const useFriendManager = () => {
       return;
     }
 
-    queryClient.removeQueries({ queryKey: [QUERY_KEYS.friends] });
+    queryClient.removeQueries({ queryKey: [QUERY_KEYS.friend] });
     setErrorMessage('GET_FRIEND', errorType);
   }, [isError, error]);
 
@@ -37,13 +37,13 @@ export const useFriendManager = () => {
       mutationFn: acceptFriend,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends],
+          queryKey: [QUERY_KEYS.friend],
         });
       },
       onError: (err) => {
         if (err instanceof AxiosError && err.response?.data.errorType) {
           queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.friends],
+            queryKey: [QUERY_KEYS.friend],
           });
           setErrorMessage('ACCEPT_FRIEND', err.response?.data.errorType);
         }
@@ -55,13 +55,13 @@ export const useFriendManager = () => {
       mutationFn: rejectFriend,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends],
+          queryKey: [QUERY_KEYS.friend],
         });
       },
       onError: (err) => {
         if (err instanceof AxiosError && err.response?.data.errorType) {
           queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.friends],
+            queryKey: [QUERY_KEYS.friend],
           });
           setErrorMessage('REJECT_FRIEND', err.response?.data.errorType);
         }

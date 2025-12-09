@@ -18,7 +18,7 @@ const FriendSearchSection = () => {
   const {
     userInfo,
     searchFriendLoading,
-    validateAndSearchFriend,
+    validateInputedNickname,
     executeApplyFriend,
     executeCancelApplyFriend,
     isApplyFriendLoading,
@@ -73,13 +73,13 @@ const FriendSearchSection = () => {
           nickname={nickname}
           setNickname={setNickname}
           setErrorMessage={setNicknameErrorMessage}
-          onEnter={validateAndSearchFriend}
+          onEnter={validateInputedNickname}
         />
         <BasicButton
           type="middle"
           label={BUTTON_INFO.search.label}
           color={BUTTON_INFO.search.color}
-          onClick={validateAndSearchFriend}
+          onClick={validateInputedNickname}
           disabled={searchFriendLoading}
         />
       </div>

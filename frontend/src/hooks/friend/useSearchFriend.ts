@@ -19,7 +19,7 @@ export const useSearchFriend = (
   const { setErrorMessage } = useErrorStore();
   const [searchedNickname, setSearchedNickname] = useState('');
 
-  const validateAndSearchFriend = () => {
+  const validateInputedNickname = () => {
     if (!nickname) {
       setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.MISSING_NICKNAME);
       return;
@@ -33,18 +33,23 @@ export const useSearchFriend = (
     }
 
     setSearchedNickname(nickname);
+
+    // 같은 닉네임이라도 다시 요청
+    if (searchedNickname === nickname) {
+      searchRefetch();
+    }
   };
 
   const {
     data: userInfo,
+    refetch: searchRefetch,
     isLoading: searchFriendLoading,
     isError: isSearchFriendError,
     error: searchFriendError,
   } = useQuery({
-    queryKey: [QUERY_KEYS.friends, searchedNickname],
+    queryKey: [QUERY_KEYS.friend, searchedNickname],
     queryFn: () => searchFriend({ nickname: searchedNickname }),
     enabled: !!searchedNickname,
-    staleTime: 1000 * 60 * 30,
     retry: (failureCount, err) => {
       const canRetry = failureCount < MAX_RETRIES;
 
@@ -87,7 +92,7 @@ export const useSearchFriend = (
       mutationFn: applyFriend,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends, variables.to],
+          queryKey: [QUERY_KEYS.friend, variables.to],
         });
       },
       onError: (err) => {
@@ -99,7 +104,7 @@ export const useSearchFriend = (
               if (JSON.parse(err.config?.data).to) {
                 queryClient.invalidateQueries({
                   queryKey: [
-                    QUERY_KEYS.friends,
+                    QUERY_KEYS.friend,
                     JSON.parse(err.config?.data).to,
                   ],
                 });
@@ -111,7 +116,7 @@ export const useSearchFriend = (
               if (JSON.parse(err.config?.data).to) {
                 queryClient.removeQueries({
                   queryKey: [
-                    QUERY_KEYS.friends,
+                    QUERY_KEYS.friend,
                     JSON.parse(err.config?.data).to,
                   ],
                 });
@@ -132,7 +137,7 @@ export const useSearchFriend = (
     mutationFn: cancelApplyFriend,
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.friends, variables.to],
+        queryKey: [QUERY_KEYS.friend, variables.to],
       });
     },
     onError: (err, variables) => {
@@ -142,7 +147,7 @@ export const useSearchFriend = (
           case 'NOT_FOUND_FRIEND_REQUEST':
             if (variables?.to) {
               queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.friends, variables.to],
+                queryKey: [QUERY_KEYS.friend, variables.to],
               });
             }
             break;
@@ -151,7 +156,7 @@ export const useSearchFriend = (
           case 'UNKNOWN_USER':
             if (variables?.to) {
               queryClient.removeQueries({
-                queryKey: [QUERY_KEYS.friends, variables.to],
+                queryKey: [QUERY_KEYS.friend, variables.to],
               });
             }
             setNicknameErrorMessage(
@@ -170,7 +175,7 @@ export const useSearchFriend = (
 
   return {
     userInfo,
-    validateAndSearchFriend,
+    validateInputedNickname,
     searchFriendLoading,
     executeApplyFriend,
     isApplyFriendLoading,
