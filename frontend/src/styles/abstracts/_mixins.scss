@@ -29,3 +29,28 @@
   gap: 10px;
   padding: 5px 0px;
 }
+
+@mixin variant-button(
+  $bg,
+  $shadow,
+  $text: #fff,
+  $shadow-base: 8px,
+  $hover-move: 3px,
+  $active-move: 6px,
+  $darken-amount: 10%
+) {
+  color: $text;
+  background-color: $bg;
+  box-shadow: 0 $shadow-base 0 $shadow;
+
+  &:hover {
+    box-shadow: 0 ($shadow-base - 3px) 0 $shadow;
+    transform: translateY($hover-move);
+  }
+
+  &:active {
+    background-color: darken($bg, $darken-amount);
+    box-shadow: 0 2px 0 $shadow;
+    transform: translateY($active-move);
+  }
+}

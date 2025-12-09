@@ -18,7 +18,7 @@ const BasicButton = ({
 }: BasicButtonProps) => {
   return (
     <button
-      className={`basic-button ${type} ${color} ${disabled ? 'disabled' : undefined}`}
+      className={`basic-button ${type} ${color} ${disabled ? 'disabled' : ''}`}
       onClick={onClick}
     >
       {label}

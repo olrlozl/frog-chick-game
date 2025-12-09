@@ -9,21 +9,10 @@
   font-size: $font-md;
   border-radius: 25px;
   padding: 0 10px;
-  height: 50px;
   border: none;
   transition: all 0.1s ease;
-  color: #fff;
   font-weight: 500;
-  position: relative;
   white-space: nowrap;
-
-  &:hover {
-    transform: translateY(3px);
-  }
-
-  &:active {
-    transform: translateY(6px);
-  }
 
   &.disabled {
     pointer-events: none;
@@ -33,117 +22,9 @@
     box-shadow: 0 2px 0 rgb(0, 0, 0, 0.7);
   }
 
-  &.deepblue {
-    background-color: #2563eb;
-    box-shadow: 0 8px 0 #1e3a8a;
-
-    &:hover {
-      box-shadow: 0 5px 0 #1e3a8a;
-    }
-
-    &:active {
-      background-color: darken(#2563eb, 10%);
-      box-shadow: 0 2px 0 #1e3a8a;
-    }
-  }
-
-  &.skyblue {
-    background-color: #38bdf8;
-    box-shadow: 0 8px 0 #0284c7;
-
-    &:hover {
-      box-shadow: 0 5px 0 #0284c7;
-    }
-
-    &:active {
-      background-color: darken(#38bdf8, 10%);
-      box-shadow: 0 2px 0 #0284c7;
-    }
-  }
-
-  &.red {
-    background-color: #f97316;
-    box-shadow: 0 8px 0 #c2410c;
-
-    &:hover {
-      box-shadow: 0 5px 0 #c2410c;
-    }
-
-    &:active {
-      background-color: darken(#f97316, 10%);
-      box-shadow: 0 2px 0 #c2410c;
-    }
-  }
-
-  &.deepgreen {
-    background-color: #1db956;
-    box-shadow: 0 8px 0 #15803d;
-
-    &:hover {
-      box-shadow: 0 5px 0 #15803d;
-    }
-
-    &:active {
-      background-color: darken(#1db956, 10%);
-      box-shadow: 0 2px 0 #15803d;
-    }
-  }
-
-  &.gray {
-    background-color: #bebebe;
-    box-shadow: 0 8px 0 #8e8e8e;
-
-    &:hover {
-      box-shadow: 0 5px 0 #8e8e8e;
-    }
-
-    &:active {
-      background-color: darken(#bebebe, 10%);
-      box-shadow: 0 2px 0 #8e8e8e;
-    }
-  }
-
-  &.long {
-    height: 40px;
-    width: 100%;
-
-    &:hover {
-      transform: translateY(2px);
-    }
-
-    &:active {
-      transform: translateY(4px);
-    }
-
-    &.yellow {
-      color: $color-orange3;
-      background-color: $color-orange1;
-      box-shadow: 0 6px 0 $color-orange3;
-
-      &:hover {
-        box-shadow: 0 4px 0 $color-orange3;
-      }
-
-      &:active {
-        background-color: darken($color-orange1, 5%);
-        box-shadow: 0 2px 0 $color-orange3;
-      }
-    }
-
-    &.green {
-      color: $color-green3;
-      background-color: #d0e8c6;
-      box-shadow: 0 6px 0 $color-green3;
-
-      &:hover {
-        box-shadow: 0 4px 0 $color-green3;
-      }
-
-      &:active {
-        background-color: darken(#d0e8c6, 5%);
-        box-shadow: 0 2px 0 $color-green3;
-      }
-    }
+  &.modal {
+    position: relative;
+    height: 50px;
   }
 
   &.mini,
@@ -159,5 +40,38 @@
 
   &.middle {
     padding: 0 20px;
+  }
+
+  &.long {
+    height: 40px;
+    width: 100%;
+  }
+
+  &.long.yellow {
+    @include variant-button(#ffe8ba, #d19900, #d19900, 6px, 2px, 4px, 5%);
+  }
+
+  &.long.green {
+    @include variant-button(#d0e8c6, #559838, #559838, 6px, 2px, 4px, 5%);
+  }
+
+  &.deepblue {
+    @include variant-button(#2563eb, #1e3a8a);
+  }
+
+  &.skyblue {
+    @include variant-button(#38bdf8, #0284c7);
+  }
+
+  &.red {
+    @include variant-button(#f97316, #c2410c);
+  }
+
+  &.deepgreen {
+    @include variant-button(#1db956, #15803d);
+  }
+
+  &.gray {
+    @include variant-button(#bebebe, #8e8e8e);
   }
 }
