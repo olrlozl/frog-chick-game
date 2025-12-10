@@ -7,6 +7,7 @@ interface BasicButtonProps {
   color: ButtonColor;
   onClick: () => void;
   disabled?: boolean;
+  leftIcon?: React.ReactNode;
 }
 
 const BasicButton = ({
@@ -15,13 +16,15 @@ const BasicButton = ({
   color,
   onClick,
   disabled = false,
+  leftIcon,
 }: BasicButtonProps) => {
   return (
     <button
-      className={`basic-button ${type} ${color} ${disabled ? 'disabled' : ''}`}
+      className={`basic-button ${type} ${color} ${disabled ? 'disabled' : ''} ${leftIcon ? 'with-icon' : ''}`}
       onClick={onClick}
     >
-      {label}
+      {leftIcon && <span className="icon">{leftIcon}</span>}
+      <span className="label">{label}</span>
     </button>
   );
 };

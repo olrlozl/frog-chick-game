@@ -1,13 +1,14 @@
 import logo from 'assets/images/logo.png';
 import board from 'assets/images/board.png';
+import kakaoImg from 'assets/images/kakao.png';
 import 'styles/pages/landing-page.scss';
 import { useEffect, useState } from 'react';
 import Modal from 'components/common/Modal/Modal';
 import { useNickname } from 'hooks/user/useNickname';
 import { useModal } from 'hooks/common/useModal';
 import { modalProps } from 'constants/modal';
-import KakaoButton from 'components/user/KakaoButton';
 import { useLogin } from 'hooks/user/useLogin';
+import BasicButton from 'components/common/Button/BasicButton';
 
 const LandingPage = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -43,7 +44,13 @@ const LandingPage = () => {
     <div className="landing-page">
       <img className="logo" src={logo} alt="로고" />
       <img className="board-img" src={board} alt="게임판" />
-      <KakaoButton onClick={handleClickGetKakaoCode} kakaoOption="로그인" />
+      <BasicButton
+        type="kakao"
+        color="yellow"
+        label="카카오 로그인"
+        onClick={handleClickGetKakaoCode}
+        leftIcon={<img src={kakaoImg} alt="카카오" />}
+      />
       <Modal
         isOpen={isModalOpen}
         btns={btns}

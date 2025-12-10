@@ -7,11 +7,11 @@ import NicknameInput from 'components/user/NicknameInput';
 import { ErrorMessage } from './ErrorMessage';
 import { ModalImage } from './ModalImage';
 import { ModalMessage } from './ModalMessage';
-import { ButtonColor } from 'constants/button';
+import { ModalButton } from 'constants/modal';
 
 interface ModalProps {
   isOpen: boolean;
-  btns: { label: string; color: ButtonColor }[];
+  btns: ModalButton[];
   buttonActions: (() => void)[];
   buttonDirection?: 'row' | 'column';
   isLoading?: boolean;
@@ -42,6 +42,7 @@ const Modal = ({
               onClick={buttonActions[index]}
               color={btn.color}
               disabled={isLoading}
+              leftIcon={btn.icon}
             />
           ))}
         </div>

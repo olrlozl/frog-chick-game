@@ -1,4 +1,4 @@
-export type ButtonType = 'modal' | 'mini' | 'middle' | 'long';
+export type ButtonType = 'modal' | 'mini' | 'middle' | 'long' | 'kakao';
 
 export type ButtonColor =
   | 'deepblue'
@@ -6,8 +6,9 @@ export type ButtonColor =
   | 'red'
   | 'deepgreen'
   | 'gray'
-  | 'yellow'
-  | 'green';
+  | 'lightyellow'
+  | 'lightgreen'
+  | 'yellow';
 
 export type ButtonLabelKey =
   | 'search'

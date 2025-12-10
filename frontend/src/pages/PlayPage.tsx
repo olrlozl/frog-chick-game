@@ -3,6 +3,8 @@ import 'styles/pages/play-page.scss';
 import greenWin from 'assets/images/green-win.png';
 import yellowWin from 'assets/images/yellow-win.png';
 import greenYellowWin from 'assets/images/green-yellow-win.png';
+import yellowPauseIcon from 'assets/images/yellow-pause-icon.png';
+import greenPauseIcon from 'assets/images/green-pause-icon.png';
 import Modal from 'components/common/Modal/Modal';
 import PlayerBox from 'components/play/PlayerBox';
 import CharacterList from 'components/play/CharacterList';
@@ -86,6 +88,11 @@ const PlayPage = () => {
         : yellowWin
       : greenYellowWin;
 
+  const pauseIconMap: Record<string, string> = {
+    yellow: yellowPauseIcon,
+    green: greenPauseIcon,
+  };
+
   return (
     <div className="play-page">
       {isStartCountVisible && <Count onEnd={handleStartCountEnd} />}
@@ -113,7 +120,10 @@ const PlayPage = () => {
           type="long"
           label="일시정지"
           onClick={handleGamePause}
-          color={player2.characterOption}
+          color={`light${player2.characterOption}`}
+          leftIcon={
+            <img src={pauseIconMap[player2.characterOption]} alt="일시정지" />
+          }
         />
       </div>
 

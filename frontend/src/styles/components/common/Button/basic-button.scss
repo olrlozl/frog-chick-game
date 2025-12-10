@@ -4,7 +4,6 @@
 
 .basic-button {
   @include flex-center;
-  font-family: 'ButtonFont';
   cursor: pointer;
   font-size: $font-md;
   border-radius: 25px;
@@ -13,6 +12,10 @@
   transition: all 0.1s ease;
   font-weight: 500;
   white-space: nowrap;
+
+  .label {
+    font-family: 'ButtonFont';
+  }
 
   &.disabled {
     pointer-events: none;
@@ -47,11 +50,31 @@
     width: 100%;
   }
 
-  &.long.yellow {
+  &.kakao {
+    min-height: 50px;
+    width: 100%;
+  }
+
+  &.with-icon {
+    gap: 10px;
+
+    .icon {
+      img {
+        width: 24px;
+      }
+    }
+  }
+
+  &.yellow {
+    @include variant-button(#fee500, #d3b700, #333333);
+    min-height: 50px;
+  }
+
+  &.lightyellow {
     @include variant-button(#ffe8ba, #d19900, #d19900, 6px, 2px, 4px, 5%);
   }
 
-  &.long.green {
+  &.lightgreen {
     @include variant-button(#d0e8c6, #559838, #559838, 6px, 2px, 4px, 5%);
   }
 

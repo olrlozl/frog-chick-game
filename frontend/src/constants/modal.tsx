@@ -1,10 +1,19 @@
 import { MessageFontSize } from 'types/common';
 import { ButtonColor } from './button';
+import againIcon from 'assets/images/again-icon.png';
+import continueIcon from 'assets/images/continue-icon.png';
+import quitIcon from 'assets/images/quit-icon.png';
+
+export interface ModalButton {
+  label: string;
+  color: ButtonColor;
+  icon?: React.ReactNode;
+}
 
 interface ModalProps {
   message: string;
   messageFontSize?: MessageFontSize;
-  btns: { label: string; color: ButtonColor }[];
+  btns: ModalButton[];
 }
 
 type ModalKeys =
@@ -41,9 +50,21 @@ export const modalProps: ModalPropsType = {
   gamePause: {
     message: '',
     btns: [
-      { label: '다시하기', color: 'skyblue' },
-      { label: '계속하기', color: 'deepblue' },
-      { label: '그만하기', color: 'red' },
+      {
+        label: '다시하기',
+        color: 'skyblue',
+        icon: <img src={againIcon} alt="다시하기" />,
+      },
+      {
+        label: '계속하기',
+        color: 'deepblue',
+        icon: <img src={continueIcon} alt="계속하기" />,
+      },
+      {
+        label: '그만하기',
+        color: 'red',
+        icon: <img src={quitIcon} alt="그만하기" />,
+      },
     ],
   },
   error: {
