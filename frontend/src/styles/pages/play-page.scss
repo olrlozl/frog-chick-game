@@ -4,11 +4,14 @@
 .play-page {
   .game-box {
     flex: 1;
-    @include flex-center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     flex-direction: column;
     margin-top: 18px; // +8px(player1 timer length)
     margin-bottom: 10px;
     width: 100%;
+    overflow: hidden;
   }
 
   .pause-box {
