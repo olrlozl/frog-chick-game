@@ -3,5 +3,23 @@
 
 .friend-list-section {
   width: 100%;
-  margin: 15px 0;
+
+  .empty-container {
+    width: 100%;
+    @include flex-center;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 400px;
+
+    .empty-image {
+      width: 50px;
+      opacity: 0.8;
+    }
+
+    .empty-message {
+      font-size: $font-sm;
+      color: #ababab;
+      line-height: 1.3;
+    }
+  }
 }

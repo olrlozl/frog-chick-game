@@ -1,6 +1,6 @@
 import 'styles/components/user/friend-search-section.scss';
 import NicknameInput from 'components/user/NicknameInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { SearchFriendResponse } from 'types/friend';
 import { useSearchFriend } from 'hooks/friend/useSearchFriend';
@@ -11,7 +11,13 @@ import FriendUserCard from './userCard/FriendUserCard';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import SentUserCard from './userCard/SentUserCard';
 
-const FriendSearchSection = () => {
+interface FriendSearchSectionProps {
+  onChangeHasResult: (hasResult: boolean) => void;
+}
+
+const FriendSearchSection = ({
+  onChangeHasResult,
+}: FriendSearchSectionProps) => {
   const [nickname, setNickname] = useState('');
   const [nicknameErrorMessage, setNicknameErrorMessage] = useState('');
 
@@ -31,6 +37,10 @@ const FriendSearchSection = () => {
     executeRejectFriend,
     isRejectFriendLoading,
   } = useFriendManager();
+
+  useEffect(() => {
+    onChangeHasResult(!!userInfo || !!nicknameErrorMessage);
+  }, [userInfo, nicknameErrorMessage, onChangeHasResult]);
 
   const userCard = (userInfo: SearchFriendResponse) => {
     if (userInfo.isFriend)

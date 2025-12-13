@@ -20,24 +20,16 @@ export const useSearchFriend = (
   const [searchedNickname, setSearchedNickname] = useState('');
 
   const validateInputedNickname = () => {
-    if (!nickname) {
-      setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.MISSING_NICKNAME);
-      return;
-    }
+    if (!nickname) return;
 
     const isValidNickname = validateNickname(nickname);
 
     if (!isValidNickname) {
-      setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.INVALID_NICKNAME);
+      setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.UNKNOWN_USER);
       return;
     }
 
     setSearchedNickname(nickname);
-
-    // 같은 닉네임이라도 다시 요청
-    if (searchedNickname === nickname) {
-      searchRefetch();
-    }
   };
 
   const {
@@ -79,6 +71,7 @@ export const useSearchFriend = (
       return;
     }
     const errorType = searchFriendError.response?.data.errorType;
+    console.log('errorType: ', errorType);
 
     if (errorType === 'INVALID_USERID') {
       setErrorMessage('SEARCH_FRIEND', errorType);

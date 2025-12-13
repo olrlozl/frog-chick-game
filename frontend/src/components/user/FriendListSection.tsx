@@ -1,10 +1,10 @@
 import 'styles/components/user/friend-list-section.scss';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
-import ContentTitle from 'components/user/ContentTitle';
 import { useFriendManager } from 'hooks/friend/useFriendManager';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import FriendUserCard from './userCard/FriendUserCard';
+import emptyImage from 'assets/images/empty-friends.png';
 
 const FriendListSection = () => {
   const {
@@ -20,8 +20,6 @@ const FriendListSection = () => {
 
   return (
     <div className="friend-list-section">
-      <ContentTitle title="친구 목록" showRefresh={true} onClick={refetch} />
-
       {isFetching && <LocalLoadingSpinner />}
 
       {isError && <ErrorMessage errorMessage="오류가 발생했습니다." />}
@@ -29,7 +27,13 @@ const FriendListSection = () => {
       {!isFetching && !isError && data && (
         <>
           {!data.friendRequests?.length && !data.friends?.length && (
-            <p className="empty-message">친구 목록이 비었습니다.</p>
+            <div className="empty-container">
+              <img className="empty-image" src={emptyImage} alt="empty" />
+              <p className="empty-message">
+                아직 친구가 없어요 <br />
+                함께 게임할 친구를 추가하세요!
+              </p>
+            </div>
           )}
 
           {!!data.friendRequests?.length && (

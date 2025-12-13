@@ -51,9 +51,7 @@ export const ERROR_MESSAGES: ErrorMessages = {
   SEARCH_FRIEND: {
     FAILED_SEARCH_USER: COMMON_MESSAGES.RETRY,
     INVALID_USERID: COMMON_MESSAGES.RE_LOGIN,
-    MISSING_NICKNAME: '닉네임을 입력해주세요.',
-    UNKNOWN_USER: '존재하지 않는 유저입니다.',
-    INVALID_NICKNAME: '한글, 영어 2~6자',
+    UNKNOWN_USER: '사용자를 찾을 수 없습니다.',
     CANNOT_SEARCH_SELF: '본인은 검색할 수 없습니다.',
   },
   GET_FRIEND: {
