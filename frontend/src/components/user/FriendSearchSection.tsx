@@ -6,11 +6,11 @@ import { SearchFriendResponse } from 'types/friend';
 import { useSearchFriend } from 'hooks/friend/useSearchFriend';
 import BasicButton from 'components/common/Button/BasicButton';
 import { BUTTON_INFO } from 'constants/button';
-import { useFriendManager } from 'hooks/friend/useFriendManager';
 import FriendUserCard from './userCard/FriendUserCard';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import SentUserCard from './userCard/SentUserCard';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
+import { useFriendActions } from 'hooks/friend/useFriendActions';
 
 interface FriendSearchSectionProps {
   onChangeIsSearchActive: (hasResult: boolean) => void;
@@ -28,19 +28,19 @@ const FriendSearchSection = ({
     userInfo,
     searchFriendFetching,
     validateInputedNickname,
-    executeApplyFriend,
-    executeCancelApplyFriend,
-    isApplyFriendLoading,
-    isCancelApplyFriendLoading,
     resetSearchedNickname,
   } = useSearchFriend(nickname, setNicknameErrorMessage);
 
   const {
+    executeApplyFriend,
+    isApplyFriendLoading,
+    executeCancelApplyFriend,
+    isCancelApplyFriendLoading,
     executeAcceptFriend,
     isAcceptFriendLoading,
     executeRejectFriend,
     isRejectFriendLoading,
-  } = useFriendManager();
+  } = useFriendActions();
 
   const isSearchActive =
     searchFriendFetching || !!userInfo || !!nicknameErrorMessage;

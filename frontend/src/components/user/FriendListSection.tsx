@@ -1,22 +1,21 @@
 import 'styles/components/user/friend-list-section.scss';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
-import { useFriendManager } from 'hooks/friend/useFriendManager';
+import { useFriendList } from 'hooks/friend/useFriendList';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import FriendUserCard from './userCard/FriendUserCard';
 import emptyImage from 'assets/images/empty-friends.png';
+import { useFriendActions } from 'hooks/friend/useFriendActions';
 
 const FriendListSection = () => {
+  const { data, isFetching, isError } = useFriendList();
+
   const {
-    data,
-    refetch,
-    isFetching,
-    isError,
     executeAcceptFriend,
     isAcceptFriendLoading,
     executeRejectFriend,
     isRejectFriendLoading,
-  } = useFriendManager();
+  } = useFriendActions();
 
   return (
     <div className="friend-list-section">
