@@ -10,25 +10,29 @@ import { useFriendManager } from 'hooks/friend/useFriendManager';
 import FriendUserCard from './userCard/FriendUserCard';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import SentUserCard from './userCard/SentUserCard';
+import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 
 interface FriendSearchSectionProps {
-  onChangeHasResult: (hasResult: boolean) => void;
+  onChangeIsSearchActive: (hasResult: boolean) => void;
+  refreshTick: number;
 }
 
 const FriendSearchSection = ({
-  onChangeHasResult,
+  onChangeIsSearchActive,
+  refreshTick,
 }: FriendSearchSectionProps) => {
   const [nickname, setNickname] = useState('');
   const [nicknameErrorMessage, setNicknameErrorMessage] = useState('');
 
   const {
     userInfo,
-    searchFriendLoading,
+    searchFriendFetching,
     validateInputedNickname,
     executeApplyFriend,
     executeCancelApplyFriend,
     isApplyFriendLoading,
     isCancelApplyFriendLoading,
+    resetSearchedNickname,
   } = useSearchFriend(nickname, setNicknameErrorMessage);
 
   const {
@@ -38,9 +42,18 @@ const FriendSearchSection = ({
     isRejectFriendLoading,
   } = useFriendManager();
 
+  const isSearchActive =
+    searchFriendFetching || !!userInfo || !!nicknameErrorMessage;
+
   useEffect(() => {
-    onChangeHasResult(!!userInfo || !!nicknameErrorMessage);
-  }, [userInfo, nicknameErrorMessage, onChangeHasResult]);
+    onChangeIsSearchActive(isSearchActive);
+  }, [isSearchActive, onChangeIsSearchActive]);
+
+  useEffect(() => {
+    setNickname('');
+    setNicknameErrorMessage('');
+    resetSearchedNickname();
+  }, [refreshTick]);
 
   const userCard = (userInfo: SearchFriendResponse) => {
     if (userInfo.isFriend)
@@ -65,7 +78,7 @@ const FriendSearchSection = ({
 
     return (
       <SentUserCard
-        nickname={nickname}
+        nickname={userInfo.nickname}
         isSent={userInfo.isSent}
         executeApplyFriend={executeApplyFriend}
         executeCancelApplyFriend={executeCancelApplyFriend}
@@ -90,14 +103,20 @@ const FriendSearchSection = ({
           label={BUTTON_INFO.search.label}
           color={BUTTON_INFO.search.color}
           onClick={validateInputedNickname}
-          disabled={searchFriendLoading}
+          disabled={searchFriendFetching}
         />
       </div>
 
       <div className="result-box">
-        {userInfo && userCard(userInfo)}
-        {nicknameErrorMessage && (
-          <ErrorMessage errorMessage={nicknameErrorMessage} />
+        {searchFriendFetching ? (
+          <LocalLoadingSpinner />
+        ) : (
+          <>
+            {userInfo && userCard(userInfo)}
+            {nicknameErrorMessage && (
+              <ErrorMessage errorMessage={nicknameErrorMessage} />
+            )}
+          </>
         )}
       </div>
     </div>

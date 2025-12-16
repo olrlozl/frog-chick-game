@@ -12,6 +12,7 @@ export const useFriendManager = () => {
   const { data, refetch, isFetching, isError, error } = useQuery({
     queryKey: [QUERY_KEYS.friend],
     queryFn: getFriendList,
+    refetchOnMount: false,
   });
 
   useEffect(() => {

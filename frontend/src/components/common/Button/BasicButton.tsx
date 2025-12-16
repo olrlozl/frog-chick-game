@@ -20,8 +20,9 @@ const BasicButton = ({
 }: BasicButtonProps) => {
   return (
     <button
-      className={`basic-button ${type} ${color} ${disabled ? 'disabled' : ''} ${leftIcon ? 'with-icon' : ''}`}
+      className={`basic-button ${type} ${color} ${leftIcon ? 'with-icon' : ''}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {leftIcon && <span className="icon">{leftIcon}</span>}
       <span className="label">{label}</span>

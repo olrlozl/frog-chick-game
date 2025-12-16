@@ -21,8 +21,6 @@ const NicknameInput = ({
   onEnter,
 }: NicknameInputProps) => {
   const handleChangeNickname = (e: ChangeEvent) => {
-    setErrorMessage('');
-
     setNickname(e.target.value);
   };
 

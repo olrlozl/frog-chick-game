@@ -20,12 +20,15 @@ export const useSearchFriend = (
   const [searchedNickname, setSearchedNickname] = useState('');
 
   const validateInputedNickname = () => {
+    setNicknameErrorMessage('');
+
     if (!nickname) return;
 
     const isValidNickname = validateNickname(nickname);
 
     if (!isValidNickname) {
       setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.UNKNOWN_USER);
+      setSearchedNickname('');
       return;
     }
 
@@ -34,8 +37,7 @@ export const useSearchFriend = (
 
   const {
     data: userInfo,
-    refetch: searchRefetch,
-    isLoading: searchFriendLoading,
+    isFetching: searchFriendFetching,
     isError: isSearchFriendError,
     error: searchFriendError,
   } = useQuery({
@@ -59,12 +61,16 @@ export const useSearchFriend = (
     },
   });
 
-  useEffect(
-    function clearUserInfoUI() {
+  const resetSearchedNickname = () => {
+    setSearchedNickname('');
+  };
+
+  useEffect(() => {
+    if (!nickname) {
       setSearchedNickname('');
-    },
-    [nickname]
-  );
+      setNicknameErrorMessage('');
+    }
+  }, [nickname]);
 
   useEffect(() => {
     if (!isSearchFriendError || !(searchFriendError instanceof AxiosError)) {
@@ -167,9 +173,10 @@ export const useSearchFriend = (
   });
 
   return {
-    userInfo,
     validateInputedNickname,
-    searchFriendLoading,
+    userInfo,
+    searchFriendFetching,
+    resetSearchedNickname,
     executeApplyFriend,
     isApplyFriendLoading,
     executeCancelApplyFriend,

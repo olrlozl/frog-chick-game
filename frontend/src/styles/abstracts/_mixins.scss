@@ -53,4 +53,13 @@
     box-shadow: 0 2px 0 $shadow;
     transform: translateY($active-move);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    color: #bababa;
+    transform: translateY($active-move);
+    background-color: #6d6d6d;
+    box-shadow: 0 2px 0 #1a1a1a;
+  }
 }
