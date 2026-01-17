@@ -2,20 +2,17 @@ import 'styles/components/user/friend-list-section.scss';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 import { useFriendList } from 'hooks/friend/useFriendList';
-import ReceivedUserCard from './userCard/ReceivedUserCard';
 import FriendUserCard from './userCard/FriendUserCard';
 import emptyImage from 'assets/images/empty-friends.png';
-import { useFriendActions } from 'hooks/friend/useFriendActions';
+import ReceivedUserCard from './userCard/ReceivedUserCard';
+import SentUserCard from './userCard/SentUserCard';
 
 const FriendListSection = () => {
   const { data, isFetching, isError } = useFriendList();
 
-  const {
-    executeAcceptFriend,
-    isAcceptFriendLoading,
-    executeRejectFriend,
-    isRejectFriendLoading,
-  } = useFriendActions();
+  const receivedRequests = data?.friendRequests?.received ?? [];
+  const sentRequests = data?.friendRequests?.sent ?? [];
+  const friends = data?.friends ?? [];
 
   return (
     <div className="friend-list-section">
@@ -25,7 +22,30 @@ const FriendListSection = () => {
 
       {!isFetching && !isError && data && (
         <>
-          {!data.friendRequests?.length && !data.friends?.length && (
+          {!!receivedRequests.length && (
+            <div className="friendRequests-container">
+              {receivedRequests.map((friend, idx) => (
+                <ReceivedUserCard
+                  key={`req-${idx}`}
+                  nickname={friend.nickname}
+                />
+              ))}
+            </div>
+          )}
+
+          {!!sentRequests.length && (
+            <div className="friendRequests-container">
+              {sentRequests.map((friend, idx) => (
+                <SentUserCard
+                  key={`req-${idx}`}
+                  nickname={friend.nickname}
+                  isSent={true}
+                />
+              ))}
+            </div>
+          )}
+
+          {!friends.length && (
             <div className="empty-container">
               <img className="empty-image" src={emptyImage} alt="empty" />
               <p className="empty-message">
@@ -35,24 +55,9 @@ const FriendListSection = () => {
             </div>
           )}
 
-          {!!data.friendRequests?.length && (
-            <div className="friendRequests-container">
-              {data.friendRequests.map((friend, idx) => (
-                <ReceivedUserCard
-                  key={`req-${idx}`}
-                  nickname={friend.nickname}
-                  executeAcceptFriend={executeAcceptFriend}
-                  executeRejectFriend={executeRejectFriend}
-                  isAcceptFriendLoading={isAcceptFriendLoading}
-                  isRejectFriendLoading={isRejectFriendLoading}
-                />
-              ))}
-            </div>
-          )}
-
-          {!!data.friends.length && (
+          {!!friends.length && (
             <div className="friends-container">
-              {data.friends.map((friend, idx) => (
+              {friends.map((friend, idx) => (
                 <FriendUserCard
                   key={`friend-${idx}`}
                   nickname={friend.nickname}

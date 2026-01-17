@@ -1,4 +1,4 @@
-import 'styles/components/user/user-box.scss';
+import 'styles/components/user/user-card.scss';
 import BasicButton from 'components/common/Button/BasicButton';
 import UserState from 'components/user/UserState';
 import { UserStateType } from 'types/user';
@@ -14,12 +14,12 @@ export interface UserCardButton {
 interface UserCardProps {
   nickname: string;
   state?: UserStateType;
-  buttons?: UserCardButton[];
+  buttons: UserCardButton[];
 }
 
 const UserCard = ({ nickname, state, buttons = [] }: UserCardProps) => {
   return (
-    <div className="user-box">
+    <div className="user-card">
       <span className="nickname">{nickname}</span>
       <div className="buttons">
         {state && <UserState state={state} />}

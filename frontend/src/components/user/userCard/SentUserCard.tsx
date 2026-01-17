@@ -1,23 +1,20 @@
 import { BUTTON_INFO } from 'constants/button';
 import UserCard, { UserCardButton } from './UserCard';
+import { useFriendActions } from 'hooks/friend/useFriendActions';
 
 interface SentUserCardProps {
   nickname: string;
   isSent: boolean;
-  executeApplyFriend?: (params: { to: string }) => void;
-  executeCancelApplyFriend?: (params: { to: string }) => void;
-  isApplyFriendLoading?: boolean;
-  isCancelApplyFriendLoading?: boolean;
 }
 
-const SentUserCard = ({
-  nickname,
-  isSent,
-  executeApplyFriend,
-  executeCancelApplyFriend,
-  isApplyFriendLoading = false,
-  isCancelApplyFriendLoading = false,
-}: SentUserCardProps) => {
+const SentUserCard = ({ nickname, isSent }: SentUserCardProps) => {
+  const {
+    executeApplyFriend,
+    isApplyFriendLoading,
+    executeCancelApplyFriend,
+    isCancelApplyFriendLoading,
+  } = useFriendActions();
+
   const buttons: UserCardButton[] = isSent
     ? [
         {

@@ -1,21 +1,19 @@
 import { BUTTON_INFO } from 'constants/button';
 import UserCard, { UserCardButton } from './UserCard';
+import { useFriendActions } from 'hooks/friend/useFriendActions';
 
 interface FriendUserCardProps {
   nickname: string;
-  executeAcceptFriend: (params: { from: string }) => void;
-  executeRejectFriend: (params: { from: string }) => void;
-  isAcceptFriendLoading: boolean;
-  isRejectFriendLoading: boolean;
 }
 
-const ReceivedUserCard = ({
-  nickname,
-  executeAcceptFriend,
-  executeRejectFriend,
-  isAcceptFriendLoading,
-  isRejectFriendLoading,
-}: FriendUserCardProps) => {
+const ReceivedUserCard = ({ nickname }: FriendUserCardProps) => {
+  const {
+    executeAcceptFriend,
+    isAcceptFriendLoading,
+    executeRejectFriend,
+    isRejectFriendLoading,
+  } = useFriendActions();
+
   const buttons: UserCardButton[] = [
     {
       label: BUTTON_INFO.accept.label,

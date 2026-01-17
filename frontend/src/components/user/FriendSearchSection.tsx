@@ -10,7 +10,6 @@ import FriendUserCard from './userCard/FriendUserCard';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import SentUserCard from './userCard/SentUserCard';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
-import { useFriendActions } from 'hooks/friend/useFriendActions';
 
 interface FriendSearchSectionProps {
   onChangeIsSearchActive: (hasResult: boolean) => void;
@@ -30,17 +29,6 @@ const FriendSearchSection = ({
     validateInputedNickname,
     resetSearchedNickname,
   } = useSearchFriend(nickname, setNicknameErrorMessage);
-
-  const {
-    executeApplyFriend,
-    isApplyFriendLoading,
-    executeCancelApplyFriend,
-    isCancelApplyFriendLoading,
-    executeAcceptFriend,
-    isAcceptFriendLoading,
-    executeRejectFriend,
-    isRejectFriendLoading,
-  } = useFriendActions();
 
   const isSearchActive =
     searchFriendFetching || !!userInfo || !!nicknameErrorMessage;
@@ -65,26 +53,12 @@ const FriendSearchSection = ({
           onDelete={() => {}}
         />
       );
+
     if (userInfo.isReceived)
-      return (
-        <ReceivedUserCard
-          nickname={userInfo.nickname}
-          executeAcceptFriend={executeAcceptFriend}
-          executeRejectFriend={executeRejectFriend}
-          isAcceptFriendLoading={isAcceptFriendLoading}
-          isRejectFriendLoading={isRejectFriendLoading}
-        />
-      );
+      return <ReceivedUserCard nickname={userInfo.nickname} />;
 
     return (
-      <SentUserCard
-        nickname={userInfo.nickname}
-        isSent={userInfo.isSent}
-        executeApplyFriend={executeApplyFriend}
-        executeCancelApplyFriend={executeCancelApplyFriend}
-        isApplyFriendLoading={isApplyFriendLoading}
-        isCancelApplyFriendLoading={isCancelApplyFriendLoading}
-      />
+      <SentUserCard nickname={userInfo.nickname} isSent={userInfo.isSent} />
     );
   };
 

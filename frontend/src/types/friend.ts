@@ -22,7 +22,7 @@ export interface FriendItem {
 
 export interface GetFriendListResponse {
   friends: FriendItem[];
-  friendRequests: FriendItem[];
+  friendRequests: { received: FriendItem[]; sent: FriendItem[] };
 }
 
 export interface handelFriendRequestParams {
