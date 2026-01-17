@@ -3,9 +3,12 @@ import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 import { useFriendList } from 'hooks/friend/useFriendList';
 import FriendUserCard from './userCard/FriendUserCard';
-import emptyImage from 'assets/images/empty-friends.png';
 import ReceivedUserCard from './userCard/ReceivedUserCard';
 import SentUserCard from './userCard/SentUserCard';
+import ListToggle from './ListToggle';
+import { useState } from 'react';
+
+type SectionKey = 'received' | 'sent' | 'friends';
 
 const FriendListSection = () => {
   const { data, isFetching, isError } = useFriendList();
@@ -14,48 +17,62 @@ const FriendListSection = () => {
   const sentRequests = data?.friendRequests?.sent ?? [];
   const friends = data?.friends ?? [];
 
+  const [open, setOpen] = useState<Record<SectionKey, boolean>>({
+    received: true,
+    sent: true,
+    friends: true,
+  });
+
+  const toggle = (key: SectionKey) => {
+    setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
     <div className="friend-list-section">
       {isFetching && <LocalLoadingSpinner />}
 
       {isError && <ErrorMessage errorMessage="오류가 발생했습니다." />}
-
       {!isFetching && !isError && data && (
         <>
-          {!!receivedRequests.length && (
+          <ListToggle
+            title="받은 친구 요청"
+            count={receivedRequests.length}
+            isOpen={open.received}
+            onToggle={() => toggle('received')}
+          >
             <div className="friendRequests-container">
               {receivedRequests.map((friend, idx) => (
                 <ReceivedUserCard
-                  key={`req-${idx}`}
+                  key={`received-${idx}`}
                   nickname={friend.nickname}
                 />
               ))}
             </div>
-          )}
+          </ListToggle>
 
-          {!!sentRequests.length && (
+          <ListToggle
+            title="보낸 친구 요청"
+            count={sentRequests.length}
+            isOpen={open.sent}
+            onToggle={() => toggle('sent')}
+          >
             <div className="friendRequests-container">
               {sentRequests.map((friend, idx) => (
                 <SentUserCard
-                  key={`req-${idx}`}
+                  key={`sent-${idx}`}
                   nickname={friend.nickname}
-                  isSent={true}
+                  isSent
                 />
               ))}
             </div>
-          )}
+          </ListToggle>
 
-          {!friends.length && (
-            <div className="empty-container">
-              <img className="empty-image" src={emptyImage} alt="empty" />
-              <p className="empty-message">
-                아직 친구가 없어요 <br />
-                함께 게임할 친구를 추가하세요!
-              </p>
-            </div>
-          )}
-
-          {!!friends.length && (
+          <ListToggle
+            title="친구 목록"
+            count={friends.length}
+            isOpen={open.friends}
+            onToggle={() => toggle('friends')}
+          >
             <div className="friends-container">
               {friends.map((friend, idx) => (
                 <FriendUserCard
@@ -67,7 +84,7 @@ const FriendListSection = () => {
                 />
               ))}
             </div>
-          )}
+          </ListToggle>
         </>
       )}
     </div>

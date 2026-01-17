@@ -1,0 +1,49 @@
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
+
+.list-toggle {
+  margin-bottom: 10px;
+
+  .tg-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    border: 0;
+    padding: 10px 0;
+    cursor: pointer;
+
+    .tg-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .tg-chevron {
+        transition: transform 0.15s ease;
+        font-size: $font-xs;
+        color: #646464;
+
+        &.is-open {
+          transform: rotate(90deg);
+        }
+      }
+
+      .tg-title {
+        font-size: $font-md;
+      }
+    }
+
+    .tg-count {
+      @include flex-center;
+      min-width: 24px;
+      height: 20px;
+      padding: 8px;
+      border-radius: 10px;
+      background-color: #ffcc00;
+      color: #ffffff;
+      font-size: $font-xs;
+      font-weight: 700;
+    }
+  }
+}
