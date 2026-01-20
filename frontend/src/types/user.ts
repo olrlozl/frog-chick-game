@@ -1,10 +1,4 @@
-export type GameOptionType = 'stranger' | 'friend';
-
-export interface UserInfoInterface {
-  nickname: string;
-  wins: number;
-  losses: number;
-}
+export type GameModeType = 'local' | 'friend' | 'random';
 
 export type UserStateType = 'online' | 'offline' | 'playing';
 

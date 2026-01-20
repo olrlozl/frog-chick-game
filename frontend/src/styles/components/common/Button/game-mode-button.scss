@@ -1,0 +1,63 @@
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
+
+.game-mode-button {
+  @include flex-center;
+  width: 300px;
+  height: 100px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: $font-lg;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: #333;
+
+  img {
+    width: 60px;
+    height: 60px;
+    margin-left: -15px;
+    margin-right: 15px;
+    transition: transform 0.1s ease;
+  }
+
+  &.local {
+    border: 3px solid #7fbf73;
+  }
+  &.friend {
+    border: 3px solid #5ba0e0;
+  }
+  &.random {
+    border: 3px solid #e07575;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    background: $color-orange2;
+    color: #fff;
+    box-shadow:
+      0 0 0 4px #ffba00 inset,
+      0 6px 18px rgba(0, 0, 0, 0.25);
+
+    img {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      background: linear-gradient(
+        to bottom,
+        darken($color-orange2, 5%),
+        darken($color-orange2, 20%)
+      );
+      box-shadow:
+        inset 0 0 6px rgba(0, 0, 0, 0.25),
+        0 2px 6px rgba(0, 0, 0, 0.1);
+
+      img {
+        transform: scale(0.95);
+      }
+    }
+  }
+}

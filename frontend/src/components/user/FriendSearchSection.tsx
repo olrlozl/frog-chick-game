@@ -1,79 +1,99 @@
-import MiniButton from 'components/common/Button/MiniButton';
 import 'styles/components/user/friend-search-section.scss';
 import NicknameInput from 'components/user/NicknameInput';
-import BalloonTitle from 'components/user/BalloonTitle';
-import UserInfo from 'components/user/UserInfo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorMessage } from 'components/common/Modal/ErrorMessage';
 import { SearchFriendResponse } from 'types/friend';
 import { useSearchFriend } from 'hooks/friend/useSearchFriend';
+import BasicButton from 'components/common/Button/BasicButton';
+import { BUTTON_INFO } from 'constants/button';
+import FriendUserCard from './userCard/FriendUserCard';
+import ReceivedUserCard from './userCard/ReceivedUserCard';
+import SentUserCard from './userCard/SentUserCard';
+import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 
-const FriendSearchSection = () => {
+interface FriendSearchSectionProps {
+  onChangeIsSearchActive: (hasResult: boolean) => void;
+  refreshTick: number;
+}
+
+const FriendSearchSection = ({
+  onChangeIsSearchActive,
+  refreshTick,
+}: FriendSearchSectionProps) => {
   const [nickname, setNickname] = useState('');
   const [nicknameErrorMessage, setNicknameErrorMessage] = useState('');
 
   const {
     userInfo,
-    searchFriendLoading,
-    validateAndSearchFriend,
-    executeApplyFriend,
-    executeCancelApplyFriend,
-    isApplyFriendLoading,
+    searchFriendFetching,
+    validateInputedNickname,
+    resetSearchedNickname,
   } = useSearchFriend(nickname, setNicknameErrorMessage);
 
-  const getMiniButtonType = (userInfo: SearchFriendResponse) => {
-    if (userInfo.isFriend) return 'friend';
-    if (userInfo.isSent) return 'pending';
-    return 'add';
-  };
+  const isSearchActive =
+    searchFriendFetching || !!userInfo || !!nicknameErrorMessage;
 
-  const getMiniButtonOnClick = (userInfo: SearchFriendResponse) => {
-    if (userInfo.isFriend) return;
+  useEffect(() => {
+    onChangeIsSearchActive(isSearchActive);
+  }, [isSearchActive, onChangeIsSearchActive]);
 
-    if (userInfo.isSent)
-      return () => {
-        executeCancelApplyFriend({ to: userInfo.nickname });
-      };
-    else
-      return () => {
-        executeApplyFriend({ to: userInfo.nickname });
-      };
+  useEffect(() => {
+    setNickname('');
+    setNicknameErrorMessage('');
+    resetSearchedNickname();
+  }, [refreshTick]);
+
+  const userCard = (userInfo: SearchFriendResponse) => {
+    if (userInfo.isFriend)
+      return (
+        <FriendUserCard
+          nickname={userInfo.nickname}
+          state={userInfo.state}
+          onInvite={() => {}}
+          onDelete={() => {}}
+        />
+      );
+
+    if (userInfo.isReceived)
+      return <ReceivedUserCard nickname={userInfo.nickname} />;
+
+    return (
+      <SentUserCard nickname={userInfo.nickname} isSent={userInfo.isSent} />
+    );
   };
 
   return (
     <div className="friend-search-section">
-      <BalloonTitle title="친구 검색" />
       <div className="friend-search-box">
         <NicknameInput
           text="닉네임을 입력해주세요."
           nickname={nickname}
           setNickname={setNickname}
           setErrorMessage={setNicknameErrorMessage}
-          onEnter={validateAndSearchFriend}
+          onEnter={validateInputedNickname}
         />
-        <MiniButton
-          type="search"
-          onClick={validateAndSearchFriend}
-          isLoading={searchFriendLoading}
+        <BasicButton
+          type="middle"
+          label={BUTTON_INFO.search.label}
+          color={BUTTON_INFO.search.color}
+          onClick={validateInputedNickname}
+          disabled={searchFriendFetching}
         />
       </div>
+
       <div className="result-box">
-        {userInfo && (
+        {searchFriendFetching ? (
+          <LocalLoadingSpinner />
+        ) : (
           <>
-            <UserInfo userInfoOption="search" userInfo={userInfo} />
-            <MiniButton
-              type={getMiniButtonType(userInfo)}
-              onClick={getMiniButtonOnClick(userInfo)}
-              isLoading={isApplyFriendLoading}
-            />
+            {userInfo && userCard(userInfo)}
+            {nicknameErrorMessage && (
+              <ErrorMessage errorMessage={nicknameErrorMessage} />
+            )}
           </>
-        )}
-        {nicknameErrorMessage && (
-          <ErrorMessage errorMessage={nicknameErrorMessage} />
         )}
       </div>
     </div>
   );
 };
-
 export default FriendSearchSection;

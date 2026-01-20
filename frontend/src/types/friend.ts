@@ -1,4 +1,4 @@
-import { UserInfoInterface, UserStateType } from 'types/user';
+import { UserStateType } from 'types/user';
 
 export interface SearchFriendParams {
   nickname: string;
@@ -6,31 +6,23 @@ export interface SearchFriendParams {
 
 export interface SearchFriendResponse {
   nickname: string;
-  wins: number;
-  losses: number;
-  isSent: boolean;
+  state: UserStateType;
   isFriend: boolean;
+  isSent: boolean;
+  isReceived: boolean;
 }
 
 export interface ApplyFriendParams {
   to: string;
 }
-
-type FriendList = {
-  userInfo: UserInfoInterface;
+export interface FriendItem {
+  nickname: string;
   state: UserStateType;
-}[];
-
-export interface GetFriendListResponse {
-  friendList: FriendList;
 }
 
-type ReceivedList = {
-  nickname: string;
-}[];
-
-export interface GetReceivedFriendListResponse {
-  receivedList: ReceivedList;
+export interface GetFriendListResponse {
+  friends: FriendItem[];
+  friendRequests: { received: FriendItem[]; sent: FriendItem[] };
 }
 
 export interface handelFriendRequestParams {

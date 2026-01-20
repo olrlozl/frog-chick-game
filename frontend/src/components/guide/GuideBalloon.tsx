@@ -37,8 +37,10 @@ const GuideBalloon = ({ guideOption, onClick }: GuideBalloonProps) => {
         </button>
       </div>
       <ul className={`${guideOption}`}>
-        {guideTexts[guideOption].map((guideText) => (
-          <li className={`${guideOption}`}>{guideText}</li>
+        {guideTexts[guideOption].map((guideText, index) => (
+          <li key={index} className={`${guideOption}`}>
+            {guideText}
+          </li>
         ))}
       </ul>
     </div>

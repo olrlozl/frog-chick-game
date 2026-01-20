@@ -5,10 +5,10 @@
   @include flex-center;
   gap: 5px;
   &.main-green {
-    color: #5D9D43;
+    color: #5d9d43;
   }
   &.main-yellow {
-    color: #D1A245;
+    color: #d1a245;
   }
   &.rank-yellow {
     color: $color-orange3;
@@ -18,6 +18,9 @@
   }
   &.font-md {
     font-size: $font-md;
+  }
+  &.font-sm {
+    font-size: $font-sm;
   }
   &.font-xs {
     font-size: $font-xs;

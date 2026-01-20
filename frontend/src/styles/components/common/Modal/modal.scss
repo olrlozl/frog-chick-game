@@ -14,9 +14,9 @@
   .container {
     @include flex-center;
     background: white;
-    border: 5px solid $color-blue4;
-    padding: 40px;
-    border-radius: 20px;
+    border: 10px solid #cfcfcf;
+    padding: 30px;
+    border-radius: 40px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 320px;
@@ -28,6 +28,7 @@
     .message {
       line-height: 1;
       margin-bottom: 15px;
+      text-align: center;
       white-space: pre-wrap;
 
       &.font-xl {
@@ -40,27 +41,35 @@
     }
 
     .buttons {
-      display: flex;
-      margin-top: 15px;
-      gap: 25px;
+      @include flex-center;
+      width: 100%;
+      gap: 20px;
+
+      &.row {
+        flex-direction: row;
+      }
+
+      &.column {
+        flex-direction: column;
+        width: 100%;
+
+        button {
+          width: 100%;
+        }
+      }
     }
   }
-}
 
-.modal-image {
-  position: absolute;
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 80px;
-  object-fit: over;
-}
+  .modal-image {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 80px;
+    object-fit: over;
+  }
 
-.error-message {
-  color: $color-red4;
-  font-size: $font-xs;
-  height: 12px;
-  padding-left: 5px;
-  width: 100%;
-  text-align: left;
+  .error-message {
+    margin: 5px 0 15px 0;
+  }
 }

@@ -4,7 +4,6 @@ import LandingPage from 'pages/LandingPage';
 import MainPage from 'pages/MainPage';
 import PlayPage from 'pages/PlayPage';
 import RankPage from 'pages/RankPage';
-import MainLayout from 'components/common/Layout/MainLayout';
 import GuidePage from 'pages/GuidePage';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -15,6 +14,10 @@ import { useEffect } from 'react';
 import instance, { setAxiosInterceptorResponse } from 'api/axiosInstance';
 import { useErrorStore } from 'stores/errorStore';
 import { PublicRoute } from 'components/common/PublicRoute';
+import FriendModePage from 'pages/FriendModePage';
+import MobileLayout from 'components/common/Layout/MobileLayout';
+import SettingPage from 'pages/SettingPage';
+import RandomModePage from 'pages/RandomModePage';
 
 const router = createBrowserRouter([
   {
@@ -24,10 +27,11 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { path: '/play', element: <PlayPage /> },
+      { path: '/local-mode/play', element: <PlayPage /> },
+      { path: '/friend-mode', element: <FriendModePage /> },
+      { path: '/random-mode', element: <RandomModePage /> },
       {
         path: '/main',
-        element: <MainLayout />,
         children: [
           {
             index: true,
@@ -40,6 +44,10 @@ const router = createBrowserRouter([
           {
             path: 'guide',
             element: <GuidePage />,
+          },
+          {
+            path: 'setting',
+            element: <SettingPage />,
           },
         ],
       },
@@ -61,7 +69,9 @@ function App() {
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <MobileLayout>
+          <RouterProvider router={router} />
+        </MobileLayout>
         <LoadingSpinner />
         <ReactQueryDevtools />
       </QueryClientProvider>

@@ -15,10 +15,11 @@ export const PublicRoute = () => {
         <Outlet />
         <Modal
           isOpen={!!errorMessage}
-          message={errorMessage}
           btns={btns}
           buttonActions={[clearErrorMessage]}
-        />
+        >
+          <Modal.Message message={errorMessage} />
+        </Modal>
       </>
     );
   else return <Navigate to="/main" />;

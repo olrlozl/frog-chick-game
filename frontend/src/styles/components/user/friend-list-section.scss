@@ -1,13 +1,8 @@
-@import 'styles/abstracts/mixins';
-
 .friend-list-section {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 60px; // notificationbutton 높이 + 여유
 
-  .list-box {
-    .user-item {
-      @include user-item;
-      border-bottom: 1px solid #cfcfcf;
-    }
+  &.hidden {
+    display: none;
   }
 }

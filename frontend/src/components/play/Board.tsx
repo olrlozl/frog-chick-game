@@ -7,17 +7,15 @@ const Board = () => {
 
   return (
     <div className="board">
-      {board.map((col, colIndex) => (
-        <div className="board-col" key={colIndex}>
-          {col.map((_, rowIndex) => (
-            <Square
-              key={`${rowIndex}-${colIndex}`}
-              row={rowIndex}
-              col={colIndex}
-            />
-          ))}
-        </div>
-      ))}
+      {board.map((row, rowIndex) =>
+        row.map((_, colIndex) => (
+          <Square
+            key={`${colIndex}-${rowIndex}`}
+            col={colIndex}
+            row={rowIndex}
+          />
+        ))
+      )}
     </div>
   );
 };

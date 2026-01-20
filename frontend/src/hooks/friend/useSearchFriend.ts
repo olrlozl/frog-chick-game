@@ -1,6 +1,5 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { applyFriend, cancelApplyFriend, searchFriend } from 'api/friendApi';
-import { queryClient } from 'api/queryClient';
+import { useQuery } from '@tanstack/react-query';
+import { searchFriend } from 'api/friendApi';
 import { AxiosError } from 'axios';
 import { ERROR_MESSAGES } from 'constants/errorMessages';
 import { QUERY_KEYS } from 'constants/reactQueryKeys';
@@ -19,16 +18,16 @@ export const useSearchFriend = (
   const { setErrorMessage } = useErrorStore();
   const [searchedNickname, setSearchedNickname] = useState('');
 
-  const validateAndSearchFriend = () => {
-    if (!nickname) {
-      setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.MISSING_NICKNAME);
-      return;
-    }
+  const validateInputedNickname = () => {
+    setNicknameErrorMessage('');
+
+    if (!nickname) return;
 
     const isValidNickname = validateNickname(nickname);
 
     if (!isValidNickname) {
-      setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.INVALID_NICKNAME);
+      setNicknameErrorMessage(ERROR_MESSAGES.SEARCH_FRIEND.UNKNOWN_USER);
+      setSearchedNickname('');
       return;
     }
 
@@ -37,14 +36,13 @@ export const useSearchFriend = (
 
   const {
     data: userInfo,
-    isLoading: searchFriendLoading,
+    isFetching: searchFriendFetching,
     isError: isSearchFriendError,
     error: searchFriendError,
   } = useQuery({
-    queryKey: [QUERY_KEYS.friends, searchedNickname],
+    queryKey: [QUERY_KEYS.friend, searchedNickname],
     queryFn: () => searchFriend({ nickname: searchedNickname }),
     enabled: !!searchedNickname,
-    staleTime: 1000 * 60 * 30,
     retry: (failureCount, err) => {
       const canRetry = failureCount < MAX_RETRIES;
 
@@ -62,18 +60,27 @@ export const useSearchFriend = (
     },
   });
 
-  useEffect(
-    function clearUserInfoUI() {
+  const resetSearchedNickname = () => {
+    setSearchedNickname('');
+  };
+
+  useEffect(() => {
+    if (!nickname) {
       setSearchedNickname('');
-    },
-    [nickname]
-  );
+      setNicknameErrorMessage('');
+    }
+  }, [nickname]);
 
   useEffect(() => {
     if (!isSearchFriendError || !(searchFriendError instanceof AxiosError)) {
       return;
     }
     const errorType = searchFriendError.response?.data.errorType;
+    console.log('errorType: ', errorType);
+
+    if (errorType === 'UNKNOWN_USER' && searchedNickname) {
+      setSearchedNickname(''); // enabled=false -> 이전 이전 성공 데이터 노출 끊기
+    }
 
     if (errorType === 'INVALID_USERID') {
       setErrorMessage('SEARCH_FRIEND', errorType);
@@ -82,99 +89,10 @@ export const useSearchFriend = (
     }
   }, [isSearchFriendError, searchFriendError]);
 
-  const { mutate: executeApplyFriend, isPending: isApplyFriendLoading } =
-    useMutation({
-      mutationFn: applyFriend,
-      onSuccess: (_, variables) => {
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.friends, variables.to],
-        });
-      },
-      onError: (err) => {
-        if (err instanceof AxiosError && err.response?.data.errorType) {
-          switch (err.response?.data.errorType) {
-            // 이미 신청하거나, 친구인 경우 UI 갱신을 위해 쿼리 무효화
-            case 'ALREADY_FRIEND':
-            case 'ALREADY_APPLY_FRIEND':
-              if (JSON.parse(err.config?.data).to) {
-                queryClient.invalidateQueries({
-                  queryKey: [
-                    QUERY_KEYS.friends,
-                    JSON.parse(err.config?.data).to,
-                  ],
-                });
-              }
-              break;
-
-            // 존재하지 않는 사용자일 경우 캐시에서 삭제 후 에러메시지 표시
-            case 'UNKNOWN_USER':
-              if (JSON.parse(err.config?.data).to) {
-                queryClient.removeQueries({
-                  queryKey: [
-                    QUERY_KEYS.friends,
-                    JSON.parse(err.config?.data).to,
-                  ],
-                });
-              }
-              setNicknameErrorMessage(ERROR_MESSAGES.APPLY_FRIEND.UNKNOWN_USER);
-              break;
-            default:
-              setErrorMessage('APPLY_FRIEND', err.response?.data.errorType);
-          }
-        }
-      },
-    });
-
-  const {
-    mutate: executeCancelApplyFriend,
-    isPending: isCancelApplyFriendLoading,
-  } = useMutation({
-    mutationFn: cancelApplyFriend,
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.friends, variables.to],
-      });
-    },
-    onError: (err, variables) => {
-      if (err instanceof AxiosError && err.response?.data.errorType) {
-        switch (err.response?.data.errorType) {
-          // 내가 친추 보낸 기록이 없고 상대도 받은 기록이 없는 경우, UI 갱신을 위해 쿼리 무효화
-          case 'NOT_FOUND_FRIEND_REQUEST':
-            if (variables?.to) {
-              queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.friends, variables.to],
-              });
-            }
-            break;
-
-          // 존재하지 않는 사용자일 경우 캐시에서 삭제 후 에러메시지 표시
-          case 'UNKNOWN_USER':
-            if (variables?.to) {
-              queryClient.removeQueries({
-                queryKey: [QUERY_KEYS.friends, variables.to],
-              });
-            }
-            setNicknameErrorMessage(
-              ERROR_MESSAGES.CANCEL_APPLY_FRIEND.UNKNOWN_USER
-            );
-            break;
-          default:
-            setErrorMessage(
-              'CANCEL_APPLY_FRIEND',
-              err.response?.data.errorType
-            );
-        }
-      }
-    },
-  });
-
   return {
+    validateInputedNickname,
     userInfo,
-    validateAndSearchFriend,
-    searchFriendLoading,
-    executeApplyFriend,
-    isApplyFriendLoading,
-    executeCancelApplyFriend,
-    isCancelApplyFriendLoading,
+    searchFriendFetching,
+    resetSearchedNickname,
   };
 };

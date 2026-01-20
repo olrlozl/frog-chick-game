@@ -1,0 +1,88 @@
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/fonts';
+@import 'styles/abstracts/mixins';
+
+.basic-button {
+  @include flex-center;
+  cursor: pointer;
+  font-size: $font-md;
+  border-radius: 25px;
+  padding: 0 10px;
+  border: none;
+  transition: all 0.1s ease;
+  font-weight: 500;
+  white-space: nowrap;
+
+  .label {
+    font-family: 'ButtonFont';
+  }
+
+  &.modal {
+    position: relative;
+    height: 50px;
+  }
+
+  &.mini,
+  &.middle {
+    height: 35px;
+    font-size: $font-sm;
+    margin-bottom: 8px;
+  }
+
+  &.middle {
+    padding: 0 20px;
+  }
+
+  &.long {
+    height: 40px;
+    width: 100%;
+  }
+
+  &.kakao {
+    min-height: 50px;
+    width: 100%;
+  }
+
+  &.with-icon {
+    gap: 10px;
+
+    .icon {
+      img {
+        width: 24px;
+      }
+    }
+  }
+
+  &.yellow {
+    @include variant-button(#fee500, #d3b700, #333333);
+    min-height: 50px;
+  }
+
+  &.lightyellow {
+    @include variant-button(#ffe8ba, #d19900, #d19900, 6px, 2px, 4px, 5%);
+  }
+
+  &.lightgreen {
+    @include variant-button(#d0e8c6, #559838, #559838, 6px, 2px, 4px, 5%);
+  }
+
+  &.deepblue {
+    @include variant-button(#2563eb, #1e3a8a);
+  }
+
+  &.skyblue {
+    @include variant-button(#38bdf8, #0284c7);
+  }
+
+  &.red {
+    @include variant-button(#f97316, #c2410c);
+  }
+
+  &.deepgreen {
+    @include variant-button(#1db956, #15803d);
+  }
+
+  &.gray {
+    @include variant-button(#bebebe, #8e8e8e);
+  }
+}

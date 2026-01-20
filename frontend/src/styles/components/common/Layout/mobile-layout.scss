@@ -1,0 +1,57 @@
+@import 'styles/abstracts/mixins';
+
+.layout-wrapper {
+  @include flex-center;
+  background: #f2f2f2;
+  width: 100%;
+  overflow-y: auto;
+
+  .mobile-frame {
+    display: flex;
+    flex-direction: column;
+    width: 430px;
+    height: 100dvh;
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+
+    .main-page,
+    .landing-page,
+    .friend-mode-page,
+    .rank-page,
+    .guide-page,
+    .setting-page,
+    .play-page {
+      flex: 1;
+      @include flex-center;
+      flex-direction: column;
+      overflow: hidden;
+
+      .page-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+        overflow-y: auto;
+
+        /* 스크롤바 숨기기 */
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
+
+        &::-webkit-scrollbar {
+          display: none; /* Chrome, Safari */
+        }
+
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    @media (max-width: 430px) {
+      width: 100%;
+      box-shadow: none;
+    }
+  }
+}
