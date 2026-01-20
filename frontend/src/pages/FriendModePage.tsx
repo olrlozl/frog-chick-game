@@ -27,7 +27,7 @@ const FriendModePage = () => {
           onChangeIsSearchActive={setIsSearchActive}
           refreshTick={refreshTick}
         />
-        {!isSearchActive && <FriendListSection />}
+        <FriendListSection hidden={isSearchActive} />
       </div>
     </div>
   );

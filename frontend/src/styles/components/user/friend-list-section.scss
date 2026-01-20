@@ -3,4 +3,8 @@
 
 .friend-list-section {
   width: 100%;
+
+  &.hidden {
+    display: none;
+  }
 }

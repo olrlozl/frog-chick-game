@@ -10,7 +10,11 @@ import { useState } from 'react';
 
 type SectionKey = 'received' | 'sent' | 'friends';
 
-const FriendListSection = () => {
+interface FriendListSectionProps {
+  hidden?: boolean;
+}
+
+const FriendListSection = ({ hidden = false }: FriendListSectionProps) => {
   const { data, isFetching, isError } = useFriendList();
 
   const receivedRequests = data?.friendRequests?.received ?? [];
@@ -28,7 +32,7 @@ const FriendListSection = () => {
   };
 
   return (
-    <div className="friend-list-section">
+    <div className={`friend-list-section ${hidden ? 'hidden' : ''}`}>
       {isFetching && <LocalLoadingSpinner />}
 
       {isError && <ErrorMessage errorMessage="오류가 발생했습니다." />}
