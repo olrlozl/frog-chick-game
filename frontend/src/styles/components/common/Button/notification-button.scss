@@ -1,0 +1,47 @@
+@import 'styles/abstracts/mixins';
+@import 'styles/abstracts/variables';
+
+.notification-button {
+  @include flex-center;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: #fffadb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 1000;
+
+  &:hover {
+    background: #ffef89;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .badge {
+    @include flex-center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+}

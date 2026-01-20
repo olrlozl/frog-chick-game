@@ -21,6 +21,7 @@ type ModalKeys =
   | 'createNickname'
   | 'gameResult'
   | 'gamePause'
+  | 'gameInvite'
   | 'error';
 
 type ModalPropsType = {
@@ -65,6 +66,13 @@ export const modalProps: ModalPropsType = {
         color: 'red',
         icon: <img src={quitIcon} alt="그만하기" />,
       },
+    ],
+  },
+  gameInvite: {
+    message: '',
+    btns: [
+      { label: '초대 수락', color: 'deepblue' },
+      { label: '초대 거절', color: 'skyblue' },
     ],
   },
   error: {
