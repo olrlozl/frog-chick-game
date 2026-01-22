@@ -14,11 +14,13 @@ import { LocalLoadingSpinner } from 'components/common/LocalLoadingSpinner';
 interface FriendSearchSectionProps {
   onChangeIsSearchActive: (hasResult: boolean) => void;
   refreshTick: number;
+  onDeleteFriend: (nickname: string) => void;
 }
 
 const FriendSearchSection = ({
   onChangeIsSearchActive,
   refreshTick,
+  onDeleteFriend,
 }: FriendSearchSectionProps) => {
   const [nickname, setNickname] = useState('');
   const [nicknameErrorMessage, setNicknameErrorMessage] = useState('');
@@ -50,7 +52,7 @@ const FriendSearchSection = ({
           nickname={userInfo.nickname}
           state={userInfo.state}
           onInvite={() => {}}
-          onDelete={() => {}}
+          onDelete={onDeleteFriend}
         />
       );
 

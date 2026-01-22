@@ -5,8 +5,8 @@ import UserCard, { UserCardButton } from './UserCard';
 interface FriendUserCardProps {
   nickname: string;
   state: UserStateType;
-  onInvite?: () => void;
-  onDelete?: () => void;
+  onInvite: () => void;
+  onDelete: (nickname: string) => void;
 }
 
 const FriendUserCard = ({
@@ -24,7 +24,7 @@ const FriendUserCard = ({
     {
       label: BUTTON_INFO.delete.label,
       color: BUTTON_INFO.delete.color,
-      onClick: onDelete || (() => {}),
+      onClick: () => onDelete(nickname),
     },
   ];
 

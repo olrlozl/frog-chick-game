@@ -12,7 +12,7 @@ export interface SearchFriendResponse {
   isReceived: boolean;
 }
 
-export interface ApplyFriendParams {
+export interface TargetUserParams {
   to: string;
 }
 export interface FriendItem {
@@ -25,6 +25,6 @@ export interface GetFriendListResponse {
   friendRequests: { received: FriendItem[]; sent: FriendItem[] };
 }
 
-export interface handelFriendRequestParams {
+export interface HandelFriendRequestParams {
   from: string;
 }
