@@ -9,6 +9,12 @@ import Modal from 'components/common/Modal/Modal';
 import { modalProps } from 'constants/modal';
 import invitation from 'assets/images/invitation.png';
 
+type FriendModalPayload =
+  | { type: 'FRIEND_DELETE'; nickname: string }
+  | { type: 'INVITE_SENDING'; toNickname: string }
+  | { type: 'INVITE_RECEIVED'; fromNickname: string }
+  | null;
+
 const FriendModePage = () => {
   const queryClient = useQueryClient();
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -23,18 +29,20 @@ const FriendModePage = () => {
     });
   };
 
-  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [modal, setModal] = useState<FriendModalPayload>(null);
+  const closeModal = () => setModal(null);
+
+  const openInviteReceivedModal = (fromNickname: string) =>
+    setModal({ type: 'INVITE_RECEIVED', fromNickname });
+
   const { btns: gameInviteBtns } = modalProps.gameInvite;
-  const invitationCount = 0;
-  const fromUserNickname = '짱구는못말려';
-  const gameInviteMessage = `${fromUserNickname}님이\n게임에 초대했어요!\n지금 바로 대전할까요?`;
+  const invitationCount = 1;
 
-  const accept = () => {
-    setIsInviteModalOpen(false);
+  const acceptInvite = () => {
+    closeModal();
   };
-
-  const reject = () => {
-    setIsInviteModalOpen(false);
+  const rejectInvite = () => {
+    closeModal();
   };
 
   return (
@@ -47,16 +55,24 @@ const FriendModePage = () => {
         />
         <FriendListSection hidden={isSearchActive} />
       </div>
+
       <NotificationButton
         unreadCount={invitationCount}
-        onClick={() => setIsInviteModalOpen(true)}
+        onClick={() => openInviteReceivedModal('짱구는못말려')}
       />
+
       <Modal
-        isOpen={isInviteModalOpen}
+        isOpen={modal?.type === 'INVITE_RECEIVED'}
         btns={gameInviteBtns}
-        buttonActions={[accept, reject]}
+        buttonActions={[acceptInvite, rejectInvite]}
       >
-        <Modal.Message message={gameInviteMessage} />
+        <Modal.Message
+          message={
+            modal?.type === 'INVITE_RECEIVED'
+              ? `'${modal.fromNickname}'님이\n게임에 초대했어요!\n지금 바로 대전할까요?`
+              : ''
+          }
+        />
         <Modal.Image imageSrc={invitation} />
       </Modal>
     </div>
