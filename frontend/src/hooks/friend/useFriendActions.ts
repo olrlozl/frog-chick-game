@@ -4,6 +4,7 @@ import {
   rejectFriend,
   applyFriend,
   cancelApplyFriend,
+  deleteFriend,
 } from 'api/friendApi';
 import { queryClient } from 'api/queryClient';
 import { AxiosError } from 'axios';
@@ -128,6 +129,30 @@ export const useFriendActions = () => {
       },
     });
 
+  // ✅ 친구 삭제
+  const { mutate: executeDeleteFriend, isPending: isDeleteFriendLoading } =
+    useMutation({
+      mutationFn: deleteFriend,
+      onSuccess: (_, variables: FriendReqVars) => {
+        invalidateUser(variables.to);
+        invalidateFriendList();
+      },
+      onError: (err, variables) => {
+        if (!(err instanceof AxiosError) || !err.response?.data.errorType)
+          return;
+
+        const errorType = err.response.data.errorType;
+
+        switch (errorType) {
+          case 'UNKNOWN_USER':
+            if (variables?.to) removeUser(variables.to);
+
+          default:
+            setErrorMessage('DELETE_FRIEND', errorType);
+        }
+      },
+    });
+
   return {
     executeApplyFriend,
     isApplyFriendLoading,
@@ -137,5 +162,7 @@ export const useFriendActions = () => {
     isAcceptFriendLoading,
     executeRejectFriend,
     isRejectFriendLoading,
+    executeDeleteFriend,
+    isDeleteFriendLoading,
   };
 };

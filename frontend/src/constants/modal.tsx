@@ -22,6 +22,7 @@ type ModalKeys =
   | 'gameResult'
   | 'gamePause'
   | 'gameInvite'
+  | 'deleteFriend'
   | 'error';
 
 type ModalPropsType = {
@@ -73,6 +74,13 @@ export const modalProps: ModalPropsType = {
     btns: [
       { label: '초대 수락', color: 'deepblue' },
       { label: '초대 거절', color: 'skyblue' },
+    ],
+  },
+  deleteFriend: {
+    message: '',
+    btns: [
+      { label: '친구 끊기', color: 'red' },
+      { label: '취소', color: 'gray' },
     ],
   },
   error: {

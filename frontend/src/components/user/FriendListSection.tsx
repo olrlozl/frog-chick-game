@@ -12,9 +12,13 @@ type SectionKey = 'received' | 'sent' | 'friends';
 
 interface FriendListSectionProps {
   hidden?: boolean;
+  onDeleteFriend: (nickname: string) => void;
 }
 
-const FriendListSection = ({ hidden = false }: FriendListSectionProps) => {
+const FriendListSection = ({
+  hidden = false,
+  onDeleteFriend,
+}: FriendListSectionProps) => {
   const { data, isFetching, isError } = useFriendList();
 
   const receivedRequests = data?.friendRequests?.received ?? [];
@@ -84,7 +88,7 @@ const FriendListSection = ({ hidden = false }: FriendListSectionProps) => {
                   nickname={friend.nickname}
                   state={friend.state}
                   onInvite={() => {}}
-                  onDelete={() => {}}
+                  onDelete={onDeleteFriend}
                 />
               ))}
             </div>

@@ -1,9 +1,9 @@
 import {
-  handelFriendRequestParams,
-  ApplyFriendParams,
-  GetFriendListResponse,
   SearchFriendParams,
   SearchFriendResponse,
+  TargetUserParams,
+  GetFriendListResponse,
+  HandelFriendRequestParams,
 } from 'types/friend';
 import instance from './axiosInstance';
 import { API_ENDPOINTS } from 'constants/apiEndpoints';
@@ -19,13 +19,13 @@ const searchFriend = async ({
   return data;
 };
 
-const applyFriend = async ({ to }: ApplyFriendParams) => {
+const applyFriend = async ({ to }: TargetUserParams) => {
   await instance.post(API_ENDPOINTS.APPLY_FRIEND, {
     to,
   });
 };
 
-const cancelApplyFriend = async ({ to }: ApplyFriendParams) => {
+const cancelApplyFriend = async ({ to }: TargetUserParams) => {
   await instance.delete(API_ENDPOINTS.CANCEL_FRIEND_APPLY(to));
 };
 
@@ -34,12 +34,16 @@ const getFriendList = async (): Promise<GetFriendListResponse> => {
   return data;
 };
 
-const acceptFriend = async ({ from }: handelFriendRequestParams) => {
+const acceptFriend = async ({ from }: HandelFriendRequestParams) => {
   await instance.post(API_ENDPOINTS.ACCEPT_FRIEND(from));
 };
 
-const rejectFriend = async ({ from }: handelFriendRequestParams) => {
+const rejectFriend = async ({ from }: HandelFriendRequestParams) => {
   await instance.post(API_ENDPOINTS.REJECT_FRIEND(from));
+};
+
+const deleteFriend = async ({ to }: TargetUserParams) => {
+  await instance.delete(API_ENDPOINTS.DELETE_FRIEND(to));
 };
 
 export {
@@ -49,4 +53,5 @@ export {
   getFriendList,
   acceptFriend,
   rejectFriend,
+  deleteFriend,
 };

@@ -8,11 +8,12 @@ import NotificationButton from 'components/user/NotificationButton';
 import Modal from 'components/common/Modal/Modal';
 import { modalProps } from 'constants/modal';
 import invitation from 'assets/images/invitation.png';
+import { useFriendActions } from 'hooks/friend/useFriendActions';
 
 type FriendModalPayload =
-  | { type: 'FRIEND_DELETE'; nickname: string }
-  | { type: 'INVITE_SENDING'; toNickname: string }
-  | { type: 'INVITE_RECEIVED'; fromNickname: string }
+  | { type: 'DELETE_FRIEND'; nickname: string }
+  | { type: 'INVITE_SENDING'; nickname: string }
+  | { type: 'INVITE_RECEIVED'; nickname: string }
   | null;
 
 const FriendModePage = () => {
@@ -32,11 +33,25 @@ const FriendModePage = () => {
   const [modal, setModal] = useState<FriendModalPayload>(null);
   const closeModal = () => setModal(null);
 
-  const openInviteReceivedModal = (fromNickname: string) =>
-    setModal({ type: 'INVITE_RECEIVED', fromNickname });
+  const openDeleteModal = (nickname: string) =>
+    setModal({ type: 'DELETE_FRIEND', nickname });
 
+  const openInviteReceivedModal = (nickname: string) =>
+    setModal({ type: 'INVITE_RECEIVED', nickname });
+
+  const { executeDeleteFriend, isDeleteFriendLoading } = useFriendActions();
+  const { btns: friendDeleteBtns } = modalProps.deleteFriend;
   const { btns: gameInviteBtns } = modalProps.gameInvite;
   const invitationCount = 1;
+
+  const deleteFriend = () => {
+    if (modal?.type !== 'DELETE_FRIEND') return;
+
+    executeDeleteFriend(
+      { to: modal.nickname },
+      { onSuccess: () => closeModal() }
+    );
+  };
 
   const acceptInvite = () => {
     closeModal();
@@ -52,8 +67,12 @@ const FriendModePage = () => {
         <FriendSearchSection
           onChangeIsSearchActive={setIsSearchActive}
           refreshTick={refreshTick}
+          onDeleteFriend={openDeleteModal}
         />
-        <FriendListSection hidden={isSearchActive} />
+        <FriendListSection
+          hidden={isSearchActive}
+          onDeleteFriend={openDeleteModal}
+        />
       </div>
 
       <NotificationButton
@@ -61,15 +80,35 @@ const FriendModePage = () => {
         onClick={() => openInviteReceivedModal('짱구는못말려')}
       />
 
+      {/* 1) 친구 삭제 확인 모달 */}
+      <Modal
+        isOpen={modal?.type === 'DELETE_FRIEND'}
+        btns={friendDeleteBtns}
+        buttonActions={[deleteFriend, closeModal]}
+        isLoading={isDeleteFriendLoading}
+      >
+        <Modal.Message
+          message={
+            modal?.type === 'DELETE_FRIEND'
+              ? `'${modal.nickname}'님과\n친구를 끊을까요?`
+              : ''
+          }
+        />
+      </Modal>
+
+      {/* 2) 초대장 보내는 중 모달 */}
+
+      {/* 3) 받은 초대장 모달 */}
       <Modal
         isOpen={modal?.type === 'INVITE_RECEIVED'}
         btns={gameInviteBtns}
         buttonActions={[acceptInvite, rejectInvite]}
+        // isLoading={}
       >
         <Modal.Message
           message={
             modal?.type === 'INVITE_RECEIVED'
-              ? `'${modal.fromNickname}'님이\n게임에 초대했어요!\n지금 바로 대전할까요?`
+              ? `'${modal.nickname}'님이\n게임에 초대했어요!\n지금 바로 대전할까요?`
               : ''
           }
         />
