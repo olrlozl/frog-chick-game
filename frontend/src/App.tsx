@@ -70,7 +70,7 @@ function App() {
       // 기존 인터셉터 제거
       instance.interceptors.response.eject(interceptorId);
     };
-  }, []);
+  }, [setErrorMessage]);
 
   return (
     <div className="App">
