@@ -28,7 +28,13 @@ const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       { path: '/local-mode/play', element: <PlayPage /> },
-      { path: '/friend-mode', element: <FriendModePage /> },
+      {
+        path: '/friend-mode',
+        children: [
+          { index: true, element: <FriendModePage /> },
+          { path: 'play', element: <PlayPage /> },
+        ],
+      },
       { path: '/random-mode', element: <RandomModePage /> },
       {
         path: '/main',
@@ -64,7 +70,7 @@ function App() {
       // 기존 인터셉터 제거
       instance.interceptors.response.eject(interceptorId);
     };
-  }, []);
+  }, [setErrorMessage]);
 
   return (
     <div className="App">
