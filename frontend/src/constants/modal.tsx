@@ -21,7 +21,9 @@ type ModalKeys =
   | 'createNickname'
   | 'gameResult'
   | 'gamePause'
-  | 'gameInvite'
+  | 'inviteSending'
+  | 'inviteReady'
+  | 'inviteReceived'
   | 'deleteFriend'
   | 'error';
 
@@ -69,7 +71,18 @@ export const modalProps: ModalPropsType = {
       },
     ],
   },
-  gameInvite: {
+  inviteSending: {
+    message: '',
+    btns: [{ label: '초대 취소', color: 'deepgreen' }],
+  },
+  inviteReady: {
+    message: '',
+    btns: [
+      { label: '게임 시작', color: 'deepblue' },
+      { label: '취소', color: 'gray' },
+    ],
+  },
+  inviteReceived: {
     message: '',
     btns: [
       { label: '초대 수락', color: 'deepblue' },
