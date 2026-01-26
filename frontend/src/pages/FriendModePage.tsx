@@ -167,11 +167,7 @@ const FriendModePage = () => {
       >
         <Modal.Message message={inviteUI?.message ?? ''} />
         {inviteUI?.gif && (
-          <img
-            src={inviteUI.gif}
-            alt={inviteUI.gifAlt}
-            className="invite-status-gif"
-          />
+          <Modal.Gif src={inviteUI?.gif} alt={inviteUI?.gifAlt} />
         )}
       </Modal>
 

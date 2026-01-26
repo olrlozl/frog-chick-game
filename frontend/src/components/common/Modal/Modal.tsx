@@ -8,6 +8,7 @@ import { ErrorMessage } from './ErrorMessage';
 import { ModalImage } from './ModalImage';
 import { ModalMessage } from './ModalMessage';
 import { ModalButton } from 'constants/modal';
+import { ModalGif } from './ModalGif';
 
 interface ModalProps {
   isOpen: boolean;
@@ -58,3 +59,4 @@ Modal.Message = ModalMessage;
 Modal.NicknameInput = NicknameInput;
 Modal.ErrorMessage = ErrorMessage;
 Modal.Image = ModalImage;
+Modal.Gif = ModalGif;
