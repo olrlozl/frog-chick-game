@@ -2,43 +2,35 @@ import logo from 'assets/images/logo.png';
 import board from 'assets/images/board.png';
 import kakaoImg from 'assets/images/kakao.png';
 import 'styles/pages/landing-page.scss';
-import { useEffect, useState } from 'react';
-import Modal from 'components/common/Modal/Modal';
-import { useNickname } from 'hooks/user/useNickname';
-import { useModal } from 'hooks/common/useModal';
-import { modalProps } from 'constants/modal';
+import { useEffect } from 'react';
 import { useLogin } from 'hooks/user/useLogin';
 import BasicButton from 'components/common/Button/BasicButton';
+import { ENV } from '../config/env';
 
 const LandingPage = () => {
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const [userId, setUserId] = useState('');
-  const [nicknameErrorMessage, setNicknameErrorMessage] = useState('');
-  const [nickname, setNickname] = useState('');
-  const { message, btns } = modalProps.createNickname;
-
-  // 1. 카카오 버튼 처음 눌렀을 때
+  // 1. 카카오 로그인 버튼 클릭
   const handleClickGetKakaoCode = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
+    window.location.href =
+      `https://kauth.kakao.com/oauth/authorize?` +
+      `client_id=${ENV.REST_API_KEY}` +
+      `&redirect_uri=${ENV.REDIRECT_URI}` +
+      `&response_type=code`;
   };
 
-  // 2. 리다이렉션 후 카카오 로그인 시도
+  // 2. 리다이렉션 후 카카오 로그인
   const code = new URL(window.location.href).searchParams.get('code');
-  const executeKakaoLogin = useLogin(setUserId, openModal);
-  useEffect(() => {
-    if (code) {
-      const redirectUri = process.env.REACT_APP_REDIRECT_URI as string;
-      executeKakaoLogin({ redirectUri, code });
-    }
-  }, [code, executeKakaoLogin]);
 
-  // 3. 가입했지만 닉네임이 null인 유저라면 닉네임 생성
-  const { validateAndCreateNickname, isCreateNicknameLoading } = useNickname(
-    userId,
-    nickname,
-    setNicknameErrorMessage,
-    closeModal
-  );
+  const executeKakaoLogin = useLogin();
+
+  useEffect(() => {
+    if (!code) return;
+    executeKakaoLogin({ redirectUri: ENV.REDIRECT_URI, code });
+
+    //로그인 시도 시작했으면 code 제거해서 중복 호출 방지
+    const url = new URL(window.location.href);
+    url.searchParams.delete('code');
+    window.history.replaceState({}, '', url.toString());
+  }, [code, executeKakaoLogin]);
 
   return (
     <div className="landing-page">
@@ -51,22 +43,6 @@ const LandingPage = () => {
         onClick={handleClickGetKakaoCode}
         leftIcon={<img src={kakaoImg} alt="카카오" />}
       />
-      <Modal
-        isOpen={isModalOpen}
-        btns={btns}
-        buttonActions={[validateAndCreateNickname]}
-        isLoading={isCreateNicknameLoading}
-      >
-        <Modal.Message message={message} />
-        <Modal.NicknameInput
-          text="한글, 영어 2~6자"
-          nickname={nickname}
-          setNickname={setNickname}
-          setErrorMessage={setNicknameErrorMessage}
-          onEnter={validateAndCreateNickname}
-        />
-        <Modal.ErrorMessage errorMessage={nicknameErrorMessage} />
-      </Modal>
     </div>
   );
 };
