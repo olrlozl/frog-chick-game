@@ -6,44 +6,37 @@ import { useNavigate } from 'react-router-dom';
 import { useErrorStore } from 'stores/errorStore';
 import { useUserStore } from 'stores/userStore';
 import { SetState } from 'types/common';
-import { errorHandle } from 'utils/error';
 import { validateNickname } from 'utils/validate';
 
 export const useNickname = (
-  userId: string,
   nickname: string,
   setNicknameErrorMessage: SetState<string>,
   closeModal: () => void
 ) => {
   const navigate = useNavigate();
   const { setErrorMessage } = useErrorStore();
-
-  const { login } = useUserStore();
+  const setNickname = useUserStore((s) => s.setNickname);
 
   const { mutate, isPending: isCreateNicknameLoading } = useMutation({
     mutationFn: createNickname,
-    onSuccess: () => {
-      login();
+    onSuccess: (data) => {
+      setNickname(data.nickname);
       navigate('/main');
     },
     onError: (e) => {
       if (e instanceof AxiosError && e.response?.data.errorType) {
         switch (e.response?.data.errorType) {
-          // 재로그인이 필요한 errorType의 경우 에러 모달을 띄우기 위해
-          case 'MISSING_USERID':
           case 'INVALID_USERID':
-          case 'NOT_FOUND_USER':
-            closeModal(); // 닉네임 생성 모달 닫기
-            setErrorMessage('CREATE_NICKNAME', e.response?.data.errorType);
-            break;
-          // 이미 닉네임이 있는 유저인 경우 메인으로 이동 후 닉네임 이미 있다는 모달 띄우기
+            closeModal();
+            return;
           case 'ALREADY_EXISTS_NICKNAME':
             navigate('/main');
             setErrorMessage('CREATE_NICKNAME', e.response?.data.errorType);
-            break;
-          // 그 외의 errorType은 닉네임 input 밑에 에러메세지 표시
+            return;
           default:
-            errorHandle(e, setNicknameErrorMessage, 'CREATE_NICKNAME');
+            setNicknameErrorMessage(
+              ERROR_MESSAGES.CREATE_NICKNAME[e.response.data.errorType]
+            );
         }
       }
     },
@@ -61,7 +54,7 @@ export const useNickname = (
       return;
     }
 
-    mutate({ userId, nickname });
+    mutate({ nickname });
   };
 
   return { validateAndCreateNickname, isCreateNicknameLoading };

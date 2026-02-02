@@ -4,33 +4,26 @@ import { AxiosError } from 'axios';
 import { MUTATION_KEYS } from 'constants/reactQueryKeys';
 import { useNavigate } from 'react-router-dom';
 import { useErrorStore } from 'stores/errorStore';
+import { useNicknameModalStore } from 'stores/nicknameModalStore';
 import { useUserStore } from 'stores/userStore';
-import { SetState } from 'types/common';
-import { errorHandle } from 'utils/error';
+import { KakaoLoginResponse } from 'types/user';
 
-export const useLogin = (
-  setUserId: SetState<string>,
-  openModal: () => void
-) => {
+export const useLogin = () => {
   const { setErrorMessage } = useErrorStore();
-
-  const { login } = useUserStore();
-
+  const setLogin = useUserStore((s) => s.setLogin);
   const navigate = useNavigate();
+  const openNicknameModal = useNicknameModalStore((s) => s.openModal);
 
   const { mutate: executeKakaoLogin } = useMutation({
     mutationFn: kakaoLogin,
     mutationKey: [MUTATION_KEYS.login],
-    onSuccess: (data) => {
-      // 닉네임 있는 유저
-      if (data === '') {
-        login();
-        navigate('/main');
+    onSuccess: (data: KakaoLoginResponse) => {
+      setLogin({ userId: data.userId, nickname: data.nickname });
 
-        // 닉네임 없는 유저
+      if (data.nickname) {
+        navigate('/main');
       } else {
-        setUserId(data.userId);
-        openModal();
+        openNicknameModal();
       }
     },
     onError: (err) => {
