@@ -20,7 +20,7 @@ const SentUserCard = ({ nickname, isSent }: SentUserCardProps) => {
         {
           label: BUTTON_INFO.cancelApply.label,
           color: BUTTON_INFO.cancelApply.color,
-          onClick: () => executeCancelApplyFriend?.({ to: nickname }),
+          onClick: () => executeCancelApplyFriend?.({ nickname }),
           disabled: isCancelApplyFriendLoading,
         },
       ]
@@ -28,7 +28,7 @@ const SentUserCard = ({ nickname, isSent }: SentUserCardProps) => {
         {
           label: BUTTON_INFO.apply.label,
           color: BUTTON_INFO.apply.color,
-          onClick: () => executeApplyFriend?.({ to: nickname }),
+          onClick: () => executeApplyFriend?.({ nickname }),
           disabled: isApplyFriendLoading,
         },
       ];

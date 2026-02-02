@@ -18,13 +18,13 @@ const ReceivedUserCard = ({ nickname }: FriendUserCardProps) => {
     {
       label: BUTTON_INFO.accept.label,
       color: BUTTON_INFO.accept.color,
-      onClick: () => executeAcceptFriend({ from: nickname }),
+      onClick: () => executeAcceptFriend({ nickname }),
       disabled: isAcceptFriendLoading || isRejectFriendLoading,
     },
     {
       label: BUTTON_INFO.reject.label,
       color: BUTTON_INFO.reject.color,
-      onClick: () => executeRejectFriend({ from: nickname }),
+      onClick: () => executeRejectFriend({ nickname }),
       disabled: isAcceptFriendLoading || isRejectFriendLoading,
     },
   ];
