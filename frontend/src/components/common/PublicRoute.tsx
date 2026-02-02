@@ -1,26 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useErrorStore } from 'stores/errorStore';
 import { useUserStore } from 'stores/userStore';
-import Modal from './Modal/Modal';
-import { modalProps } from 'constants/modal';
 
 export const PublicRoute = () => {
-  const { isLogin } = useUserStore();
-  const { errorMessage, clearErrorMessage } = useErrorStore();
+  const isAuthed = useUserStore((s) => s.isAuthed);
 
-  const { btns } = modalProps.error;
-  if (!isLogin)
-    return (
-      <>
-        <Outlet />
-        <Modal
-          isOpen={!!errorMessage}
-          btns={btns}
-          buttonActions={[clearErrorMessage]}
-        >
-          <Modal.Message message={errorMessage} />
-        </Modal>
-      </>
-    );
-  else return <Navigate to="/main" />;
+  if (isAuthed) {
+    return <Navigate to="/main" replace />;
+  }
+
+  return <Outlet />;
 };

@@ -1,35 +1,12 @@
-import { COMMON_MESSAGES } from 'constants/errorMessages';
-import { useClear } from 'hooks/common/useClear';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useErrorStore } from 'stores/errorStore';
 import { useUserStore } from 'stores/userStore';
-import Modal from './Modal/Modal';
-import { modalProps } from 'constants/modal';
 
 export const ProtectedRoute = () => {
-  const { isLogin } = useUserStore();
-  const { errorMessage, clearErrorMessage } = useErrorStore();
-  const clearAndNavigateToLanding = useClear();
+  const isAuthed = useUserStore((s) => s.isAuthed);
 
-  const handleClickModalAction =
-    errorMessage === COMMON_MESSAGES.RE_LOGIN
-      ? clearAndNavigateToLanding
-      : clearErrorMessage;
+  if (!isAuthed) {
+    return <Navigate to="/" replace />;
+  }
 
-  const { btns } = modalProps.error;
-
-  if (isLogin)
-    return (
-      <>
-        <Outlet />
-        <Modal
-          isOpen={!!errorMessage}
-          btns={btns}
-          buttonActions={[handleClickModalAction]}
-        >
-          <Modal.Message message={errorMessage} />
-        </Modal>
-      </>
-    );
-  else return <Navigate to="/" />;
+  return <Outlet />;
 };
