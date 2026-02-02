@@ -2,17 +2,20 @@ export type GameModeType = 'local' | 'friend' | 'random';
 
 export type UserStateType = 'online' | 'offline' | 'playing';
 
-// API 관련
-export interface NoNicknameUserkakaoLoginResponse {
-  userId: string;
-}
-
-export interface KakaoLoginParams {
+export interface KakaoLoginRequest {
   redirectUri: string;
   code: string;
 }
 
-export interface CreateNicknameParams {
+export interface KakaoLoginResponse {
   userId: string;
+  nickname: string | null;
+}
+
+export interface CreateNicknameRequest {
+  nickname: string;
+}
+
+export interface CreateNicknameResponse {
   nickname: string;
 }

@@ -1,16 +1,16 @@
 import {
-  CreateNicknameParams,
-  KakaoLoginParams,
-  NoNicknameUserkakaoLoginResponse,
+  CreateNicknameRequest,
+  CreateNicknameResponse,
+  KakaoLoginRequest,
+  KakaoLoginResponse,
 } from 'types/user';
 import instance from './axiosInstance';
 import { API_ENDPOINTS } from 'constants/apiEndpoints';
-import axios from 'axios';
 
 const kakaoLogin = async ({
   redirectUri,
   code,
-}: KakaoLoginParams): Promise<NoNicknameUserkakaoLoginResponse | ''> => {
+}: KakaoLoginRequest): Promise<KakaoLoginResponse> => {
   const { data } = await instance.post(API_ENDPOINTS.KAKAO_LOGIN, {
     redirectUri,
     code,
@@ -22,19 +22,17 @@ const kakaoLogout = async () => {
   await instance.post(API_ENDPOINTS.KAKAO_LOGOUT);
 };
 
-const createNickname = async ({ userId, nickname }: CreateNicknameParams) => {
-  await instance.post(API_ENDPOINTS.CREATE_NICKNAME, {
-    userId,
+const createNickname = async (
+  nickname: CreateNicknameRequest
+): Promise<CreateNicknameResponse> => {
+  const { data } = await instance.post(API_ENDPOINTS.CREATE_NICKNAME, {
     nickname,
   });
+  return data;
 };
 
 const refreshJwtAccessToken = async () => {
-  await axios.post(
-    process.env.REACT_APP_API_URL_DEV +
-      '/api' +
-      API_ENDPOINTS.REFRESH_JWT_ACCESS_TOKEN
-  );
+  await instance.post(API_ENDPOINTS.REFRESH_JWT_ACCESS_TOKEN);
 };
 
 export { kakaoLogin, kakaoLogout, createNickname, refreshJwtAccessToken };
