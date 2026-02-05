@@ -21,6 +21,7 @@ export const useNickname = (
     mutationFn: createNickname,
     onSuccess: (data) => {
       setNickname(data.nickname);
+      closeModal();
       navigate('/main');
     },
     onError: (e) => {
@@ -32,11 +33,13 @@ export const useNickname = (
           case 'ALREADY_EXISTS_NICKNAME':
             navigate('/main');
             setErrorMessage('CREATE_NICKNAME', e.response?.data.errorType);
+            closeModal();
             return;
           default:
             setNicknameErrorMessage(
               ERROR_MESSAGES.CREATE_NICKNAME[e.response.data.errorType]
             );
+            closeModal();
         }
       }
     },

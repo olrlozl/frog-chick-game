@@ -22,9 +22,9 @@ const kakaoLogout = async () => {
   await instance.post(API_ENDPOINTS.KAKAO_LOGOUT);
 };
 
-const createNickname = async (
-  nickname: CreateNicknameRequest
-): Promise<CreateNicknameResponse> => {
+const createNickname = async ({
+  nickname,
+}: CreateNicknameRequest): Promise<CreateNicknameResponse> => {
   const { data } = await instance.post(API_ENDPOINTS.CREATE_NICKNAME, {
     nickname,
   });

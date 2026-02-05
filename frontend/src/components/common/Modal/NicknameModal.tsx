@@ -4,7 +4,7 @@ import { modalProps } from 'constants/modal';
 import { useNickname } from 'hooks/user/useNickname';
 import { useNicknameModalStore } from 'stores/nicknameModalStore';
 
-export default function NicknameRequiredModal() {
+export default function NicknameModal() {
   const { isOpen, closeModal } = useNicknameModalStore();
   const { message, btns } = modalProps.createNickname;
 
