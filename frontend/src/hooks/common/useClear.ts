@@ -10,7 +10,7 @@ export const useClear = () => {
   const clearErrorMessage = useErrorStore((s) => s.clearErrorMessage);
   const logout = useUserStore((s) => s.logout);
   const closeFriendModal = useFriendModalStore((s) => s.closeModal);
-  const closeNicknameModal = useNicknameModalStore((s) => s.closeModal);
+  const closeNicknameModal = useNicknameModalStore((s) => s.closeNicknameModal);
   const resetGame = usePlayStore((s) => s.resetGame);
   const navigate = useNavigate();
 

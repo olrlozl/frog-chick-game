@@ -6,9 +6,24 @@ import IconButton from 'components/common/Button/IconButtion';
 import guideIcon from 'assets/images/guide-icon.png';
 import rankIcon from 'assets/images/rank-icon.png';
 import settingIcon from 'assets/images/setting-icon.png';
+import { useUserStore } from 'stores/userStore';
+import { useNicknameModalStore } from 'stores/nicknameModalStore';
+import { useEffect } from 'react';
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const isAuthed = useUserStore((s) => s.isAuthed);
+  const hasNickname = useUserStore((s) => !!s.user?.nickname);
+  const isOpenNicknameModal = useNicknameModalStore(
+    (s) => s.isOpenNicknameModal
+  );
+  const openNicknameModal = useNicknameModalStore((s) => s.openNicknameModal);
+
+  useEffect(() => {
+    if (isAuthed && !hasNickname && !isOpenNicknameModal) {
+      openNicknameModal();
+    }
+  }, [isAuthed, hasNickname, isOpenNicknameModal, openNicknameModal]);
 
   return (
     <div className="main-page">
@@ -32,17 +47,17 @@ const MainPage = () => {
         <IconButton
           iconSrc={guideIcon}
           alt="설명"
-          onClick={() => navigate('/main/guide')}
+          onClick={() => navigate('/guide')}
         />
         <IconButton
           iconSrc={rankIcon}
           alt="순위"
-          onClick={() => navigate('/main/rank')}
+          onClick={() => navigate('/rank')}
         />
         <IconButton
           iconSrc={settingIcon}
           alt="설정"
-          onClick={() => navigate('/main/setting')}
+          onClick={() => navigate('/setting')}
         />
       </div>
     </div>

@@ -8,7 +8,7 @@ import GuidePage from 'pages/GuidePage';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from 'api/queryClient';
-import { ProtectedRoute } from 'components/common/ProtectedRoute';
+import { AuthRoute } from 'components/common/AuthRoute';
 import { useEffect } from 'react';
 import instance, { setAxiosInterceptorResponse } from 'api/axiosInstance';
 import { useErrorStore } from 'stores/errorStore';
@@ -17,6 +17,7 @@ import FriendModePage from 'pages/FriendModePage';
 import SettingPage from 'pages/SettingPage';
 import RandomModePage from 'pages/RandomModePage';
 import AppLayout from 'components/common/Layout/AppLayout';
+import { NicknameRoute } from 'components/common/NicknameRoute';
 
 const router = createBrowserRouter([
   {
@@ -26,10 +27,21 @@ const router = createBrowserRouter([
         element: <PublicRoute />,
         children: [{ path: '/', element: <LandingPage /> }],
       },
+
       {
-        element: <ProtectedRoute />,
+        element: <AuthRoute />,
         children: [
+          { path: '/main', element: <MainPage /> },
           { path: '/local-mode/play', element: <PlayPage /> },
+          { path: '/guide', element: <GuidePage /> },
+          { path: '/setting', element: <SettingPage /> },
+        ],
+      },
+
+      {
+        element: <NicknameRoute />,
+        children: [
+          { path: '/rank', element: <RankPage /> },
           {
             path: '/friend-mode',
             children: [
@@ -38,15 +50,6 @@ const router = createBrowserRouter([
             ],
           },
           { path: '/random-mode', element: <RandomModePage /> },
-          {
-            path: '/main',
-            children: [
-              { index: true, element: <MainPage /> },
-              { path: 'rank', element: <RankPage /> },
-              { path: 'guide', element: <GuidePage /> },
-              { path: 'setting', element: <SettingPage /> },
-            ],
-          },
         ],
       },
     ],

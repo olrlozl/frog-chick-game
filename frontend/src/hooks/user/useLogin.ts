@@ -12,7 +12,7 @@ export const useLogin = () => {
   const { setErrorMessage } = useErrorStore();
   const setLogin = useUserStore((s) => s.setLogin);
   const navigate = useNavigate();
-  const openNicknameModal = useNicknameModalStore((s) => s.openModal);
+  const openNicknameModal = useNicknameModalStore((s) => s.openNicknameModal);
 
   const { mutate: executeKakaoLogin } = useMutation({
     mutationFn: kakaoLogin,

@@ -5,7 +5,7 @@ import { useNickname } from 'hooks/user/useNickname';
 import { useNicknameModalStore } from 'stores/nicknameModalStore';
 
 export default function NicknameModal() {
-  const { isOpen, closeModal } = useNicknameModalStore();
+  const { isOpenNicknameModal, closeNicknameModal } = useNicknameModalStore();
   const { message, btns } = modalProps.createNickname;
 
   const [nickname, setNickname] = useState('');
@@ -14,12 +14,12 @@ export default function NicknameModal() {
   const { validateAndCreateNickname, isCreateNicknameLoading } = useNickname(
     nickname,
     setNicknameErrorMessage,
-    closeModal
+    closeNicknameModal
   );
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={isOpenNicknameModal}
       btns={btns}
       buttonActions={[validateAndCreateNickname]}
       isLoading={isCreateNicknameLoading}

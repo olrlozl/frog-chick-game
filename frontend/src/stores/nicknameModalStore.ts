@@ -2,15 +2,15 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 interface NicknameModalState {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
+  isOpenNicknameModal: boolean;
+  openNicknameModal: () => void;
+  closeNicknameModal: () => void;
 }
 
 export const useNicknameModalStore = create<NicknameModalState>()(
   devtools((set) => ({
-    isOpen: false,
-    openModal: () => set({ isOpen: true }),
-    closeModal: () => set({ isOpen: false }),
+    isOpenNicknameModal: false,
+    openNicknameModal: () => set({ isOpenNicknameModal: true }),
+    closeNicknameModal: () => set({ isOpenNicknameModal: false }),
   }))
 );

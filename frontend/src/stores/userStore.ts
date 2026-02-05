@@ -10,7 +10,7 @@ type UserState = {
   isAuthed: boolean;
   user: User | null;
   setLogin: (u: User) => void;
-  setNickname: (nickname: string) => void;
+  setNickname: (nickname: string | null) => void;
   logout: () => void;
 };
 

@@ -3,6 +3,7 @@ import { refreshJwtAccessToken } from './userApi';
 import { ErrorMessageKeys } from 'constants/errorMessages';
 import { ENV } from '../config/env';
 import { useNicknameModalStore } from 'stores/nicknameModalStore';
+import { useUserStore } from 'stores/userStore';
 
 const instance = axios.create({
   baseURL: ENV.API_URL_DEV + '/api',
@@ -55,8 +56,12 @@ export const setAxiosInterceptorResponse = (
       }
 
       if (errorType === 'NICKNAME_REQUIRED') {
-        const { isOpen, openModal } = useNicknameModalStore.getState();
-        if (!isOpen) openModal();
+        useUserStore.getState().setNickname(null);
+
+        const { isOpenNicknameModal, openNicknameModal } =
+          useNicknameModalStore.getState();
+        if (!isOpenNicknameModal) openNicknameModal();
+
         return Promise.reject(err);
       }
 
