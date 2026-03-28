@@ -1,16 +1,15 @@
 import {
-  SearchFriendParams,
+  SearchFriendRequest,
   SearchFriendResponse,
-  TargetUserParams,
+  TargetFriendRequest,
   GetFriendListResponse,
-  HandelFriendRequestParams,
 } from 'types/friend';
 import instance from './axiosInstance';
 import { API_ENDPOINTS } from 'constants/apiEndpoints';
 
 const searchFriend = async ({
   nickname,
-}: SearchFriendParams): Promise<SearchFriendResponse> => {
+}: SearchFriendRequest): Promise<SearchFriendResponse> => {
   const { data } = await instance.get(API_ENDPOINTS.SEARCH_FRIEND, {
     params: {
       nickname,
@@ -19,14 +18,12 @@ const searchFriend = async ({
   return data;
 };
 
-const applyFriend = async ({ to }: TargetUserParams) => {
-  await instance.post(API_ENDPOINTS.APPLY_FRIEND, {
-    to,
-  });
+const applyFriend = async ({ nickname }: TargetFriendRequest) => {
+  await instance.post(API_ENDPOINTS.APPLY_FRIEND(nickname));
 };
 
-const cancelApplyFriend = async ({ to }: TargetUserParams) => {
-  await instance.delete(API_ENDPOINTS.CANCEL_FRIEND_APPLY(to));
+const cancelApplyFriend = async ({ nickname }: TargetFriendRequest) => {
+  await instance.delete(API_ENDPOINTS.CANCEL_FRIEND_APPLY(nickname));
 };
 
 const getFriendList = async (): Promise<GetFriendListResponse> => {
@@ -34,16 +31,16 @@ const getFriendList = async (): Promise<GetFriendListResponse> => {
   return data;
 };
 
-const acceptFriend = async ({ from }: HandelFriendRequestParams) => {
-  await instance.post(API_ENDPOINTS.ACCEPT_FRIEND(from));
+const acceptFriend = async ({ nickname }: TargetFriendRequest) => {
+  await instance.post(API_ENDPOINTS.ACCEPT_FRIEND(nickname));
 };
 
-const rejectFriend = async ({ from }: HandelFriendRequestParams) => {
-  await instance.post(API_ENDPOINTS.REJECT_FRIEND(from));
+const rejectFriend = async ({ nickname }: TargetFriendRequest) => {
+  await instance.post(API_ENDPOINTS.REJECT_FRIEND(nickname));
 };
 
-const deleteFriend = async ({ to }: TargetUserParams) => {
-  await instance.delete(API_ENDPOINTS.DELETE_FRIEND(to));
+const deleteFriend = async ({ nickname }: TargetFriendRequest) => {
+  await instance.delete(API_ENDPOINTS.DELETE_FRIEND(nickname));
 };
 
 export {

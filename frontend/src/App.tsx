@@ -8,53 +8,48 @@ import GuidePage from 'pages/GuidePage';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from 'api/queryClient';
-import LoadingSpinner from 'components/common/LoadingSpinner';
-import { ProtectedRoute } from 'components/common/ProtectedRoute';
+import { AuthRoute } from 'components/common/AuthRoute';
 import { useEffect } from 'react';
 import instance, { setAxiosInterceptorResponse } from 'api/axiosInstance';
 import { useErrorStore } from 'stores/errorStore';
 import { PublicRoute } from 'components/common/PublicRoute';
 import FriendModePage from 'pages/FriendModePage';
-import MobileLayout from 'components/common/Layout/MobileLayout';
 import SettingPage from 'pages/SettingPage';
 import RandomModePage from 'pages/RandomModePage';
+import AppLayout from 'components/common/Layout/AppLayout';
+import { NicknameRoute } from 'components/common/NicknameRoute';
 
 const router = createBrowserRouter([
   {
-    element: <PublicRoute />,
-    children: [{ path: '/', element: <LandingPage /> }],
-  },
-  {
-    element: <ProtectedRoute />,
+    element: <AppLayout />,
     children: [
-      { path: '/local-mode/play', element: <PlayPage /> },
       {
-        path: '/friend-mode',
+        element: <PublicRoute />,
+        children: [{ path: '/', element: <LandingPage /> }],
+      },
+
+      {
+        element: <AuthRoute />,
         children: [
-          { index: true, element: <FriendModePage /> },
-          { path: 'play', element: <PlayPage /> },
+          { path: '/main', element: <MainPage /> },
+          { path: '/local-mode/play', element: <PlayPage /> },
+          { path: '/guide', element: <GuidePage /> },
+          { path: '/setting', element: <SettingPage /> },
         ],
       },
-      { path: '/random-mode', element: <RandomModePage /> },
+
       {
-        path: '/main',
+        element: <NicknameRoute />,
         children: [
+          { path: '/rank', element: <RankPage /> },
           {
-            index: true,
-            element: <MainPage />,
+            path: '/friend-mode',
+            children: [
+              { index: true, element: <FriendModePage /> },
+              { path: 'play', element: <PlayPage /> },
+            ],
           },
-          {
-            path: 'rank',
-            element: <RankPage />,
-          },
-          {
-            path: 'guide',
-            element: <GuidePage />,
-          },
-          {
-            path: 'setting',
-            element: <SettingPage />,
-          },
+          { path: '/random-mode', element: <RandomModePage /> },
         ],
       },
     ],
@@ -75,10 +70,7 @@ function App() {
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
-        <MobileLayout>
-          <RouterProvider router={router} />
-        </MobileLayout>
-        <LoadingSpinner />
+        <RouterProvider router={router} />
         <ReactQueryDevtools />
       </QueryClientProvider>
     </div>

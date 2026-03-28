@@ -11,8 +11,6 @@ import { AxiosError } from 'axios';
 import { QUERY_KEYS } from 'constants/reactQueryKeys';
 import { useErrorStore } from 'stores/errorStore';
 
-type FriendReqVars = { to: string };
-
 export const useFriendActions = () => {
   const { setErrorMessage } = useErrorStore();
 
@@ -32,37 +30,30 @@ export const useFriendActions = () => {
   const { mutate: executeApplyFriend, isPending: isApplyFriendLoading } =
     useMutation({
       mutationFn: applyFriend,
-      onSuccess: (_, variables: FriendReqVars) => {
-        invalidateUser(variables.to);
-        invalidateFriendList(); // sent 목록 반영
+      onSuccess: (_, variables) => {
+        invalidateUser(variables.nickname);
+        invalidateFriendList();
       },
-      onError: (err) => {
-        if (!(err instanceof AxiosError) || !err.response?.data.errorType)
+      onError: (err, variables) => {
+        if (!(err instanceof AxiosError) || !err.response?.data.errorType) {
+          setErrorMessage('COMMON', 'UNKNOWN_ERROR');
           return;
-
+        }
         const errorType = err.response.data.errorType;
-        const to = (() => {
-          try {
-            return JSON.parse(err.config?.data)?.to;
-          } catch {
-            return undefined;
-          }
-        })();
 
         switch (errorType) {
           // 이미 신청하거나, 친구인 경우 UI 갱신을 위해 쿼리 무효화
           case 'ALREADY_FRIEND':
           case 'ALREADY_APPLY_FRIEND':
-            if (to) invalidateUser(to);
+            if (variables.nickname) invalidateUser(variables.nickname);
             invalidateFriendList();
-            break;
+            return;
 
           // 존재하지 않는 사용자일 경우
           case 'UNKNOWN_USER':
-            if (to) removeUser(to);
-
-          default:
-            setErrorMessage('APPLY_FRIEND', errorType);
+            if (variables.nickname) removeUser(variables.nickname);
+            invalidateFriendList();
+            return;
         }
       },
     });
@@ -73,8 +64,8 @@ export const useFriendActions = () => {
     isPending: isCancelApplyFriendLoading,
   } = useMutation({
     mutationFn: cancelApplyFriend,
-    onSuccess: (_, variables: FriendReqVars) => {
-      invalidateUser(variables.to);
+    onSuccess: (_, variables) => {
+      invalidateUser(variables.nickname);
       invalidateFriendList(); // sent 목록 반영
     },
     onError: (err, variables) => {
@@ -85,16 +76,15 @@ export const useFriendActions = () => {
       switch (errorType) {
         // 내가 친추 보낸 기록이 없고 상대도 받은 기록이 없는 경우, UI 갱신을 위해 쿼리 무효화
         case 'NOT_FOUND_FRIEND_REQUEST':
-          if (variables?.to) invalidateUser(variables.to);
+          if (variables.nickname) invalidateUser(variables.nickname);
           invalidateFriendList();
-          break;
+          return;
 
         // 존재하지 않는 사용자일 경우
         case 'UNKNOWN_USER':
-          if (variables?.to) removeUser(variables.to);
-
-        default:
-          setErrorMessage('CANCEL_APPLY_FRIEND', errorType);
+          if (variables.nickname) removeUser(variables.nickname);
+          invalidateFriendList();
+          return;
       }
     },
   });
@@ -103,38 +93,8 @@ export const useFriendActions = () => {
   const { mutate: executeAcceptFriend, isPending: isAcceptFriendLoading } =
     useMutation({
       mutationFn: acceptFriend,
-      onSuccess: () => {
-        invalidateFriendList();
-      },
-      onError: (err) => {
-        if (err instanceof AxiosError && err.response?.data.errorType) {
-          invalidateFriendList();
-          setErrorMessage('ACCEPT_FRIEND', err.response.data.errorType);
-        }
-      },
-    });
-
-  // ✅ 친구 거절
-  const { mutate: executeRejectFriend, isPending: isRejectFriendLoading } =
-    useMutation({
-      mutationFn: rejectFriend,
-      onSuccess: () => {
-        invalidateFriendList();
-      },
-      onError: (err) => {
-        if (err instanceof AxiosError && err.response?.data.errorType) {
-          invalidateFriendList();
-          setErrorMessage('REJECT_FRIEND', err.response.data.errorType);
-        }
-      },
-    });
-
-  // ✅ 친구 삭제
-  const { mutate: executeDeleteFriend, isPending: isDeleteFriendLoading } =
-    useMutation({
-      mutationFn: deleteFriend,
-      onSuccess: (_, variables: FriendReqVars) => {
-        invalidateUser(variables.to);
+      onSuccess: (_, variables) => {
+        invalidateUser(variables.nickname);
         invalidateFriendList();
       },
       onError: (err, variables) => {
@@ -144,11 +104,66 @@ export const useFriendActions = () => {
         const errorType = err.response.data.errorType;
 
         switch (errorType) {
-          case 'UNKNOWN_USER':
-            if (variables?.to) removeUser(variables.to);
+          case 'NOT_FOUND_FRIEND_REQUEST':
+            if (variables.nickname) invalidateUser(variables.nickname);
+            invalidateFriendList();
+            return;
 
-          default:
-            setErrorMessage('DELETE_FRIEND', errorType);
+          // 존재하지 않는 사용자일 경우
+          case 'UNKNOWN_USER':
+            if (variables.nickname) removeUser(variables.nickname);
+            invalidateFriendList();
+            return;
+        }
+      },
+    });
+
+  // ✅ 친구 거절
+  const { mutate: executeRejectFriend, isPending: isRejectFriendLoading } =
+    useMutation({
+      mutationFn: rejectFriend,
+      onSuccess: (_, variables) => {
+        invalidateUser(variables.nickname);
+        invalidateFriendList();
+      },
+      onError: (err, variables) => {
+        if (!(err instanceof AxiosError) || !err.response?.data.errorType)
+          return;
+
+        const errorType = err.response.data.errorType;
+
+        switch (errorType) {
+          case 'NOT_FOUND_FRIEND_REQUEST':
+            if (variables.nickname) invalidateUser(variables.nickname);
+            invalidateFriendList();
+            return;
+
+          // 존재하지 않는 사용자일 경우
+          case 'UNKNOWN_USER':
+            if (variables.nickname) removeUser(variables.nickname);
+            invalidateFriendList();
+            return;
+        }
+      },
+    });
+
+  // ✅ 친구 삭제
+  const { mutate: executeDeleteFriend, isPending: isDeleteFriendLoading } =
+    useMutation({
+      mutationFn: deleteFriend,
+      onSuccess: (_, variables) => {
+        invalidateUser(variables.nickname);
+        invalidateFriendList();
+      },
+      onError: (err, variables) => {
+        if (!(err instanceof AxiosError) || !err.response?.data.errorType)
+          return;
+
+        const errorType = err.response.data.errorType;
+
+        if (errorType == 'UNKNOWN_USER') {
+          if (variables.nickname) removeUser(variables.nickname);
+          invalidateFriendList();
         }
       },
     });

@@ -1,6 +1,6 @@
 import { UserStateType } from 'types/user';
 
-export interface SearchFriendParams {
+export interface SearchFriendRequest {
   nickname: string;
 }
 
@@ -12,9 +12,10 @@ export interface SearchFriendResponse {
   isReceived: boolean;
 }
 
-export interface TargetUserParams {
-  to: string;
+export interface TargetFriendRequest {
+  nickname: string;
 }
+
 export interface FriendItem {
   nickname: string;
   state: UserStateType;
@@ -23,8 +24,4 @@ export interface FriendItem {
 export interface GetFriendListResponse {
   friends: FriendItem[];
   friendRequests: { received: FriendItem[]; sent: FriendItem[] };
-}
-
-export interface HandelFriendRequestParams {
-  from: string;
 }

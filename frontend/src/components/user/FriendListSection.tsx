@@ -53,7 +53,7 @@ const FriendListSection = ({
             <div className="friendRequests-container">
               {receivedRequests.map((friend, idx) => (
                 <ReceivedUserCard
-                  key={`received-${idx}`}
+                  key={friend.nickname}
                   nickname={friend.nickname}
                 />
               ))}
@@ -69,7 +69,7 @@ const FriendListSection = ({
             <div className="friendRequests-container">
               {sentRequests.map((friend, idx) => (
                 <SentUserCard
-                  key={`sent-${idx}`}
+                  key={friend.nickname}
                   nickname={friend.nickname}
                   isSent
                 />
@@ -86,7 +86,7 @@ const FriendListSection = ({
             <div className="friends-container">
               {friends.map((friend, idx) => (
                 <FriendUserCard
-                  key={`friend-${idx}`}
+                  key={friend.nickname}
                   nickname={friend.nickname}
                   state={friend.state}
                   onInvite={onInviteFriend}

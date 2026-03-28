@@ -1,24 +1,31 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-type UserStoreState = {
-  isLogin: boolean;
+type User = {
+  userId: string;
+  nickname: string | null;
 };
 
-type UserStoreActions = {
-  login: () => void;
+type UserState = {
+  isAuthed: boolean;
+  user: User | null;
+  setLogin: (u: User) => void;
+  setNickname: (nickname: string | null) => void;
   logout: () => void;
 };
 
-type UserStore = UserStoreState & UserStoreActions;
-
-export const useUserStore = create<UserStore>()(
+export const useUserStore = create<UserState>()(
   devtools(
     persist(
       (set) => ({
-        isLogin: false,
-        login: () => set({ isLogin: true }),
-        logout: () => set({ isLogin: false }),
+        isAuthed: false,
+        user: null,
+        setLogin: (u) => set({ isAuthed: true, user: u }),
+        setNickname: (nickname) =>
+          set((state) =>
+            state.user ? { user: { ...state.user, nickname } } : state
+          ),
+        logout: () => set({ isAuthed: false, user: null }),
       }),
       { name: 'UserStore' }
     ),

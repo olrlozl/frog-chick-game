@@ -14,7 +14,9 @@ export const useErrorStore = create<ErrorState>()(
       errorMessage: '',
       setErrorMessage: (errorKey, errorType) =>
         set({
-          errorMessage: ERROR_MESSAGES[errorKey][errorType],
+          errorMessage:
+            ERROR_MESSAGES[errorKey][errorType] ??
+            ERROR_MESSAGES.COMMON.UNKNOWN_ERROR,
         }),
       clearErrorMessage: () => set({ errorMessage: '' }),
     }),
